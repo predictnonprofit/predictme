@@ -26,6 +26,9 @@ from sklearn.ensemble import RandomForestClassifier
 import sys
 import warnings
 import time
+import os
+import glob
+
 warnings.filterwarnings("ignore")
 
 def remove_rows_containg_all_null_values(df):
@@ -107,7 +110,7 @@ def feature_extraction(df_info):
 	X = vectorizer.fit_transform(processed_text)
 	tfidf_matrix = X.todense()
 	feature_names = vectorizer.get_feature_names()
-	return processed_text, tfidf_matrix, feature_names, df_info
+	return processed_text, tfidf_matrix, feature_names, df_info, vectorizer
 
 def clean_donation(donation):
 	donation = ''.join(c for c in donation if (c.isdigit()) | (c == "."))
@@ -118,32 +121,35 @@ def clean_donation(donation):
 
 
 def process_donation_columns(df, donation_columns):
+	if '2018 Donations Gave in the Area' in donation_columns:
+		donation_columns.remove('2018 Donations Gave in the Area')
+	if '2019 Donations Gave in the Area' in donation_columns:
+		donation_columns.remove('2019 Donations Gave in the Area')
+	donation_columns = df[donation_columns].fillna("0")
+	donation_columns = donation_columns.astype(str)
+	
+	for col in donation_columns.columns:
+		donation_columns[col] = donation_columns[col].apply(lambda x: clean_donation(x))
+		donation_columns[col] = donation_columns[col].astype(float)
 
-    donation_columns = df[donation_columns].fillna("0")
-    donation_columns = donation_columns.astype(str)
-    
-    for col in donation_columns.columns:
-        donation_columns[col] = donation_columns[col].apply(lambda x: clean_donation(x))
-        donation_columns[col] = donation_columns[col].astype(float)
+	donation_columns = donation_columns.astype(int)
 
-    donation_columns = donation_columns.astype(int)
+	no_of_col = donation_columns.shape[1]
+	columns = donation_columns.columns
 
-    no_of_col = donation_columns.shape[1]
-    columns = donation_columns.columns
+	def identify_target(x):
+		non_zero_col=0
+		for col in donation_columns.columns:
+			if x[col]>=1:
+				non_zero_col+=1
+		return non_zero_col
 
-    def identify_target(x):
-        non_zero_col=0
-        for col in donation_columns.columns:
-            if x[col]>=1:
-                non_zero_col+=1
-        return non_zero_col
-
-    donation_columns['donation_non_zero'] = donation_columns.apply(lambda x: identify_target(x), axis=1)
-    col_threshold = int(no_of_col/2.)
-    donation_columns['target'] = donation_columns['donation_non_zero'].apply(lambda x: 1 if x > col_threshold else 0)
-    del donation_columns['donation_non_zero']
-    print(donation_columns['target'].value_counts())
-    return donation_columns
+	donation_columns['donation_non_zero'] = donation_columns.apply(lambda x: identify_target(x), axis=1)
+	col_threshold = int(no_of_col/2.)
+	donation_columns['target'] = donation_columns['donation_non_zero'].apply(lambda x: 1 if x > col_threshold else 0)
+	del donation_columns['donation_non_zero']
+	print(donation_columns['target'].value_counts())
+	return donation_columns
 
 def generate_correlation(donation_columns):
 	fig, ax = plt.subplots(figsize=(8,8)) 
@@ -185,19 +191,19 @@ def calculate_feature_importance(df_info, feature_dict):
 	# plt.show()
 
 def print_confusion_matrix_classification_report(y_test, y_pred):
-    # df_cm = pd.DataFrame(confusion_matrix(y_test, y_pred), range(2), range(2))
-    # sn.set(font_scale=1.4) # for label size
-    # sn.heatmap(df_cm, annot=True,fmt="d", annot_kws={"size": 16}) # font size
-    # plt.xlabel("Predicted")
-    # plt.ylabel("True")
-    # plt.show()
-    
-    print("classification report")
-    print(classification_report(y_test, y_pred))
-    print("___________________________\n")
+	# df_cm = pd.DataFrame(confusion_matrix(y_test, y_pred), range(2), range(2))
+	# sn.set(font_scale=1.4) # for label size
+	# sn.heatmap(df_cm, annot=True,fmt="d", annot_kws={"size": 16}) # font size
+	# plt.xlabel("Predicted")
+	# plt.ylabel("True")
+	# plt.show()
+	
+	print("classification report")
+	print(classification_report(y_test, y_pred))
+	print("___________________________\n")
 
 
-def model_selection(X, y, feature_names, df_info):
+def model_selection(X, y, X_pred, feature_names, df_info):
 	models = [{'label': 'LogisticRegression', 'model': LogisticRegression()},
 		  {'label': 'GaussianNB', 'model': GaussianNB()},
 		  {'label': 'MultinomialNB', 'model': MultinomialNB()},
@@ -220,8 +226,8 @@ def model_selection(X, y, feature_names, df_info):
 		model = m['model']
 		model.fit(X_train, y_train)
 		y_pred = model.predict(X_test)
-		classification_full_pred[m['label']]=model.predict(X) ## ADD New columns
-		classification_full_pred_prob[m['label']]=model.predict_proba(X)
+		classification_full_pred[m['label']]=model.predict(X_pred) ## ADD New columns
+		classification_full_pred_prob[m['label']]=model.predict_proba(X_pred)
 		print("Classifier: {} and time(seconds): {}".format(m['label'], round(time.time()-start_time, 3)))
 		print()
 		print("Classifier: {} and f1-score {}".format(m['label'], round(f1_score(y_test, y_pred, average='weighted'), 2)))
@@ -254,7 +260,7 @@ def model_selection(X, y, feature_names, df_info):
 	# plt.show()
 	return model_f1_score, classification_full_pred, classification_full_pred_prob
 
-def generate_prediction_file(df, X, model_f1_score, classification_full_pred, classification_full_pred_prob):
+def generate_prediction_file(df, model_f1_score, classification_full_pred, classification_full_pred_prob):
 	model_f1_score = {k: v for k, v in sorted(model_f1_score.items(), key=lambda item: item[1])}
 	top_5_model = sorted(model_f1_score, key=model_f1_score.get, reverse=True)[:5]
 	# print(top_5_model, model_f1_score, classification_full_pred.keys(), classification_full_pred_prob.keys())
@@ -265,39 +271,104 @@ def generate_prediction_file(df, X, model_f1_score, classification_full_pred, cl
 		df['2020_{}'.format(m)] = prediction
 		df['donor_prob_{}'.format(m)] = [round(prob[x][1], 2) for x in range(len(prob))]
 		df['non_donor_prob_{}'.format(m)] = [round(prob[x][0], 2) for x in range(len(prob))]
+		print(df['2020_{}'.format(m)].value_counts())
 	return df
 
-def find_similar_files():
-	pass
+def get_tfidf_features(file_name):
+	df = pd.read_csv(file_name, encoding = "ISO-8859-1")
+	df = remove_rows_containg_all_null_values(df)
+	df_info = remove_columns_unique_values(df, identify_info_columns(df))
+	df_info = df_info.astype(str)
+	df_info['comb_text'] = df_info.apply(lambda x: ' '.join(x), axis=1)
+	processed_text = text_processing(list(df_info['comb_text']))
+	vectorizer = TfidfVectorizer()
+	X = vectorizer.fit_transform(processed_text)
+	return vectorizer.get_feature_names()
+
+
+def find_similar_files(input_file):
+	input_file = os.path.abspath(os.path.join(os.path.dirname(__file__), input_file))
+	directory_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "data"))
+	input_features = get_tfidf_features(input_file)
+	common_features = {}
+	for file_name in glob.glob(directory_path+'/*.csv'):
+		if file_name != input_file:
+			print(file_name, input_file)
+			file_features = get_tfidf_features(file_name)
+			print("Total features: {} for: {}".format(len(set(file_features)), file_name.split('/')[-1]))
+			common_features_per = float(len(set(file_features) & set(input_features)))*100/len(set(file_features))
+			common_features[file_name] = common_features_per 
+			print("% of common features: {} for: {}".format(common_features_per, file_name))
+	file_dict = {k: v for k, v in sorted(common_features.items(), key=lambda item: item[1])}
+	print(common_features)
+	x=sorted(file_dict, key=file_dict.get, reverse=True)
+	return sorted(file_dict, key=file_dict.get, reverse=True)[0]
+
+
+def transform_features(vectorizer, df_info):
+	df_info = df_info.astype(str)
+	df_info['comb_text'] = df_info.apply(lambda x: ' '.join(x), axis=1)
+	processed_text = text_processing(list(df_info['comb_text']))
+	X = vectorizer.transform(processed_text)
+	tfidf_matrix = X.todense()
+	return tfidf_matrix
+
 
 if __name__ == "__main__":
 	file_path = sys.argv[1]
-	sample_1 = pd.read_csv(file_path, encoding = "ISO-8859-1")
-	print(sample_1.shape)
-	df = remove_rows_containg_all_null_values(sample_1)
-	donation_columns = identify_years_columns(df)
+	donor_df = pd.read_csv(file_path, encoding = "ISO-8859-1")
+	print(donor_df.shape)
+	donor_df = remove_rows_containg_all_null_values(donor_df)
+	donation_columns = identify_years_columns(donor_df)
+	no_donations_columns=False
 	if len(donation_columns)==0:
-		pass
+		new_file = find_similar_files(file_path)
+		print(new_file)
+		df = pd.read_csv(new_file, encoding = "ISO-8859-1")
+		df = remove_rows_containg_all_null_values(df)
+		donation_columns = identify_years_columns(df)
+		no_donations_columns=True
+	else:
+		df = donor_df
 	print("donation columns: {}".format(donation_columns))
-	donation_columns = process_donation_columns(df, donation_columns)
-	postive_class = donation_columns[donation_columns['target']==1].shape[0]
-	negative_class = donation_columns[donation_columns['target']==0].shape[0]
-	if (postive_class<=(donation_columns.shape[0])*0.02) | (negative_class<=(donation_columns.shape[0])*0.02):
+	donation_columns_df = process_donation_columns(df, donation_columns)
+	postive_class = donation_columns_df[donation_columns_df['target']==1].shape[0]
+	negative_class = donation_columns_df[donation_columns_df['target']==0].shape[0]
+	if (postive_class<=(donation_columns_df.shape[0])*0.02) | (negative_class<=(donation_columns_df.shape[0])*0.02):
 		print("Data is skewed")
 		print("Postive class count: {} and negative class count: {}".format(postive_class, negative_class))
 	else:
-		info_columns = identify_info_columns(sample_1)
+		info_columns = identify_info_columns(df)
 		print(len(info_columns))
 		df_info = remove_columns_unique_values(df, info_columns)
 		print(df_info.shape)
 		print(df_info.columns)
-		cat_col = identify_categorical_columns(df, df_info)
+		cat_col = identify_categorical_columns(df, info_columns)
 		print("Categorical columns: {}".format(cat_col))
-		processed_text, tfidf_matrix, feature_names , df_info= feature_extraction(df_info)
-		# generate_correlation(donation_columns)
-		model_f1_score, classification_full_pred, classification_full_pred_prob=model_selection(tfidf_matrix, list(donation_columns['target']), feature_names, df_info)
-		df_final = generate_prediction_file(df, tfidf_matrix, model_f1_score, classification_full_pred, classification_full_pred_prob)
-		df_final.to_csv("{}_prediction.csv".format(file_path.split(".")[0]), index=None)
+		processed_text, tfidf_matrix, feature_names , df_info, vectorizer = feature_extraction(df_info)
+		y = list(donation_columns_df['target'])
+		# generate_correlation(donation_columns_df)
+		if no_donations_columns:
+			X_pred = transform_features(vectorizer, donor_df)
+			X_train = tfidf_matrix
+		else:
+			X_pred = tfidf_matrix
+			del donation_columns_df['target']
+			column_train = sorted(donation_columns_df.columns)[:-1]
+			column_predict = sorted(donation_columns_df.columns)[1:]
+			# print(column_train, column_predict)
+			column_train = donation_columns_df[column_train].values.tolist()
+			column_predict = donation_columns_df[column_predict].values.tolist()
+			# print(tfidf_matrix.shape, X_pred.shape)
+			X_train = np.append(tfidf_matrix, column_train, 1)
+			X_pred = np.append(tfidf_matrix, column_predict, 1)
+			# print(X_train.shape, X_pred.shape)
+
+		model_f1_score, classification_full_pred, classification_full_pred_prob=model_selection(X_train, y, X_pred, feature_names, df_info)
+		df_final = generate_prediction_file(donor_df, model_f1_score, classification_full_pred, classification_full_pred_prob)
+		prediction_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "prediction"))
+		file_path = file_path.split("/")[-1]
+		df_final.to_csv("{}/{}_prediction.csv".format(prediction_path,file_path.split(".")[0]), index=None)
 
 
 
