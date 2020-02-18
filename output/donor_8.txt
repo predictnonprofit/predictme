@@ -1,0 +1,209 @@
+all columns: Index(['Link_Image', 'Cand_Name', 'Cand_Id', 'Cand_Office', 'Cand_Office_St',
+       'Cand_Office_Dist', 'Cand_Party_Affiliation', 'Cand_Street_1',
+       'Cand_Street_2', 'Cand_City', 'Cand_State', 'Cand_Zip', 'funding1',
+       'fund2', 'donations3', 'gifts4', 'donat5', 'transac6', 'grants7',
+       'money8', 'gift9', 'gift10', 'funding11', 'donations12', 'donations13'],
+      dtype='object')
+(3800, 25)
+donation columns: ['funding1', 'fund2', 'donations3', 'gifts4', 'donat5', 'transac6', 'grants7', 'money8', 'gift9', 'gift10', 'funding11', 'donations12', 'donations13']
+0    2613
+1    1187
+Name: target, dtype: int64
+12
+Total training samples: 3800
+Column: Link_Image, Null count: 0
+Column: Cand_Name, Null count: 0
+Column: Cand_Id, Null count: 0
+Column: Cand_Office, Null count: 0
+Column: Cand_Office_St, Null count: 0
+Column: Cand_Office_Dist, Null count: 1
+Column: Cand_Party_Affiliation, Null count: 1
+Column: Cand_Street_1, Null count: 40
+Column: Cand_Street_2, Null count: 3388
+Column: Cand_City, Null count: 2
+Column: Cand_State, Null count: 20
+Column: Cand_Zip, Null count: 36
+_____________
+
+Column: Link_Image, Unique count: 3800
+Column: Cand_Name, Unique count: 3772
+Column: Cand_Id, Unique count: 3800
+Column: Cand_Office, Unique count: 3
+Column: Cand_Office_St, Unique count: 56
+Column: Cand_Office_Dist, Unique count: 57
+Column: Cand_Party_Affiliation, Unique count: 41
+Column: Cand_Street_1, Unique count: 3652
+Column: Cand_City, Unique count: 1832
+Column: Cand_State, Unique count: 57
+Column: Cand_Zip, Unique count: 3083
+(3800, 6)
+Index(['Cand_Office', 'Cand_Office_St', 'Cand_Office_Dist',
+       'Cand_Party_Affiliation', 'Cand_City', 'Cand_State'],
+      dtype='object')
+Categorical columns: ['Cand_Office']
+Number of features used: 1000
+Classifier: LogisticRegression and time(seconds): 0.337
+
+Classifier: LogisticRegression and f1-score 0.78
+classification report
+              precision    recall  f1-score   support
+
+           0       0.99      0.68      0.80       522
+           1       0.58      0.98      0.73       238
+
+    accuracy                           0.77       760
+   macro avg       0.78      0.83      0.77       760
+weighted avg       0.86      0.77      0.78       760
+
+___________________________
+
+Classifier: GaussianNB and time(seconds): 0.177
+
+Classifier: GaussianNB and f1-score 0.81
+classification report
+              precision    recall  f1-score   support
+
+           0       0.81      0.98      0.89       522
+           1       0.92      0.49      0.64       238
+
+    accuracy                           0.83       760
+   macro avg       0.87      0.74      0.76       760
+weighted avg       0.84      0.83      0.81       760
+
+___________________________
+
+Classifier: MultinomialNB and time(seconds): 0.02
+
+Classifier: MultinomialNB and f1-score 0.74
+classification report
+              precision    recall  f1-score   support
+
+           0       0.82      0.79      0.81       522
+           1       0.57      0.62      0.60       238
+
+    accuracy                           0.74       760
+   macro avg       0.70      0.70      0.70       760
+weighted avg       0.74      0.74      0.74       760
+
+___________________________
+
+Classifier: ComplementNB and time(seconds): 0.016
+
+Classifier: ComplementNB and f1-score 0.74
+classification report
+              precision    recall  f1-score   support
+
+           0       0.82      0.79      0.81       522
+           1       0.57      0.62      0.60       238
+
+    accuracy                           0.74       760
+   macro avg       0.70      0.70      0.70       760
+weighted avg       0.74      0.74      0.74       760
+
+___________________________
+
+Classifier: BernoulliNB and time(seconds): 0.089
+
+Classifier: BernoulliNB and f1-score 0.89
+classification report
+              precision    recall  f1-score   support
+
+           0       0.99      0.84      0.91       522
+           1       0.73      0.99      0.84       238
+
+    accuracy                           0.88       760
+   macro avg       0.86      0.91      0.88       760
+weighted avg       0.91      0.88      0.89       760
+
+___________________________
+
+Classifier: DecisionTreeClassifier and time(seconds): 0.137
+
+Classifier: DecisionTreeClassifier and f1-score 0.94
+classification report
+              precision    recall  f1-score   support
+
+           0       0.95      0.97      0.96       522
+           1       0.92      0.88      0.90       238
+
+    accuracy                           0.94       760
+   macro avg       0.93      0.92      0.93       760
+weighted avg       0.94      0.94      0.94       760
+
+___________________________
+
+Classifier: SGDClassifier and time(seconds): 0.108
+
+Classifier: SGDClassifier and f1-score 0.7
+classification report
+              precision    recall  f1-score   support
+
+           0       0.99      0.56      0.72       522
+           1       0.51      0.99      0.67       238
+
+    accuracy                           0.70       760
+   macro avg       0.75      0.78      0.70       760
+weighted avg       0.84      0.70      0.70       760
+
+___________________________
+
+Classifier: PassiveAggressiveClassifier and time(seconds): 0.315
+
+Classifier: PassiveAggressiveClassifier and f1-score 0.76
+classification report
+              precision    recall  f1-score   support
+
+           0       0.77      0.99      0.87       522
+           1       0.95      0.35      0.51       238
+
+    accuracy                           0.79       760
+   macro avg       0.86      0.67      0.69       760
+weighted avg       0.83      0.79      0.76       760
+
+___________________________
+
+Classifier: LinearSVC and time(seconds): 0.307
+
+Classifier: LinearSVC and f1-score 0.72
+classification report
+              precision    recall  f1-score   support
+
+           0       0.75      1.00      0.86       522
+           1       1.00      0.27      0.43       238
+
+    accuracy                           0.77       760
+   macro avg       0.88      0.64      0.64       760
+weighted avg       0.83      0.77      0.72       760
+
+___________________________
+
+Classifier: RandomForestClassifier and time(seconds): 0.101
+
+Classifier: RandomForestClassifier and f1-score 0.9
+classification report
+              precision    recall  f1-score   support
+
+           0       0.89      0.98      0.93       522
+           1       0.93      0.74      0.83       238
+
+    accuracy                           0.90       760
+   macro avg       0.91      0.86      0.88       760
+weighted avg       0.91      0.90      0.90       760
+
+___________________________
+
+0    3446
+1     354
+Name: 2020_DecisionTreeClassifier, dtype: int64
+0    3434
+1     366
+Name: 2020_RandomForestClassifier, dtype: int64
+0    2920
+1     880
+Name: 2020_BernoulliNB, dtype: int64
+0    2022
+1    1778
+Name: 2020_GaussianNB, dtype: int64
+1    1936
+0    1864
+Name: 2020_LogisticRegression, dtype: int64

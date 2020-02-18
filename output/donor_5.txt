@@ -1,0 +1,36 @@
+all columns: Index(['committee_id', 'committee_name', 'report_year', 'report_type',
+       'image_number', 'line_number', 'transaction_id', 'file_number',
+       'committee_name.1', 'entity_type', 'entity_type_desc',
+       'unused_contbr_id', 'contributor_prefix', ' 2019 Contribution Amount ',
+       ' 2018 Contribution Amount ', ' 2017 Contribution Amount ',
+       ' 2016 Contribution Amount ', ' 2015 Contribution Amount ',
+       'contributor_name', 'recipient_committee_type',
+       'contributor_first_name', 'contributor_middle_name',
+       'contributor_last_name', 'contributor_suffix', 'contributor_street_1',
+       'contributor_street_2', 'contributor_city', 'contributor_state',
+       'contributor_zip', 'contributor_employer', 'contributor_occupation',
+       'contributor_id', 'receipt_type', 'receipt_type_desc',
+       'receipt_type_full', 'memo_code', 'memo_code_full',
+       'contribution_receipt_date', 'candidate_id', 'candidate_name',
+       'candidate_first_name', 'candidate_last_name', 'candidate_middle_name',
+       'candidate_prefix', 'candidate_suffix', 'candidate_office',
+       'candidate_office_full', 'candidate_office_state',
+       'candidate_office_state_full', 'candidate_office_district',
+       'conduit_committee_id', 'conduit_committee_name',
+       'conduit_committee_street1', 'conduit_committee_street2',
+       'conduit_committee_city', 'conduit_committee_state',
+       'conduit_committee_zip', 'donor_committee_name',
+       'national_committee_nonfederal_account', 'election_type',
+       'election_type_full', 'fec_election_type_desc', 'fec_election_year',
+       'amendment_indicator', 'amendment_indicator_desc', 'schedule_type_full',
+       'load_date', 'original_sub_id', 'back_reference_transaction_id',
+       'back_reference_schedule_name', 'filing_form', 'link_id',
+       'is_individual', 'memo_text', 'two_year_transaction_period',
+       'schedule_type'],
+      dtype='object')
+(21414, 76)
+donation columns: [' 2019 Contribution Amount ', ' 2018 Contribution Amount ', ' 2017 Contribution Amount ', ' 2016 Contribution Amount ', ' 2015 Contribution Amount ']
+1    21414
+Name: target, dtype: int64
+Data is skewed
+Postive class count: 21414 and negative class count: 0

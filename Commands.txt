@@ -1,0 +1,9 @@
+python DonorPrediction.py data/Donor\ Data\ Sample2.csv "[' 2019 Amount ',' 2018 Amount ',' 2017 Amount ',' 2016 Amount ',' 2015 Amount ']" >> output/donor_2.txt
+python DonorPrediction.py data/Donor\ Data\ Sample3.csv "['2019 Donations','2018 Donations','2017 Donations','2016 Donations','2015 Donations','2014 Donations','2013 Donations','2012 Donations','2011 Donations','2010 Donations']" >> output/donor_3.txt
+python DonorPrediction.py data/Donor\ Data\ Sample4.csv "[' 2019 Gift ',' 2018 Gift ',' 2017 Gift ',' 2016 Gift ',' 2015 Gift ',' 2014 Gift ',' 2013 Gift ',' 2012 Gift ',' 2011 Gift ']" >> output/donor_4.txt
+python DonorPrediction.py data/Donor\ Data\ Sample5.csv "[' 2019 Contribution Amount ',' 2018 Contribution Amount ',' 2017 Contribution Amount ',' 2016 Contribution Amount ',' 2015 Contribution Amount ']" >> output/donor_5.txt
+python DonorPrediction.py data/Donor\ Data\ Sample6.csv "[' 2019 Individual Donation ', ' 2018 Individual Donation ',' 2017 Individual Donation ', ' 2016 Individual Donation ',' 2015 Individual Donation ', ' 2014 Individual Donation ',' 2013 Individual Donation ', ' 2012 Individual Donation ',' 2011 Individual Donation ', ' 2010 Individual Donation ',' 2009 Individual Donation ']" >>  output/donor_6.txt
+python DonorPrediction.py data/Donor\ Data\ Sample7\ -\ New\ Purchased\ File\ -\ No\ Donors.csv "[]" >> output/donor_7.txt
+python DonorPrediction.py data/Donor\ Data\ Sample8.xlsx "['funding1','fund2','donations3','gifts4','donat5','transac6','grants7','money8','gift9','gift10','funding11','donations12','donations13']" >> output/donor_8.txt
+python DonorPrediction.py data/Donor\ Data\ Sample9.xlsx "['PrevFYGiving','PrevFY1Giving','PrevFY2Giving','PrevFY3Giving','PrevFY4Giving','CurrFYGiving']" >> output/donor_9.txt
+python DonorPrediction.py data/Donor\ Data\ Sample10.xlsx "['Last Gift Amount', 'FY 17 Giving', 'FY 16 Giving','FY 15 Giving', 'FY 14 Giving', 'FY 13 Giving']" >> output/donor_10.txt

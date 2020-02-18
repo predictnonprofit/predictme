@@ -1,0 +1,14 @@
+all columns: Index(['ID', 'ZIPCODE', 'AGE', 'MARITAL_STATUS', 'GENDER', 'MEMBERSHIP_IND',
+       'ALUMNUS_IND', 'PARENT_IND', 'HAS_INVOLVEMENT_IND', 'WEALTH_RATING',
+       'DEGREE_LEVEL', 'PREF_ADDRESS_TYPE', 'EMAIL_PRESENT_IND', 'CON_YEARS',
+       'PrevFYGiving', 'PrevFY1Giving', 'PrevFY2Giving', 'PrevFY3Giving',
+       'PrevFY4Giving', 'CurrFYGiving', 'TotalGiving', 'DONOR_IND',
+       'BIRTH_DATE'],
+      dtype='object')
+(34508, 23)
+donation columns: ['PrevFYGiving', 'PrevFY1Giving', 'PrevFY2Giving', 'PrevFY3Giving', 'PrevFY4Giving', 'CurrFYGiving']
+0    34424
+1       84
+Name: target, dtype: int64
+Data is skewed
+Postive class count: 84 and negative class count: 34424
