@@ -42,168 +42,168 @@ Index(['Cand_Office', 'Cand_Office_St', 'Cand_Office_Dist',
       dtype='object')
 Categorical columns: ['Cand_Office']
 Number of features used: 1000
-Classifier: LogisticRegression and time(seconds): 0.337
+Classifier: LogisticRegression and time(seconds): 0.277
 
-Classifier: LogisticRegression and f1-score 0.78
+Classifier: LogisticRegression and f1-score 0.57
 classification report
               precision    recall  f1-score   support
 
-           0       0.99      0.68      0.80       522
-           1       0.58      0.98      0.73       238
+           0       0.69      0.95      0.80       522
+           1       0.30      0.05      0.08       238
 
-    accuracy                           0.77       760
-   macro avg       0.78      0.83      0.77       760
-weighted avg       0.86      0.77      0.78       760
+    accuracy                           0.67       760
+   macro avg       0.49      0.50      0.44       760
+weighted avg       0.56      0.67      0.57       760
 
 ___________________________
 
-Classifier: GaussianNB and time(seconds): 0.177
+Classifier: GaussianNB and time(seconds): 0.225
 
-Classifier: GaussianNB and f1-score 0.81
+Classifier: GaussianNB and f1-score 0.37
 classification report
               precision    recall  f1-score   support
 
-           0       0.81      0.98      0.89       522
-           1       0.92      0.49      0.64       238
+           0       0.68      0.23      0.34       522
+           1       0.31      0.77      0.44       238
 
-    accuracy                           0.83       760
-   macro avg       0.87      0.74      0.76       760
-weighted avg       0.84      0.83      0.81       760
+    accuracy                           0.40       760
+   macro avg       0.50      0.50      0.39       760
+weighted avg       0.57      0.40      0.37       760
 
 ___________________________
 
-Classifier: MultinomialNB and time(seconds): 0.02
+Classifier: MultinomialNB and time(seconds): 0.027
 
-Classifier: MultinomialNB and f1-score 0.74
+Classifier: MultinomialNB and f1-score 0.56
 classification report
               precision    recall  f1-score   support
 
-           0       0.82      0.79      0.81       522
-           1       0.57      0.62      0.60       238
+           0       0.68      0.97      0.80       522
+           1       0.24      0.02      0.04       238
 
-    accuracy                           0.74       760
-   macro avg       0.70      0.70      0.70       760
-weighted avg       0.74      0.74      0.74       760
+    accuracy                           0.67       760
+   macro avg       0.46      0.50      0.42       760
+weighted avg       0.54      0.67      0.56       760
 
 ___________________________
 
-Classifier: ComplementNB and time(seconds): 0.016
+Classifier: ComplementNB and time(seconds): 0.017
 
-Classifier: ComplementNB and f1-score 0.74
+Classifier: ComplementNB and f1-score 0.6
 classification report
               precision    recall  f1-score   support
 
-           0       0.82      0.79      0.81       522
-           1       0.57      0.62      0.60       238
+           0       0.72      0.66      0.69       522
+           1       0.38      0.45      0.41       238
 
-    accuracy                           0.74       760
-   macro avg       0.70      0.70      0.70       760
-weighted avg       0.74      0.74      0.74       760
+    accuracy                           0.59       760
+   macro avg       0.55      0.55      0.55       760
+weighted avg       0.61      0.59      0.60       760
 
 ___________________________
 
-Classifier: BernoulliNB and time(seconds): 0.089
+Classifier: BernoulliNB and time(seconds): 0.071
 
-Classifier: BernoulliNB and f1-score 0.89
+Classifier: BernoulliNB and f1-score 0.63
 classification report
               precision    recall  f1-score   support
 
-           0       0.99      0.84      0.91       522
-           1       0.73      0.99      0.84       238
+           0       0.71      0.86      0.78       522
+           1       0.43      0.24      0.30       238
 
-    accuracy                           0.88       760
-   macro avg       0.86      0.91      0.88       760
-weighted avg       0.91      0.88      0.89       760
+    accuracy                           0.66       760
+   macro avg       0.57      0.55      0.54       760
+weighted avg       0.62      0.66      0.63       760
 
 ___________________________
 
-Classifier: DecisionTreeClassifier and time(seconds): 0.137
+Classifier: DecisionTreeClassifier and time(seconds): 0.352
 
-Classifier: DecisionTreeClassifier and f1-score 0.94
+Classifier: DecisionTreeClassifier and f1-score 0.61
 classification report
               precision    recall  f1-score   support
 
-           0       0.95      0.97      0.96       522
-           1       0.92      0.88      0.90       238
+           0       0.71      0.80      0.75       522
+           1       0.38      0.27      0.31       238
 
-    accuracy                           0.94       760
-   macro avg       0.93      0.92      0.93       760
-weighted avg       0.94      0.94      0.94       760
+    accuracy                           0.63       760
+   macro avg       0.54      0.53      0.53       760
+weighted avg       0.60      0.63      0.61       760
 
 ___________________________
 
-Classifier: SGDClassifier and time(seconds): 0.108
+Classifier: SGDClassifier and time(seconds): 0.252
 
-Classifier: SGDClassifier and f1-score 0.7
+Classifier: SGDClassifier and f1-score 0.6
 classification report
               precision    recall  f1-score   support
 
-           0       0.99      0.56      0.72       522
-           1       0.51      0.99      0.67       238
+           0       0.70      0.78      0.74       522
+           1       0.36      0.26      0.30       238
 
-    accuracy                           0.70       760
-   macro avg       0.75      0.78      0.70       760
-weighted avg       0.84      0.70      0.70       760
+    accuracy                           0.62       760
+   macro avg       0.53      0.52      0.52       760
+weighted avg       0.59      0.62      0.60       760
 
 ___________________________
 
-Classifier: PassiveAggressiveClassifier and time(seconds): 0.315
+Classifier: PassiveAggressiveClassifier and time(seconds): 0.461
 
-Classifier: PassiveAggressiveClassifier and f1-score 0.76
+Classifier: PassiveAggressiveClassifier and f1-score 0.56
 classification report
               precision    recall  f1-score   support
 
-           0       0.77      0.99      0.87       522
-           1       0.95      0.35      0.51       238
+           0       0.69      1.00      0.81       522
+           1       0.00      0.00      0.00       238
 
-    accuracy                           0.79       760
-   macro avg       0.86      0.67      0.69       760
-weighted avg       0.83      0.79      0.76       760
+    accuracy                           0.69       760
+   macro avg       0.34      0.50      0.41       760
+weighted avg       0.47      0.69      0.56       760
 
 ___________________________
 
-Classifier: LinearSVC and time(seconds): 0.307
+Classifier: LinearSVC and time(seconds): 0.061
 
-Classifier: LinearSVC and f1-score 0.72
+Classifier: LinearSVC and f1-score 0.56
 classification report
               precision    recall  f1-score   support
 
-           0       0.75      1.00      0.86       522
-           1       1.00      0.27      0.43       238
+           0       0.69      1.00      0.81       522
+           1       0.00      0.00      0.00       238
 
-    accuracy                           0.77       760
-   macro avg       0.88      0.64      0.64       760
-weighted avg       0.83      0.77      0.72       760
+    accuracy                           0.69       760
+   macro avg       0.34      0.50      0.41       760
+weighted avg       0.47      0.69      0.56       760
 
 ___________________________
 
-Classifier: RandomForestClassifier and time(seconds): 0.101
+Classifier: RandomForestClassifier and time(seconds): 0.265
 
-Classifier: RandomForestClassifier and f1-score 0.9
+Classifier: RandomForestClassifier and f1-score 0.58
 classification report
               precision    recall  f1-score   support
 
-           0       0.89      0.98      0.93       522
-           1       0.93      0.74      0.83       238
+           0       0.68      0.81      0.74       522
+           1       0.30      0.18      0.23       238
 
-    accuracy                           0.90       760
-   macro avg       0.91      0.86      0.88       760
-weighted avg       0.91      0.90      0.90       760
+    accuracy                           0.61       760
+   macro avg       0.49      0.50      0.48       760
+weighted avg       0.56      0.61      0.58       760
 
 ___________________________
 
-0    3446
-1     354
-Name: 2020_DecisionTreeClassifier, dtype: int64
-0    3434
-1     366
-Name: 2020_RandomForestClassifier, dtype: int64
-0    2920
-1     880
+1    1923
+0    1877
 Name: 2020_BernoulliNB, dtype: int64
-0    2022
-1    1778
-Name: 2020_GaussianNB, dtype: int64
-1    1936
-0    1864
-Name: 2020_LogisticRegression, dtype: int64
+0    2188
+1    1612
+Name: 2020_DecisionTreeClassifier, dtype: int64
+1    3463
+0     337
+Name: 2020_ComplementNB, dtype: int64
+1    2707
+0    1093
+Name: 2020_SGDClassifier, dtype: int64
+0    2111
+1    1689
+Name: 2020_RandomForestClassifier, dtype: int64
