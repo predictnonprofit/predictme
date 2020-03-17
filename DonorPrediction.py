@@ -257,6 +257,40 @@ def print_confusion_matrix_classification_report(y_test, y_pred):
     # print("___________________________\n")
 
 
+def calculate_fpr_tpr(model, y_test, y_pred, X_test):
+    try:
+        fpr, tpr, thresholds = roc_curve(y_test, model.predict_proba(X_test)[:, 1])
+        auc = roc_auc_score(y_test, model.predict_proba(X_test)[:, 1])
+    except:
+        fpr, tpr, thresholds = roc_curve(y_test, y_pred)
+        auc = roc_auc_score(y_test, y_pred)
+    print("threshold", thresholds)
+    return fpr, tpr, auc
+
+
+def plot_roc_curve(roc_fpr, roc_tpr, roc_auc):
+    model_names = list(roc_fpr.keys())
+    for model_name in model_names:
+        fpr = roc_fpr.get(model_name)
+        tpr = roc_tpr.get(model_name)
+        auc = roc_auc.get(model_name)
+        plt.plot(fpr, tpr, label="{} ROC (area = {})".format(model_name, round(auc, 2)))
+
+    plt.plot([0, 1], [0, 1], 'r--')
+    plt.xlim([0.0, 1.0])
+    plt.ylim([0.0, 1.05])
+    plt.xlabel('1-Specificity(False Positive Rate)')
+    plt.ylabel('Sensitivity(True Positive Rate)')
+    plt.title('Receiver Operating Characteristic')
+    plt.legend(loc="lower right")
+    global image_index
+    plots_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "Plots"))
+    plt.savefig("{}/temp_{}.png".format(plots_path, image_index))
+    pdf.image("{}/temp_{}.png".format(plots_path, image_index), w=100)
+    image_index += 1
+    # plt.show()
+
+
 def model_selection(X, y, X_pred, feature_names, df_info):
     models = [{'label': 'LogisticRegression', 'model': LogisticRegression()},
                 {'label': 'GaussianNB', 'model': GaussianNB()},
@@ -274,6 +308,9 @@ def model_selection(X, y, X_pred, feature_names, df_info):
     model_f1_score={}
     classification_full_pred={}
     classification_full_pred_prob={}
+    roc_fpr={}
+    roc_tpr={}
+    roc_auc={}
     for m in models:
         start_time = time.time()
         model = m['model']
@@ -307,29 +344,12 @@ def model_selection(X, y, X_pred, feature_names, df_info):
 
         feature_dict = {i: abs(j) for i, j in zip(feature_names, feature_value)}
         calculate_feature_importance(df_info, feature_dict)
-        try:
-            fpr, tpr, thresholds = roc_curve(y_test, model.predict_proba(X_test)[:, 1])
-            auc = roc_auc_score(y_test, model.predict_proba(X_test)[:, 1])
-        except:
-            fpr, tpr, thresholds = roc_curve(y_test, y_pred)
-            auc = roc_auc_score(y_test, y_pred)
-        # plt.plot(fpr, tpr, label="{} ROC (area = {})".format(m['label'], round(auc, 2)))
-        # pp.savefig(plt)
-    
-    # plt.plot([0, 1], [0, 1], 'r--')
-    # plt.xlim([0.0, 1.0])
-    # plt.ylim([0.0, 1.05])
-    # plt.xlabel('1-Specificity(False Positive Rate)')
-    # plt.ylabel('Sensitivity(True Positive Rate)')
-    # plt.title('Receiver Operating Characteristic')
-    # plt.legend(loc="lower right")
-    # global image_index
-    # plots_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "Plots"))
-    # plt.savefig("{}/temp_{}.png".format(plots_path, image_index))
-    # pdf.image("{}/temp_{}.png".format(plots_path, image_index), w=100)
-    # image_index += 1
+        fpr, tpr, auc = calculate_fpr_tpr(model, y_test, y_pred, X_test)
+        roc_fpr[m['label']] = fpr
+        roc_tpr[m['label']] = tpr
+        roc_auc[m['label']] = auc
 
-    # plt.show()
+    plot_roc_curve(roc_fpr, roc_tpr, roc_auc)
     return model_f1_score, classification_full_pred, classification_full_pred_prob
 
 
