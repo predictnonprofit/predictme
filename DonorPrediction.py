@@ -34,6 +34,7 @@ import time
 import os
 import ast
 import glob
+import operator
 
 warnings.filterwarnings("ignore")
 pdf = FPDF()
@@ -79,8 +80,6 @@ def remove_columns_unique_values(df, column_names):
     final_col_ = []
     number_of_sample = df.shape[0]
     # print("Total training samples: {}".format(number_of_sample))
-    pdf.multi_cell(h=5.0, w=0, txt="Total training samples: {}".format(number_of_sample))
-    pdf.ln(5)
     for col in column_names:
         print("Column: {}, Null count: {}".format(col, df[col].isnull().sum()))
         # pdf.multi_cell(h=5.0, w=0, txt="Column: {}, Null count: {}".format(col, df[col].isnull().sum()))
@@ -182,7 +181,7 @@ def process_donation_columns(df, donation_columns):
     positive_class_count = donation_columns[donation_columns['target'] == 1].shape[0]
     negative_class_count = donation_columns[donation_columns['target'] == 0].shape[0]
 
-    pdf.multi_cell(h=5.0, w=0, txt="Positive sample count: {} and Negative sample count: {}".format(positive_class_count,
+    pdf.multi_cell(h=5.0, w=0, txt="3. Positive sample count: {} and Negative sample count: {}".format(positive_class_count,
                                                                                                     negative_class_count))
 
     # pdf.multi_cell(h=5.0, w=0, txt=str(donation_columns['target'].value_counts()))
@@ -219,7 +218,8 @@ def calculate_feature_importance(df_info, feature_dict):
 
     sorted_idx = np.argsort(feature_imp)
     pos = np.arange(sorted_idx.shape[0]) + .5
-
+    pdf.multi_cell(h=5.0, w=0, txt="Feature Importance")
+    pdf.ln(5)
     featfig = plt.figure(figsize=(10, 6))
     featax = featfig.add_subplot(1, 1, 1)
     featax.barh(pos, sorted(feature_imp), align='center')
@@ -232,6 +232,7 @@ def calculate_feature_importance(df_info, feature_dict):
     plt.savefig("{}/temp_{}.png".format(plots_path, image_index))
     pdf.image("{}/temp_{}.png".format(plots_path, image_index), w=100)
     image_index += 1
+    pdf.ln(10)
     # plt.show()
 
 
@@ -242,16 +243,19 @@ def print_confusion_matrix_classification_report(y_test, y_pred):
     plt.xlabel("Predicted")
     plt.ylabel("True")
     global image_index
+    pdf.multi_cell(h=5.0, w=0, txt="Confusion Matrix")
+    pdf.ln(5)
     plots_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "Plots"))
     plt.savefig("{}/temp_{}.png".format(plots_path, image_index))
     pdf.image("{}/temp_{}.png".format(plots_path, image_index), w=100)
     image_index += 1
     # plt.show()
-
+    pdf.multi_cell(h=5.0, w=0, txt="Classification Report")
+    pdf.ln(5)
     pdf.multi_cell(h=5.0, w=0, txt=classification_report(y_test, y_pred))
     pdf.ln(5)
-    pdf.multi_cell(h=5.0, w=0, txt="___________________________\n")
-    pdf.ln(5)
+    # pdf.multi_cell(h=5.0, w=0, txt="___________________________\n")
+    # pdf.ln(5)
     # print("classification report")
     # print(classification_report(y_test, y_pred))
     # print("___________________________\n")
@@ -264,12 +268,14 @@ def calculate_fpr_tpr(model, y_test, y_pred, X_test):
     except:
         fpr, tpr, thresholds = roc_curve(y_test, y_pred)
         auc = roc_auc_score(y_test, y_pred)
-    print("threshold", thresholds)
+    # print("threshold", thresholds)
     return fpr, tpr, auc
 
 
 def plot_roc_curve(roc_fpr, roc_tpr, roc_auc):
     model_names = list(roc_fpr.keys())
+    pdf.multi_cell(h=5.0, w=0, txt="Receiver Operating Characteristic (ROC) Curve")
+    pdf.ln(5)
     for model_name in model_names:
         fpr = roc_fpr.get(model_name)
         tpr = roc_tpr.get(model_name)
@@ -288,7 +294,7 @@ def plot_roc_curve(roc_fpr, roc_tpr, roc_auc):
     plt.savefig("{}/temp_{}.png".format(plots_path, image_index))
     pdf.image("{}/temp_{}.png".format(plots_path, image_index), w=100)
     image_index += 1
-    # plt.show()
+    pdf.ln(10)
 
 
 def model_selection(X, y, X_pred, feature_names, df_info):
@@ -304,6 +310,14 @@ def model_selection(X, y, X_pred, feature_names, df_info):
                 {'label': 'RandomForestClassifier', 'model': RandomForestClassifier()}]
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
+    pdf.multi_cell(h=5.0, w=0, txt="5. Train data (80%) used: {}".format(X_train.shape[0]))
+    pdf.ln(5)
+    pdf.multi_cell(h=5.0, w=0, txt="6. Test data (20%) used: {}".format(X_test.shape[0]))
+    pdf.ln(5)
+    print_steps_taken()
+    pdf.multi_cell(h=7.5, w=0, txt="Model Summary", align="C", border=1)
+    pdf.ln(5)
+
     plt.figure(figsize=(15, 10))
     model_f1_score={}
     classification_full_pred={}
@@ -311,7 +325,7 @@ def model_selection(X, y, X_pred, feature_names, df_info):
     roc_fpr={}
     roc_tpr={}
     roc_auc={}
-    for m in models:
+    for ind, m in enumerate(models):
         start_time = time.time()
         model = m['model']
         if m['label'] in ['PassiveAggressiveClassifier', 'LinearSVC']:
@@ -321,10 +335,14 @@ def model_selection(X, y, X_pred, feature_names, df_info):
         classification_full_pred[m['label']] = model.predict(X_pred) ## ADD New columns
         classification_full_pred_prob[m['label']] = model.predict_proba(X_pred)
 
-        pdf.multi_cell(h=5.0, w=0, txt="Classifier: {}, f1-score {} and time(seconds): {}".format(m['label'],
-                                                                                round(f1_score(y_test, y_pred,
-                                                                                average='weighted'), 2),
-                                                                                    round(time.time()-start_time, 3)))
+        pdf.multi_cell(h=5.0, w=0, txt="{}. Classifier: {}".format(ind+1, m['label']))
+        pdf.ln(5)
+
+        pdf.multi_cell(h=5.0, w=0, txt="f1-score {} and  training time(seconds): {}".format(round(f1_score(y_test,
+                                                                                                           y_pred,
+                                                                                            average='weighted'), 2),
+                                                                                            round(time.time() -
+                                                                                                  start_time, 3)))
         pdf.ln(5)
         # print("Classifier: {} and time(seconds): {}".format(m['label'], round(time.time()-start_time, 3)))
         # print()
@@ -353,20 +371,42 @@ def model_selection(X, y, X_pred, feature_names, df_info):
     return model_f1_score, classification_full_pred, classification_full_pred_prob
 
 
-def generate_prediction_file(df, model_f1_score, classification_full_pred, classification_full_pred_prob):
+def generate_prediction_file(df, model_f1_score, classification_full_pred, classification_full_pred_prob, y):
     model_f1_score = {k: v for k, v in sorted(model_f1_score.items(), key=lambda item: item[1])}
     top_5_model = sorted(model_f1_score, key=model_f1_score.get, reverse=True)[:5]
     # print(top_5_model, model_f1_score, classification_full_pred.keys(), classification_full_pred_prob.keys())
-    for m in top_5_model:
+    pdf.multi_cell(h=7.5, w=0, txt="Top 5 models used to predict", align="C", border=1)
+    pdf.ln(5)
+    for ind, m in enumerate(top_5_model):
         prediction = classification_full_pred.get(m)
         prob = classification_full_pred_prob.get(m)
         # df['2020_{}'.format(m)] = prediction
         df['donor_prob_{}'.format(m)] = [round(prob[x][1], 2) for x in range(len(prob))]
         df['non_donor_prob_{}'.format(m)] = [round(prob[x][0], 2) for x in range(len(prob))]
-        df['2020_{}'.format(m)] = df['non_donor_prob_{}'.format(m)].apply(lambda x: 0 if x > 0.75 else 1)
-        # print(df['2020_{}'.format(m)].value_counts())
-        pdf.multi_cell(h=5.0, w=0, txt=str(df['2020_{}'.format(m)].value_counts()))
+        t_={}
+        for t in [0.4, 0.45, 0.5, 0.55, 0.6, 0.65, .7, .75, .8]:
+            df['2020_{}'.format(m)] = df['non_donor_prob_{}'.format(m)].apply(lambda x: 0 if x > t else 1)
+            t_[t] = round(f1_score(list(df['2020_{}'.format(m)]), y), 3)
+        print(m)
+        t_sorted = sorted(t_.items(), key=operator.itemgetter(1))
+        print(t_sorted)
+        max_acc_threshold = t_sorted[-1]
+        print(max_acc_threshold[0], max_acc_threshold[1])
+        print(df['2020_{}'.format(m)].value_counts())
+        df['2020_{}'.format(m)] = df['non_donor_prob_{}'.format(m)].apply(
+            lambda x: 0 if x > max_acc_threshold[0] else 1)
+        donor_count = df[df['2020_{}'.format(m)] == 1].shape[0]
+        non_donor_count = df[df['2020_{}'.format(m)] == 0].shape[0]
+        pdf.multi_cell(h=5.0, w=0, txt="{}. {}".format(ind+1, m))
         pdf.ln(5)
+        pdf.multi_cell(h=5.0, w=0, txt="F1-score: {}".format(model_f1_score.get(m)))
+        pdf.ln(5)
+        pdf.multi_cell(h=5.0, w=0, txt="Threshold used: {}".format(max_acc_threshold[0]))
+        pdf.ln(5)
+        pdf.multi_cell(h=5.0, w=0, txt="Donor predicted: {}".format(donor_count))
+        pdf.ln(5)
+        pdf.multi_cell(h=5.0, w=0, txt="Non-Donor predicted: {}".format(non_donor_count))
+        pdf.ln(10)
     return df
 
 
@@ -419,9 +459,37 @@ def transform_features(vectorizer, df_info):
     return tfidf_matrix
 
 
+def print_steps_taken():
+    pdf.multi_cell(h=7.5, w=0, txt="Steps taken to run the model", align="C", border=1)
+    pdf.ln(5)
+    pdf.multi_cell(h=5.0, w=0, txt="1. Data Input")
+    pdf.ln(5)
+    pdf.multi_cell(h=5.0, w=0, txt="2. Data cleaning: Remove null rows and columns")
+    pdf.ln(5)
+    pdf.multi_cell(h=5.0, w=0, txt="3. Identify columns containing categorical and textual data")
+    pdf.ln(5)
+    pdf.multi_cell(h=5.0, w=0, txt="4. Assign target value to each sample")
+    pdf.ln(5)
+    pdf.multi_cell(h=5.0, w=0, txt="5. Train 10 classifiers by spliting dataset for train and test")
+    pdf.ln(5)
+    pdf.multi_cell(h=5.0, w=0, txt="6. Calculate feature importance for each classifier")
+    pdf.ln(5)
+    pdf.multi_cell(h=5.0, w=0, txt="7. Plot confusion matrix and classification report")
+    pdf.ln(5)
+    pdf.multi_cell(h=5.0, w=0, txt="8. Select top 5 classifier using f1-score")
+    pdf.ln(5)
+    pdf.multi_cell(h=5.0, w=0, txt="9. Receiver Operating Characteristic (ROC) Curve")
+    pdf.ln(5)
+    pdf.multi_cell(h=5.0, w=0, txt="10. Identify optimal threshold and predict")
+    pdf.ln(10)
+
+
 if __name__ == "__main__":
     plots_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "Plots"))
     files = glob.glob('{}/*.png'.format(plots_path))
+    logo_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "logo"))
+    pdf.image("{}/logo.png".format(logo_path), w=135, h=60, x=40)
+    pdf.ln(15)
     for f in files:
         os.remove(f)
     file_path = sys.argv[1]
@@ -430,13 +498,13 @@ if __name__ == "__main__":
     # print("all columns: {}".format(donor_df.columns))
     # print(donor_df.shape)
     # print("donation columns: {}".format(donation_columns))
-    # pdf.multi_cell(h=5.0, w=0, txt="all columns: {}".format(donor_df.columns))
-    # pdf.ln(5)
-    # pdf.multi_cell(h=5.0, w=0, txt=donor_df.shape)
-    # pdf.ln(5)
-    pdf.multi_cell(h=5.0, w=0, txt="donation columns: {}".format(donation_columns))
+    pdf.multi_cell(h=7.5, w=0, txt="Data Input Summary", align="C", border=1)
     pdf.ln(5)
     donor_df = remove_rows_containg_all_null_values(donor_df)
+    pdf.multi_cell(h=5.0, w=0, txt="1. Total training samples: {}".format(donor_df.shape[0]))
+    pdf.ln(5)
+    pdf.multi_cell(h=5.0, w=0, txt="2. Donation columns: {}".format(donation_columns))
+    pdf.ln(5)
     # donation_columns = identify_years_columns(donor_df)
     donation_columns_df = process_donation_columns(donor_df, donation_columns)
     postive_class = donation_columns_df[donation_columns_df['target'] == 1].shape[0]
@@ -462,7 +530,7 @@ if __name__ == "__main__":
     # print(df_info.columns)
     cat_col = identify_categorical_columns(df, info_columns)
     # print("Categorical columns: {}".format(cat_col))
-    pdf.multi_cell(h=5.0, w=0, txt="Categorical columns: {}".format(cat_col))
+    pdf.multi_cell(h=5.0, w=0, txt="4. Categorical columns: {}".format(cat_col))
     pdf.ln(5)
     processed_text, tfidf_matrix, feature_names, df_info, vectorizer = feature_extraction(df_info)
     y = list(donation_columns_df['target'])
@@ -484,12 +552,14 @@ if __name__ == "__main__":
         # X_pred = np.append(tfidf_matrix, column_predict, 1)
         # print(X_train.shape, X_pred.shape)
 
+
     model_f1_score, classification_full_pred, classification_full_pred_prob = model_selection(X_train, y, X_pred,
                                                                                                   feature_names,
                                                                                                   df_info)
-    df_final = generate_prediction_file(donor_df, model_f1_score, classification_full_pred, classification_full_pred_prob)
+    df_final = generate_prediction_file(donor_df, model_f1_score, classification_full_pred, classification_full_pred_prob, y)
     prediction_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "prediction"))
     pdf_report_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "PdfReport"))
     file_path = file_path.split("/")[-1]
     pdf.output("{}/{}_report.pdf".format(pdf_report_path, file_path.split(".")[0]))
     df_final.to_csv("{}/{}_prediction.csv".format(prediction_path, file_path.split(".")[0]), index=None)
+
