@@ -1,19 +1,3 @@
-all columns: Index(['ID', 'Name', 'AGE', 'Age Bin', 'Gender', 'Affiliation', 'DonorCode',
-       'Manager', 'Major', 'Address Type', 'City ', 'State', 'Zip Code',
-       'Job Title', 'Employer', 'Annual Fund Rating', 'Major Gift Capacity',
-       'LOW_EGC', 'HIGH_EGC', 'Inclination', 'Alumni Engagement', 'Stage',
-       'Last Gift Date', 'Last Gift Amount', 'FY 17 Giving', 'FY 16 Giving',
-       'FY 15 Giving', 'FY 14 Giving', 'FY 13 Giving', 'Lifetime Giving',
-       'Last Attempt Date', 'Last Contact Date', 'Last Contact Type',
-       'Phone Count', 'FTF Visit Count', 'Gift Count'],
-      dtype='object')
-(300, 36)
-donation columns: ['Last Gift Amount', 'FY 17 Giving', 'FY 16 Giving', 'FY 15 Giving', 'FY 14 Giving', 'FY 13 Giving']
-0    197
-1    103
-Name: target, dtype: int64
-30
-Total training samples: 300
 Column: ID, Null count: 0
 Column: Name, Null count: 0
 Column: AGE, Null count: 0
@@ -44,8 +28,6 @@ Column: Last Contact Type, Null count: 18
 Column: Phone Count, Null count: 27
 Column: FTF Visit Count, Null count: 129
 Column: Gift Count, Null count: 24
-_____________
-
 Column: ID, Unique count: 300
 Column: Name, Unique count: 74
 Column: AGE, Unique count: 62
@@ -74,196 +56,36 @@ Column: Last Contact Type, Unique count: 9
 Column: Phone Count, Unique count: 20
 Column: FTF Visit Count, Unique count: 14
 Column: Gift Count, Unique count: 42
-(300, 27)
-Index(['Name', 'AGE', 'Age Bin', 'Gender', 'Affiliation', 'DonorCode',
-       'Manager', 'Address Type', 'City ', 'State', 'Zip Code', 'Job Title',
-       'Employer', 'Annual Fund Rating', 'Major Gift Capacity', 'LOW_EGC',
-       'HIGH_EGC', 'Inclination', 'Alumni Engagement', 'Stage',
-       'Last Gift Date', 'Last Attempt Date', 'Last Contact Date',
-       'Last Contact Type', 'Phone Count', 'FTF Visit Count', 'Gift Count'],
-      dtype='object')
-Categorical columns: ['Gender', 'Manager', 'Address Type', 'Inclination', 'Alumni Engagement']
-Number of features used: 1000
-Classifier: LogisticRegression and time(seconds): 0.228
-
-Classifier: LogisticRegression and f1-score 0.67
-classification report
-              precision    recall  f1-score   support
-
-           0       0.68      1.00      0.81        36
-           1       1.00      0.29      0.45        24
-
-    accuracy                           0.72        60
-   macro avg       0.84      0.65      0.63        60
-weighted avg       0.81      0.72      0.67        60
-
-___________________________
-
-Classifier: GaussianNB and time(seconds): 0.008
-
-Classifier: GaussianNB and f1-score 0.92
-classification report
-              precision    recall  f1-score   support
-
-           0       0.92      0.94      0.93        36
-           1       0.91      0.88      0.89        24
-
-    accuracy                           0.92        60
-   macro avg       0.92      0.91      0.91        60
-weighted avg       0.92      0.92      0.92        60
-
-___________________________
-
-Classifier: MultinomialNB and time(seconds): 0.002
-
-Classifier: MultinomialNB and f1-score 0.67
-classification report
-              precision    recall  f1-score   support
-
-           0       0.68      1.00      0.81        36
-           1       1.00      0.29      0.45        24
-
-    accuracy                           0.72        60
-   macro avg       0.84      0.65      0.63        60
-weighted avg       0.81      0.72      0.67        60
-
-___________________________
-
-Classifier: ComplementNB and time(seconds): 0.001
-
-Classifier: ComplementNB and f1-score 0.9
-classification report
-              precision    recall  f1-score   support
-
-           0       0.88      0.97      0.92        36
-           1       0.95      0.79      0.86        24
-
-    accuracy                           0.90        60
-   macro avg       0.91      0.88      0.89        60
-weighted avg       0.90      0.90      0.90        60
-
-___________________________
-
-Classifier: BernoulliNB and time(seconds): 0.008
-
-Classifier: BernoulliNB and f1-score 0.9
-classification report
-              precision    recall  f1-score   support
-
-           0       0.89      0.94      0.92        36
-           1       0.91      0.83      0.87        24
-
-    accuracy                           0.90        60
-   macro avg       0.90      0.89      0.89        60
-weighted avg       0.90      0.90      0.90        60
-
-___________________________
-
-Classifier: DecisionTreeClassifier and time(seconds): 0.013
-
-Classifier: DecisionTreeClassifier and f1-score 0.95
-classification report
-              precision    recall  f1-score   support
-
-           0       0.95      0.97      0.96        36
-           1       0.96      0.92      0.94        24
-
-    accuracy                           0.95        60
-   macro avg       0.95      0.94      0.95        60
-weighted avg       0.95      0.95      0.95        60
-
-___________________________
-
-Classifier: SGDClassifier and time(seconds): 0.005
-
-Classifier: SGDClassifier and f1-score 0.91
-classification report
-              precision    recall  f1-score   support
-
-           0       0.88      1.00      0.94        36
-           1       1.00      0.79      0.88        24
-
-    accuracy                           0.92        60
-   macro avg       0.94      0.90      0.91        60
-weighted avg       0.93      0.92      0.91        60
-
-___________________________
-
-Classifier: PassiveAggressiveClassifier and time(seconds): 0.021
-
-Classifier: PassiveAggressiveClassifier and f1-score 0.88
-classification report
-              precision    recall  f1-score   support
-
-           0       0.85      0.97      0.91        36
-           1       0.95      0.75      0.84        24
-
-    accuracy                           0.88        60
-   macro avg       0.90      0.86      0.87        60
-weighted avg       0.89      0.88      0.88        60
-
-___________________________
-
-Classifier: LinearSVC and time(seconds): 0.012
-
-Classifier: LinearSVC and f1-score 0.88
-classification report
-              precision    recall  f1-score   support
-
-           0       0.85      0.97      0.91        36
-           1       0.95      0.75      0.84        24
-
-    accuracy                           0.88        60
-   macro avg       0.90      0.86      0.87        60
-weighted avg       0.89      0.88      0.88        60
-
-___________________________
-
-Classifier: RandomForestClassifier and time(seconds): 0.017
-
-Classifier: RandomForestClassifier and f1-score 0.79
-classification report
-              precision    recall  f1-score   support
-
-           0       0.76      0.97      0.85        36
-           1       0.93      0.54      0.68        24
-
-    accuracy                           0.80        60
-   macro avg       0.84      0.76      0.77        60
-weighted avg       0.83      0.80      0.79        60
-
-___________________________
-
+DecisionTreeClassifier
+[(0.4, 0.985), (0.45, 0.985), (0.5, 0.985), (0.55, 0.985), (0.6, 0.985), (0.65, 0.985), (0.7, 0.985), (0.75, 0.985), (0.8, 0.985)]
+0.8 0.985
 0    198
 1    102
 Name: 2020_DecisionTreeClassifier, dtype: int64
+GaussianNB
+[(0.4, 0.952), (0.45, 0.952), (0.5, 0.952), (0.55, 0.952), (0.6, 0.952), (0.65, 0.952), (0.7, 0.952), (0.75, 0.952), (0.8, 0.952)]
+0.8 0.952
 0    193
 1    107
 Name: 2020_GaussianNB, dtype: int64
-0    196
-1    104
-Name: 2020_SGDClassifier, dtype: int64
-1    221
-0     79
-Name: 2020_ComplementNB, dtype: int64
-0    191
-1    109
-Name: 2020_BernoulliNB, dtype: int64
-all columns: Index(['ID', 'Name', 'AGE', 'Age Bin', 'Gender', 'Affiliation', 'DonorCode',
-       'Manager', 'Major', 'Address Type', 'City ', 'State', 'Zip Code',
-       'Job Title', 'Employer', 'Annual Fund Rating', 'Major Gift Capacity',
-       'LOW_EGC', 'HIGH_EGC', 'Inclination', 'Alumni Engagement', 'Stage',
-       'Last Gift Date', 'Last Gift Amount', 'FY 17 Giving', 'FY 16 Giving',
-       'FY 15 Giving', 'FY 14 Giving', 'FY 13 Giving', 'Lifetime Giving',
-       'Last Attempt Date', 'Last Contact Date', 'Last Contact Type',
-       'Phone Count', 'FTF Visit Count', 'Gift Count'],
-      dtype='object')
-(300, 36)
-donation columns: ['Last Gift Amount', 'FY 17 Giving', 'FY 16 Giving', 'FY 15 Giving', 'FY 14 Giving', 'FY 13 Giving']
+SGDClassifier
+[(0.4, 0.97), (0.45, 0.97), (0.7, 0.971), (0.5, 0.975), (0.55, 0.975), (0.6, 0.975), (0.65, 0.98), (0.75, 0.981), (0.8, 0.981)]
+0.8 0.981
 0    197
 1    103
-Name: target, dtype: int64
-30
+Name: 2020_SGDClassifier, dtype: int64
+ComplementNB
+[(0.8, 0.549), (0.75, 0.636), (0.7, 0.728), (0.4, 0.775), (0.65, 0.854), (0.45, 0.857), (0.6, 0.901), (0.5, 0.902), (0.55, 0.916)]
+0.55 0.916
+1    272
+0     28
+Name: 2020_ComplementNB, dtype: int64
+BernoulliNB
+[(0.8, 0.888), (0.45, 0.892), (0.55, 0.894), (0.6, 0.894), (0.65, 0.894), (0.7, 0.895), (0.75, 0.896), (0.4, 0.897), (0.5, 0.898)]
+0.5 0.898
+0    189
+1    111
+Name: 2020_BernoulliNB, dtype: int64
 Column: ID, Null count: 0
 Column: Name, Null count: 0
 Column: AGE, Null count: 0
@@ -294,8 +116,6 @@ Column: Last Contact Type, Null count: 18
 Column: Phone Count, Null count: 27
 Column: FTF Visit Count, Null count: 129
 Column: Gift Count, Null count: 24
-_____________
-
 Column: ID, Unique count: 300
 Column: Name, Unique count: 74
 Column: AGE, Unique count: 62
@@ -324,195 +144,36 @@ Column: Last Contact Type, Unique count: 9
 Column: Phone Count, Unique count: 20
 Column: FTF Visit Count, Unique count: 14
 Column: Gift Count, Unique count: 42
-(300, 27)
-Index(['Name', 'AGE', 'Age Bin', 'Gender', 'Affiliation', 'DonorCode',
-       'Manager', 'Address Type', 'City ', 'State', 'Zip Code', 'Job Title',
-       'Employer', 'Annual Fund Rating', 'Major Gift Capacity', 'LOW_EGC',
-       'HIGH_EGC', 'Inclination', 'Alumni Engagement', 'Stage',
-       'Last Gift Date', 'Last Attempt Date', 'Last Contact Date',
-       'Last Contact Type', 'Phone Count', 'FTF Visit Count', 'Gift Count'],
-      dtype='object')
-Categorical columns: ['Gender', 'Manager', 'Address Type', 'Inclination', 'Alumni Engagement']
-Classifier: LogisticRegression and time(seconds): 0.301
-
-Classifier: LogisticRegression and f1-score 0.67
-classification report
-              precision    recall  f1-score   support
-
-           0       0.68      1.00      0.81        36
-           1       1.00      0.29      0.45        24
-
-    accuracy                           0.72        60
-   macro avg       0.84      0.65      0.63        60
-weighted avg       0.81      0.72      0.67        60
-
-___________________________
-
-Classifier: GaussianNB and time(seconds): 0.007
-
-Classifier: GaussianNB and f1-score 0.92
-classification report
-              precision    recall  f1-score   support
-
-           0       0.92      0.94      0.93        36
-           1       0.91      0.88      0.89        24
-
-    accuracy                           0.92        60
-   macro avg       0.92      0.91      0.91        60
-weighted avg       0.92      0.92      0.92        60
-
-___________________________
-
-Classifier: MultinomialNB and time(seconds): 0.002
-
-Classifier: MultinomialNB and f1-score 0.67
-classification report
-              precision    recall  f1-score   support
-
-           0       0.68      1.00      0.81        36
-           1       1.00      0.29      0.45        24
-
-    accuracy                           0.72        60
-   macro avg       0.84      0.65      0.63        60
-weighted avg       0.81      0.72      0.67        60
-
-___________________________
-
-Classifier: ComplementNB and time(seconds): 0.002
-
-Classifier: ComplementNB and f1-score 0.9
-classification report
-              precision    recall  f1-score   support
-
-           0       0.88      0.97      0.92        36
-           1       0.95      0.79      0.86        24
-
-    accuracy                           0.90        60
-   macro avg       0.91      0.88      0.89        60
-weighted avg       0.90      0.90      0.90        60
-
-___________________________
-
-Classifier: BernoulliNB and time(seconds): 0.004
-
-Classifier: BernoulliNB and f1-score 0.9
-classification report
-              precision    recall  f1-score   support
-
-           0       0.89      0.94      0.92        36
-           1       0.91      0.83      0.87        24
-
-    accuracy                           0.90        60
-   macro avg       0.90      0.89      0.89        60
-weighted avg       0.90      0.90      0.90        60
-
-___________________________
-
-Classifier: DecisionTreeClassifier and time(seconds): 0.013
-
-Classifier: DecisionTreeClassifier and f1-score 0.95
-classification report
-              precision    recall  f1-score   support
-
-           0       0.95      0.97      0.96        36
-           1       0.96      0.92      0.94        24
-
-    accuracy                           0.95        60
-   macro avg       0.95      0.94      0.95        60
-weighted avg       0.95      0.95      0.95        60
-
-___________________________
-
-Classifier: SGDClassifier and time(seconds): 0.005
-
-Classifier: SGDClassifier and f1-score 0.97
-classification report
-              precision    recall  f1-score   support
-
-           0       0.95      1.00      0.97        36
-           1       1.00      0.92      0.96        24
-
-    accuracy                           0.97        60
-   macro avg       0.97      0.96      0.96        60
-weighted avg       0.97      0.97      0.97        60
-
-___________________________
-
-Classifier: PassiveAggressiveClassifier and time(seconds): 0.027
-
-Classifier: PassiveAggressiveClassifier and f1-score 0.9
-classification report
-              precision    recall  f1-score   support
-
-           0       0.88      0.97      0.92        36
-           1       0.95      0.79      0.86        24
-
-    accuracy                           0.90        60
-   macro avg       0.91      0.88      0.89        60
-weighted avg       0.90      0.90      0.90        60
-
-___________________________
-
-Classifier: LinearSVC and time(seconds): 0.013
-
-Classifier: LinearSVC and f1-score 0.88
-classification report
-              precision    recall  f1-score   support
-
-           0       0.85      0.97      0.91        36
-           1       0.95      0.75      0.84        24
-
-    accuracy                           0.88        60
-   macro avg       0.90      0.86      0.87        60
-weighted avg       0.89      0.88      0.88        60
-
-___________________________
-
-Classifier: RandomForestClassifier and time(seconds): 0.021
-
-Classifier: RandomForestClassifier and f1-score 0.75
-classification report
-              precision    recall  f1-score   support
-
-           0       0.74      0.94      0.83        36
-           1       0.86      0.50      0.63        24
-
-    accuracy                           0.77        60
-   macro avg       0.80      0.72      0.73        60
-weighted avg       0.79      0.77      0.75        60
-
-___________________________
-
+DecisionTreeClassifier
+[(0.4, 0.985), (0.45, 0.985), (0.5, 0.985), (0.55, 0.985), (0.6, 0.985), (0.65, 0.985), (0.7, 0.985), (0.75, 0.985), (0.8, 0.985)]
+0.8 0.985
+0    198
+1    102
+Name: 2020_DecisionTreeClassifier, dtype: int64
+SGDClassifier
+[(0.4, 0.97), (0.45, 0.97), (0.5, 0.975), (0.55, 0.98), (0.6, 0.98), (0.8, 0.986), (0.65, 0.99), (0.7, 0.995), (0.75, 0.995)]
+0.75 0.995
 0    194
 1    106
 Name: 2020_SGDClassifier, dtype: int64
-0    198
-1    102
-Name: 2020_DecisionTreeClassifier, dtype: int64
+GaussianNB
+[(0.4, 0.952), (0.45, 0.952), (0.5, 0.952), (0.55, 0.952), (0.6, 0.952), (0.65, 0.952), (0.7, 0.952), (0.75, 0.952), (0.8, 0.952)]
+0.8 0.952
 0    193
 1    107
 Name: 2020_GaussianNB, dtype: int64
-1    221
-0     79
+ComplementNB
+[(0.8, 0.549), (0.75, 0.636), (0.7, 0.728), (0.4, 0.775), (0.65, 0.854), (0.45, 0.857), (0.6, 0.901), (0.5, 0.902), (0.55, 0.916)]
+0.55 0.916
+1    272
+0     28
 Name: 2020_ComplementNB, dtype: int64
-0    191
-1    109
+BernoulliNB
+[(0.8, 0.888), (0.45, 0.892), (0.55, 0.894), (0.6, 0.894), (0.65, 0.894), (0.7, 0.895), (0.75, 0.896), (0.4, 0.897), (0.5, 0.898)]
+0.5 0.898
+0    189
+1    111
 Name: 2020_BernoulliNB, dtype: int64
-all columns: Index(['ID', 'Name', 'AGE', 'Age Bin', 'Gender', 'Affiliation', 'DonorCode',
-       'Manager', 'Major', 'Address Type', 'City ', 'State', 'Zip Code',
-       'Job Title', 'Employer', 'Annual Fund Rating', 'Major Gift Capacity',
-       'LOW_EGC', 'HIGH_EGC', 'Inclination', 'Alumni Engagement', 'Stage',
-       'Last Gift Date', 'Last Gift Amount', 'FY 17 Giving', 'FY 16 Giving',
-       'FY 15 Giving', 'FY 14 Giving', 'FY 13 Giving', 'Lifetime Giving',
-       'Last Attempt Date', 'Last Contact Date', 'Last Contact Type',
-       'Phone Count', 'FTF Visit Count', 'Gift Count'],
-      dtype='object')
-(300, 36)
-donation columns: ['Last Gift Amount', 'FY 17 Giving', 'FY 16 Giving', 'FY 15 Giving', 'FY 14 Giving', 'FY 13 Giving']
-0    197
-1    103
-Name: target, dtype: int64
-30
 Column: ID, Null count: 0
 Column: Name, Null count: 0
 Column: AGE, Null count: 0
@@ -543,8 +204,6 @@ Column: Last Contact Type, Null count: 18
 Column: Phone Count, Null count: 27
 Column: FTF Visit Count, Null count: 129
 Column: Gift Count, Null count: 24
-_____________
-
 Column: ID, Unique count: 300
 Column: Name, Unique count: 74
 Column: AGE, Unique count: 62
@@ -573,459 +232,768 @@ Column: Last Contact Type, Unique count: 9
 Column: Phone Count, Unique count: 20
 Column: FTF Visit Count, Unique count: 14
 Column: Gift Count, Unique count: 42
-(300, 27)
-Index(['Name', 'AGE', 'Age Bin', 'Gender', 'Affiliation', 'DonorCode',
-       'Manager', 'Address Type', 'City ', 'State', 'Zip Code', 'Job Title',
-       'Employer', 'Annual Fund Rating', 'Major Gift Capacity', 'LOW_EGC',
-       'HIGH_EGC', 'Inclination', 'Alumni Engagement', 'Stage',
-       'Last Gift Date', 'Last Attempt Date', 'Last Contact Date',
-       'Last Contact Type', 'Phone Count', 'FTF Visit Count', 'Gift Count'],
-      dtype='object')
-Categorical columns: ['Gender', 'Manager', 'Address Type', 'Inclination', 'Alumni Engagement']
-Classifier: LogisticRegression and time(seconds): 0.266
-
-Classifier: LogisticRegression and f1-score 0.67
-classification report
-              precision    recall  f1-score   support
-
-           0       0.68      1.00      0.81        36
-           1       1.00      0.29      0.45        24
-
-    accuracy                           0.72        60
-   macro avg       0.84      0.65      0.63        60
-weighted avg       0.81      0.72      0.67        60
-
-___________________________
-
-Classifier: GaussianNB and time(seconds): 0.007
-
-Classifier: GaussianNB and f1-score 0.92
-classification report
-              precision    recall  f1-score   support
-
-           0       0.92      0.94      0.93        36
-           1       0.91      0.88      0.89        24
-
-    accuracy                           0.92        60
-   macro avg       0.92      0.91      0.91        60
-weighted avg       0.92      0.92      0.92        60
-
-___________________________
-
-Classifier: MultinomialNB and time(seconds): 0.007
-
-Classifier: MultinomialNB and f1-score 0.67
-classification report
-              precision    recall  f1-score   support
-
-           0       0.68      1.00      0.81        36
-           1       1.00      0.29      0.45        24
-
-    accuracy                           0.72        60
-   macro avg       0.84      0.65      0.63        60
-weighted avg       0.81      0.72      0.67        60
-
-___________________________
-
-Classifier: ComplementNB and time(seconds): 0.002
-
-Classifier: ComplementNB and f1-score 0.9
-classification report
-              precision    recall  f1-score   support
-
-           0       0.88      0.97      0.92        36
-           1       0.95      0.79      0.86        24
-
-    accuracy                           0.90        60
-   macro avg       0.91      0.88      0.89        60
-weighted avg       0.90      0.90      0.90        60
-
-___________________________
-
-Classifier: BernoulliNB and time(seconds): 0.005
-
-Classifier: BernoulliNB and f1-score 0.9
-classification report
-              precision    recall  f1-score   support
-
-           0       0.89      0.94      0.92        36
-           1       0.91      0.83      0.87        24
-
-    accuracy                           0.90        60
-   macro avg       0.90      0.89      0.89        60
-weighted avg       0.90      0.90      0.90        60
-
-___________________________
-
-Classifier: DecisionTreeClassifier and time(seconds): 0.013
-
-Classifier: DecisionTreeClassifier and f1-score 0.98
-classification report
-              precision    recall  f1-score   support
-
-           0       1.00      0.97      0.99        36
-           1       0.96      1.00      0.98        24
-
-    accuracy                           0.98        60
-   macro avg       0.98      0.99      0.98        60
-weighted avg       0.98      0.98      0.98        60
-
-___________________________
-
-Classifier: SGDClassifier and time(seconds): 0.007
-
-Classifier: SGDClassifier and f1-score 0.9
-classification report
-              precision    recall  f1-score   support
-
-           0       0.86      1.00      0.92        36
-           1       1.00      0.75      0.86        24
-
-    accuracy                           0.90        60
-   macro avg       0.93      0.88      0.89        60
-weighted avg       0.91      0.90      0.90        60
-
-___________________________
-
-Classifier: PassiveAggressiveClassifier and time(seconds): 0.026
-
-Classifier: PassiveAggressiveClassifier and f1-score 0.88
-classification report
-              precision    recall  f1-score   support
-
-           0       0.85      0.97      0.91        36
-           1       0.95      0.75      0.84        24
-
-    accuracy                           0.88        60
-   macro avg       0.90      0.86      0.87        60
-weighted avg       0.89      0.88      0.88        60
-
-___________________________
-
-Classifier: LinearSVC and time(seconds): 0.013
-
-Classifier: LinearSVC and f1-score 0.88
-classification report
-              precision    recall  f1-score   support
-
-           0       0.85      0.97      0.91        36
-           1       0.95      0.75      0.84        24
-
-    accuracy                           0.88        60
-   macro avg       0.90      0.86      0.87        60
-weighted avg       0.89      0.88      0.88        60
-
-___________________________
-
-Classifier: RandomForestClassifier and time(seconds): 0.024
-
-Classifier: RandomForestClassifier and f1-score 0.84
-classification report
-              precision    recall  f1-score   support
-
-           0       0.81      0.97      0.89        36
-           1       0.94      0.67      0.78        24
-
-    accuracy                           0.85        60
-   macro avg       0.88      0.82      0.83        60
-weighted avg       0.86      0.85      0.84        60
-
-___________________________
-
-0    196
-1    104
+DecisionTreeClassifier
+[(0.4, 0.99), (0.45, 0.99), (0.5, 0.99), (0.55, 0.99), (0.6, 0.99), (0.65, 0.99), (0.7, 0.99), (0.75, 0.99), (0.8, 0.99)]
+0.8 0.99
+0    195
+1    105
 Name: 2020_DecisionTreeClassifier, dtype: int64
+SGDClassifier
+[(0.4, 0.98), (0.55, 0.98), (0.6, 0.981), (0.65, 0.981), (0.45, 0.985), (0.5, 0.985), (0.75, 0.986), (0.8, 0.986), (0.7, 0.99)]
+0.7 0.99
+0    194
+1    106
+Name: 2020_SGDClassifier, dtype: int64
+GaussianNB
+[(0.4, 0.952), (0.45, 0.952), (0.5, 0.952), (0.55, 0.952), (0.6, 0.952), (0.65, 0.952), (0.7, 0.952), (0.75, 0.952), (0.8, 0.952)]
+0.8 0.952
 0    193
 1    107
 Name: 2020_GaussianNB, dtype: int64
-1    221
-0     79
+ComplementNB
+[(0.8, 0.549), (0.75, 0.636), (0.7, 0.728), (0.4, 0.775), (0.65, 0.854), (0.45, 0.857), (0.6, 0.901), (0.5, 0.902), (0.55, 0.916)]
+0.55 0.916
+1    272
+0     28
 Name: 2020_ComplementNB, dtype: int64
+BernoulliNB
+[(0.8, 0.888), (0.45, 0.892), (0.55, 0.894), (0.6, 0.894), (0.65, 0.894), (0.7, 0.895), (0.75, 0.896), (0.4, 0.897), (0.5, 0.898)]
+0.5 0.898
+0    189
+1    111
+Name: 2020_BernoulliNB, dtype: int64
+Column: ID, Null count: 0
+Column: Name, Null count: 0
+Column: AGE, Null count: 0
+Column: Age Bin, Null count: 0
+Column: Gender, Null count: 0
+Column: Affiliation, Null count: 35
+Column: DonorCode, Null count: 0
+Column: Manager, Null count: 0
+Column: Major, Null count: 227
+Column: Address Type, Null count: 0
+Column: City , Null count: 0
+Column: State, Null count: 0
+Column: Zip Code, Null count: 0
+Column: Job Title, Null count: 0
+Column: Employer, Null count: 0
+Column: Annual Fund Rating, Null count: 0
+Column: Major Gift Capacity, Null count: 24
+Column: LOW_EGC, Null count: 24
+Column: HIGH_EGC, Null count: 24
+Column: Inclination, Null count: 3
+Column: Alumni Engagement, Null count: 51
+Column: Stage, Null count: 0
+Column: Last Gift Date, Null count: 29
+Column: Lifetime Giving, Null count: 174
+Column: Last Attempt Date, Null count: 90
+Column: Last Contact Date, Null count: 18
+Column: Last Contact Type, Null count: 18
+Column: Phone Count, Null count: 27
+Column: FTF Visit Count, Null count: 129
+Column: Gift Count, Null count: 24
+Column: ID, Unique count: 300
+Column: Name, Unique count: 74
+Column: AGE, Unique count: 62
+Column: Age Bin, Unique count: 7
+Column: Gender, Unique count: 2
+Column: Affiliation, Unique count: 52
+Column: DonorCode, Unique count: 7
+Column: Manager, Unique count: 3
+Column: Address Type, Unique count: 2
+Column: City , Unique count: 18
+Column: State, Unique count: 9
+Column: Zip Code, Unique count: 31
+Column: Job Title, Unique count: 8
+Column: Employer, Unique count: 6
+Column: Annual Fund Rating, Unique count: 9
+Column: Major Gift Capacity, Unique count: 7
+Column: LOW_EGC, Unique count: 7
+Column: HIGH_EGC, Unique count: 7
+Column: Inclination, Unique count: 5
+Column: Alumni Engagement, Unique count: 5
+Column: Stage, Unique count: 6
+Column: Last Gift Date, Unique count: 83
+Column: Last Attempt Date, Unique count: 54
+Column: Last Contact Date, Unique count: 58
+Column: Last Contact Type, Unique count: 9
+Column: Phone Count, Unique count: 20
+Column: FTF Visit Count, Unique count: 14
+Column: Gift Count, Unique count: 42
+DecisionTreeClassifier
+[(0.4, 0.985), (0.45, 0.985), (0.5, 0.985), (0.55, 0.985), (0.6, 0.985), (0.65, 0.985), (0.7, 0.985), (0.75, 0.985), (0.8, 0.985)]
+0.8 0.985
+0    198
+1    102
+Name: 2020_DecisionTreeClassifier, dtype: int64
+GaussianNB
+[(0.4, 0.952), (0.45, 0.952), (0.5, 0.952), (0.55, 0.952), (0.6, 0.952), (0.65, 0.952), (0.7, 0.952), (0.75, 0.952), (0.8, 0.952)]
+0.8 0.952
+0    193
+1    107
+Name: 2020_GaussianNB, dtype: int64
+SGDClassifier
+[(0.5, 0.976), (0.6, 0.976), (0.65, 0.976), (0.45, 0.98), (0.55, 0.981), (0.7, 0.981), (0.8, 0.981), (0.4, 0.985), (0.75, 0.986)]
+0.75 0.986
+0    193
+1    107
+Name: 2020_SGDClassifier, dtype: int64
+ComplementNB
+[(0.8, 0.549), (0.75, 0.636), (0.7, 0.728), (0.4, 0.775), (0.65, 0.854), (0.45, 0.857), (0.6, 0.901), (0.5, 0.902), (0.55, 0.916)]
+0.55 0.916
+1    272
+0     28
+Name: 2020_ComplementNB, dtype: int64
+BernoulliNB
+[(0.8, 0.888), (0.45, 0.892), (0.55, 0.894), (0.6, 0.894), (0.65, 0.894), (0.7, 0.895), (0.75, 0.896), (0.4, 0.897), (0.5, 0.898)]
+0.5 0.898
+0    189
+1    111
+Name: 2020_BernoulliNB, dtype: int64
+Column: ID, Null count: 0
+Column: Name, Null count: 0
+Column: AGE, Null count: 0
+Column: Age Bin, Null count: 0
+Column: Gender, Null count: 0
+Column: Affiliation, Null count: 35
+Column: DonorCode, Null count: 0
+Column: Manager, Null count: 0
+Column: Major, Null count: 227
+Column: Address Type, Null count: 0
+Column: City , Null count: 0
+Column: State, Null count: 0
+Column: Zip Code, Null count: 0
+Column: Job Title, Null count: 0
+Column: Employer, Null count: 0
+Column: Annual Fund Rating, Null count: 0
+Column: Major Gift Capacity, Null count: 24
+Column: LOW_EGC, Null count: 24
+Column: HIGH_EGC, Null count: 24
+Column: Inclination, Null count: 3
+Column: Alumni Engagement, Null count: 51
+Column: Stage, Null count: 0
+Column: Last Gift Date, Null count: 29
+Column: Lifetime Giving, Null count: 174
+Column: Last Attempt Date, Null count: 90
+Column: Last Contact Date, Null count: 18
+Column: Last Contact Type, Null count: 18
+Column: Phone Count, Null count: 27
+Column: FTF Visit Count, Null count: 129
+Column: Gift Count, Null count: 24
+Column: ID, Unique count: 300
+Column: Name, Unique count: 74
+Column: AGE, Unique count: 62
+Column: Age Bin, Unique count: 7
+Column: Gender, Unique count: 2
+Column: Affiliation, Unique count: 52
+Column: DonorCode, Unique count: 7
+Column: Manager, Unique count: 3
+Column: Address Type, Unique count: 2
+Column: City , Unique count: 18
+Column: State, Unique count: 9
+Column: Zip Code, Unique count: 31
+Column: Job Title, Unique count: 8
+Column: Employer, Unique count: 6
+Column: Annual Fund Rating, Unique count: 9
+Column: Major Gift Capacity, Unique count: 7
+Column: LOW_EGC, Unique count: 7
+Column: HIGH_EGC, Unique count: 7
+Column: Inclination, Unique count: 5
+Column: Alumni Engagement, Unique count: 5
+Column: Stage, Unique count: 6
+Column: Last Gift Date, Unique count: 83
+Column: Last Attempt Date, Unique count: 54
+Column: Last Contact Date, Unique count: 58
+Column: Last Contact Type, Unique count: 9
+Column: Phone Count, Unique count: 20
+Column: FTF Visit Count, Unique count: 14
+Column: Gift Count, Unique count: 42
+DecisionTreeClassifier
+[(0.4, 0.995), (0.45, 0.995), (0.5, 0.995), (0.55, 0.995), (0.6, 0.995), (0.65, 0.995), (0.7, 0.995), (0.75, 0.995), (0.8, 0.995)]
+0.8 0.995
+0    196
+1    104
+Name: 2020_DecisionTreeClassifier, dtype: int64
+GaussianNB
+[(0.4, 0.952), (0.45, 0.952), (0.5, 0.952), (0.55, 0.952), (0.6, 0.952), (0.65, 0.952), (0.7, 0.952), (0.75, 0.952), (0.8, 0.952)]
+0.8 0.952
+0    193
+1    107
+Name: 2020_GaussianNB, dtype: int64
+PassiveAggressiveClassifier
+[(0.8, 0.888), (0.75, 0.924), (0.7, 0.954), (0.4, 0.96), (0.45, 0.96), (0.65, 0.967), (0.5, 0.975), (0.6, 0.976), (0.55, 0.98)]
+0.55 0.98
+0    171
+1    129
+Name: 2020_PassiveAggressiveClassifier, dtype: int64
+ComplementNB
+[(0.8, 0.549), (0.75, 0.636), (0.7, 0.728), (0.4, 0.775), (0.65, 0.854), (0.45, 0.857), (0.6, 0.901), (0.5, 0.902), (0.55, 0.916)]
+0.55 0.916
+1    272
+0     28
+Name: 2020_ComplementNB, dtype: int64
+BernoulliNB
+[(0.8, 0.888), (0.45, 0.892), (0.55, 0.894), (0.6, 0.894), (0.65, 0.894), (0.7, 0.895), (0.75, 0.896), (0.4, 0.897), (0.5, 0.898)]
+0.5 0.898
+0    189
+1    111
+Name: 2020_BernoulliNB, dtype: int64
+Column: ID, Null count: 0
+Column: Name, Null count: 0
+Column: AGE, Null count: 0
+Column: Age Bin, Null count: 0
+Column: Gender, Null count: 0
+Column: Affiliation, Null count: 35
+Column: DonorCode, Null count: 0
+Column: Manager, Null count: 0
+Column: Major, Null count: 227
+Column: Address Type, Null count: 0
+Column: City , Null count: 0
+Column: State, Null count: 0
+Column: Zip Code, Null count: 0
+Column: Job Title, Null count: 0
+Column: Employer, Null count: 0
+Column: Annual Fund Rating, Null count: 0
+Column: Major Gift Capacity, Null count: 24
+Column: LOW_EGC, Null count: 24
+Column: HIGH_EGC, Null count: 24
+Column: Inclination, Null count: 3
+Column: Alumni Engagement, Null count: 51
+Column: Stage, Null count: 0
+Column: Last Gift Date, Null count: 29
+Column: Lifetime Giving, Null count: 174
+Column: Last Attempt Date, Null count: 90
+Column: Last Contact Date, Null count: 18
+Column: Last Contact Type, Null count: 18
+Column: Phone Count, Null count: 27
+Column: FTF Visit Count, Null count: 129
+Column: Gift Count, Null count: 24
+Column: ID, Unique count: 300
+Column: Name, Unique count: 74
+Column: AGE, Unique count: 62
+Column: Age Bin, Unique count: 7
+Column: Gender, Unique count: 2
+Column: Affiliation, Unique count: 52
+Column: DonorCode, Unique count: 7
+Column: Manager, Unique count: 3
+Column: Address Type, Unique count: 2
+Column: City , Unique count: 18
+Column: State, Unique count: 9
+Column: Zip Code, Unique count: 31
+Column: Job Title, Unique count: 8
+Column: Employer, Unique count: 6
+Column: Annual Fund Rating, Unique count: 9
+Column: Major Gift Capacity, Unique count: 7
+Column: LOW_EGC, Unique count: 7
+Column: HIGH_EGC, Unique count: 7
+Column: Inclination, Unique count: 5
+Column: Alumni Engagement, Unique count: 5
+Column: Stage, Unique count: 6
+Column: Last Gift Date, Unique count: 83
+Column: Last Attempt Date, Unique count: 54
+Column: Last Contact Date, Unique count: 58
+Column: Last Contact Type, Unique count: 9
+Column: Phone Count, Unique count: 20
+Column: FTF Visit Count, Unique count: 14
+Column: Gift Count, Unique count: 42
+DecisionTreeClassifier
+[(0.4, 0.986), (0.45, 0.986), (0.5, 0.986), (0.55, 0.986), (0.6, 0.986), (0.65, 0.986), (0.7, 0.986), (0.75, 0.986), (0.8, 0.986)]
+0.8 0.986
+0    196
+1    104
+Name: 2020_DecisionTreeClassifier, dtype: int64
+SGDClassifier
+[(0.4, 0.98), (0.55, 0.98), (0.6, 0.98), (0.45, 0.985), (0.5, 0.985), (0.65, 0.985), (0.7, 0.986), (0.8, 0.986), (0.75, 0.99)]
+0.75 0.99
+0    194
+1    106
+Name: 2020_SGDClassifier, dtype: int64
+GaussianNB
+[(0.4, 0.952), (0.45, 0.952), (0.5, 0.952), (0.55, 0.952), (0.6, 0.952), (0.65, 0.952), (0.7, 0.952), (0.75, 0.952), (0.8, 0.952)]
+0.8 0.952
+0    193
+1    107
+Name: 2020_GaussianNB, dtype: int64
+ComplementNB
+[(0.8, 0.549), (0.75, 0.636), (0.7, 0.728), (0.4, 0.775), (0.65, 0.854), (0.45, 0.857), (0.6, 0.901), (0.5, 0.902), (0.55, 0.916)]
+0.55 0.916
+1    272
+0     28
+Name: 2020_ComplementNB, dtype: int64
+BernoulliNB
+[(0.8, 0.888), (0.45, 0.892), (0.55, 0.894), (0.6, 0.894), (0.65, 0.894), (0.7, 0.895), (0.75, 0.896), (0.4, 0.897), (0.5, 0.898)]
+0.5 0.898
+0    189
+1    111
+Name: 2020_BernoulliNB, dtype: int64
+Column: ID, Null count: 0
+Column: Name, Null count: 0
+Column: AGE, Null count: 0
+Column: Age Bin, Null count: 0
+Column: Gender, Null count: 0
+Column: Affiliation, Null count: 35
+Column: DonorCode, Null count: 0
+Column: Manager, Null count: 0
+Column: Major, Null count: 227
+Column: Address Type, Null count: 0
+Column: City , Null count: 0
+Column: State, Null count: 0
+Column: Zip Code, Null count: 0
+Column: Job Title, Null count: 0
+Column: Employer, Null count: 0
+Column: Annual Fund Rating, Null count: 0
+Column: Major Gift Capacity, Null count: 24
+Column: LOW_EGC, Null count: 24
+Column: HIGH_EGC, Null count: 24
+Column: Inclination, Null count: 3
+Column: Alumni Engagement, Null count: 51
+Column: Stage, Null count: 0
+Column: Last Gift Date, Null count: 29
+Column: Lifetime Giving, Null count: 174
+Column: Last Attempt Date, Null count: 90
+Column: Last Contact Date, Null count: 18
+Column: Last Contact Type, Null count: 18
+Column: Phone Count, Null count: 27
+Column: FTF Visit Count, Null count: 129
+Column: Gift Count, Null count: 24
+Column: ID, Unique count: 300
+Column: Name, Unique count: 74
+Column: AGE, Unique count: 62
+Column: Age Bin, Unique count: 7
+Column: Gender, Unique count: 2
+Column: Affiliation, Unique count: 52
+Column: DonorCode, Unique count: 7
+Column: Manager, Unique count: 3
+Column: Address Type, Unique count: 2
+Column: City , Unique count: 18
+Column: State, Unique count: 9
+Column: Zip Code, Unique count: 31
+Column: Job Title, Unique count: 8
+Column: Employer, Unique count: 6
+Column: Annual Fund Rating, Unique count: 9
+Column: Major Gift Capacity, Unique count: 7
+Column: LOW_EGC, Unique count: 7
+Column: HIGH_EGC, Unique count: 7
+Column: Inclination, Unique count: 5
+Column: Alumni Engagement, Unique count: 5
+Column: Stage, Unique count: 6
+Column: Last Gift Date, Unique count: 83
+Column: Last Attempt Date, Unique count: 54
+Column: Last Contact Date, Unique count: 58
+Column: Last Contact Type, Unique count: 9
+Column: Phone Count, Unique count: 20
+Column: FTF Visit Count, Unique count: 14
+Column: Gift Count, Unique count: 42
+DecisionTreeClassifier
+[(0.4, 0.995), (0.45, 0.995), (0.5, 0.995), (0.55, 0.995), (0.6, 0.995), (0.65, 0.995), (0.7, 0.995), (0.75, 0.995), (0.8, 0.995)]
+0.8 0.995
+0    196
+1    104
+Name: 2020_DecisionTreeClassifier, dtype: int64
+GaussianNB
+[(0.4, 0.952), (0.45, 0.952), (0.5, 0.952), (0.55, 0.952), (0.6, 0.952), (0.65, 0.952), (0.7, 0.952), (0.75, 0.952), (0.8, 0.952)]
+0.8 0.952
+0    193
+1    107
+Name: 2020_GaussianNB, dtype: int64
+SGDClassifier
+[(0.8, 0.972), (0.45, 0.976), (0.5, 0.976), (0.55, 0.976), (0.6, 0.976), (0.4, 0.98), (0.65, 0.986), (0.7, 0.986), (0.75, 0.986)]
+0.75 0.986
 0    191
 1    109
+Name: 2020_SGDClassifier, dtype: int64
+ComplementNB
+[(0.8, 0.549), (0.75, 0.636), (0.7, 0.728), (0.4, 0.775), (0.65, 0.854), (0.45, 0.857), (0.6, 0.901), (0.5, 0.902), (0.55, 0.916)]
+0.55 0.916
+1    272
+0     28
+Name: 2020_ComplementNB, dtype: int64
+BernoulliNB
+[(0.8, 0.888), (0.45, 0.892), (0.55, 0.894), (0.6, 0.894), (0.65, 0.894), (0.7, 0.895), (0.75, 0.896), (0.4, 0.897), (0.5, 0.898)]
+0.5 0.898
+0    189
+1    111
 Name: 2020_BernoulliNB, dtype: int64
+Column: ID, Null count: 0
+Column: Name, Null count: 0
+Column: AGE, Null count: 0
+Column: Age Bin, Null count: 0
+Column: Gender, Null count: 0
+Column: Affiliation, Null count: 35
+Column: DonorCode, Null count: 0
+Column: Manager, Null count: 0
+Column: Major, Null count: 227
+Column: Address Type, Null count: 0
+Column: City , Null count: 0
+Column: State, Null count: 0
+Column: Zip Code, Null count: 0
+Column: Job Title, Null count: 0
+Column: Employer, Null count: 0
+Column: Annual Fund Rating, Null count: 0
+Column: Major Gift Capacity, Null count: 24
+Column: LOW_EGC, Null count: 24
+Column: HIGH_EGC, Null count: 24
+Column: Inclination, Null count: 3
+Column: Alumni Engagement, Null count: 51
+Column: Stage, Null count: 0
+Column: Last Gift Date, Null count: 29
+Column: Lifetime Giving, Null count: 174
+Column: Last Attempt Date, Null count: 90
+Column: Last Contact Date, Null count: 18
+Column: Last Contact Type, Null count: 18
+Column: Phone Count, Null count: 27
+Column: FTF Visit Count, Null count: 129
+Column: Gift Count, Null count: 24
+Column: ID, Unique count: 300
+Column: Name, Unique count: 74
+Column: AGE, Unique count: 62
+Column: Age Bin, Unique count: 7
+Column: Gender, Unique count: 2
+Column: Affiliation, Unique count: 52
+Column: DonorCode, Unique count: 7
+Column: Manager, Unique count: 3
+Column: Address Type, Unique count: 2
+Column: City , Unique count: 18
+Column: State, Unique count: 9
+Column: Zip Code, Unique count: 31
+Column: Job Title, Unique count: 8
+Column: Employer, Unique count: 6
+Column: Annual Fund Rating, Unique count: 9
+Column: Major Gift Capacity, Unique count: 7
+Column: LOW_EGC, Unique count: 7
+Column: HIGH_EGC, Unique count: 7
+Column: Inclination, Unique count: 5
+Column: Alumni Engagement, Unique count: 5
+Column: Stage, Unique count: 6
+Column: Last Gift Date, Unique count: 83
+Column: Last Attempt Date, Unique count: 54
+Column: Last Contact Date, Unique count: 58
+Column: Last Contact Type, Unique count: 9
+Column: Phone Count, Unique count: 20
+Column: FTF Visit Count, Unique count: 14
+Column: Gift Count, Unique count: 42
+Column: ID, Null count: 0
+Column: Name, Null count: 0
+Column: AGE, Null count: 0
+Column: Age Bin, Null count: 0
+Column: Gender, Null count: 0
+Column: Affiliation, Null count: 35
+Column: DonorCode, Null count: 0
+Column: Manager, Null count: 0
+Column: Major, Null count: 227
+Column: Address Type, Null count: 0
+Column: City , Null count: 0
+Column: State, Null count: 0
+Column: Zip Code, Null count: 0
+Column: Job Title, Null count: 0
+Column: Employer, Null count: 0
+Column: Annual Fund Rating, Null count: 0
+Column: Major Gift Capacity, Null count: 24
+Column: LOW_EGC, Null count: 24
+Column: HIGH_EGC, Null count: 24
+Column: Inclination, Null count: 3
+Column: Alumni Engagement, Null count: 51
+Column: Stage, Null count: 0
+Column: Last Gift Date, Null count: 29
+Column: Lifetime Giving, Null count: 174
+Column: Last Attempt Date, Null count: 90
+Column: Last Contact Date, Null count: 18
+Column: Last Contact Type, Null count: 18
+Column: Phone Count, Null count: 27
+Column: FTF Visit Count, Null count: 129
+Column: Gift Count, Null count: 24
+Column: ID, Unique count: 300
+Column: Name, Unique count: 74
+Column: AGE, Unique count: 62
+Column: Age Bin, Unique count: 7
+Column: Gender, Unique count: 2
+Column: Affiliation, Unique count: 52
+Column: DonorCode, Unique count: 7
+Column: Manager, Unique count: 3
+Column: Address Type, Unique count: 2
+Column: City , Unique count: 18
+Column: State, Unique count: 9
+Column: Zip Code, Unique count: 31
+Column: Job Title, Unique count: 8
+Column: Employer, Unique count: 6
+Column: Annual Fund Rating, Unique count: 9
+Column: Major Gift Capacity, Unique count: 7
+Column: LOW_EGC, Unique count: 7
+Column: HIGH_EGC, Unique count: 7
+Column: Inclination, Unique count: 5
+Column: Alumni Engagement, Unique count: 5
+Column: Stage, Unique count: 6
+Column: Last Gift Date, Unique count: 83
+Column: Last Attempt Date, Unique count: 54
+Column: Last Contact Date, Unique count: 58
+Column: Last Contact Type, Unique count: 9
+Column: Phone Count, Unique count: 20
+Column: FTF Visit Count, Unique count: 14
+Column: Gift Count, Unique count: 42
+SGDClassifier
+[(0.4, 0.965), (0.45, 0.98), (0.75, 0.981), (0.5, 0.985), (0.8, 0.986), (0.55, 0.99), (0.6, 0.99), (0.65, 0.99), (0.7, 0.995)]
+0.7 0.995
+0    194
+1    106
+Name: 2020_SGDClassifier, dtype: int64
+DecisionTreeClassifier
+[(0.4, 0.98), (0.45, 0.98), (0.5, 0.98), (0.55, 0.98), (0.6, 0.98), (0.65, 0.98), (0.7, 0.98), (0.75, 0.98), (0.8, 0.98)]
+0.8 0.98
+0    199
+1    101
+Name: 2020_DecisionTreeClassifier, dtype: int64
+GaussianNB
+[(0.4, 0.952), (0.45, 0.952), (0.5, 0.952), (0.55, 0.952), (0.6, 0.952), (0.65, 0.952), (0.7, 0.952), (0.75, 0.952), (0.8, 0.952)]
+0.8 0.952
+0    193
+1    107
+Name: 2020_GaussianNB, dtype: int64
+ComplementNB
+[(0.8, 0.549), (0.75, 0.636), (0.7, 0.728), (0.4, 0.775), (0.65, 0.854), (0.45, 0.857), (0.6, 0.901), (0.5, 0.902), (0.55, 0.916)]
+0.55 0.916
+1    272
+0     28
+Name: 2020_ComplementNB, dtype: int64
+BernoulliNB
+[(0.8, 0.888), (0.45, 0.892), (0.55, 0.894), (0.6, 0.894), (0.65, 0.894), (0.7, 0.895), (0.75, 0.896), (0.4, 0.897), (0.5, 0.898)]
+0.5 0.898
+0    189
+1    111
+Name: 2020_BernoulliNB, dtype: int64
+Column: ID, Null count: 0
+Column: Name, Null count: 0
+Column: AGE, Null count: 0
+Column: Age Bin, Null count: 0
+Column: Gender, Null count: 0
+Column: Affiliation, Null count: 35
+Column: DonorCode, Null count: 0
+Column: Manager, Null count: 0
+Column: Major, Null count: 227
+Column: Address Type, Null count: 0
+Column: City , Null count: 0
+Column: State, Null count: 0
+Column: Zip Code, Null count: 0
+Column: Job Title, Null count: 0
+Column: Employer, Null count: 0
+Column: Annual Fund Rating, Null count: 0
+Column: Major Gift Capacity, Null count: 24
+Column: LOW_EGC, Null count: 24
+Column: HIGH_EGC, Null count: 24
+Column: Inclination, Null count: 3
+Column: Alumni Engagement, Null count: 51
+Column: Stage, Null count: 0
+Column: Last Gift Date, Null count: 29
+Column: Lifetime Giving, Null count: 174
+Column: Last Attempt Date, Null count: 90
+Column: Last Contact Date, Null count: 18
+Column: Last Contact Type, Null count: 18
+Column: Phone Count, Null count: 27
+Column: FTF Visit Count, Null count: 129
+Column: Gift Count, Null count: 24
+Column: ID, Unique count: 300
+Column: Name, Unique count: 74
+Column: AGE, Unique count: 62
+Column: Age Bin, Unique count: 7
+Column: Gender, Unique count: 2
+Column: Affiliation, Unique count: 52
+Column: DonorCode, Unique count: 7
+Column: Manager, Unique count: 3
+Column: Address Type, Unique count: 2
+Column: City , Unique count: 18
+Column: State, Unique count: 9
+Column: Zip Code, Unique count: 31
+Column: Job Title, Unique count: 8
+Column: Employer, Unique count: 6
+Column: Annual Fund Rating, Unique count: 9
+Column: Major Gift Capacity, Unique count: 7
+Column: LOW_EGC, Unique count: 7
+Column: HIGH_EGC, Unique count: 7
+Column: Inclination, Unique count: 5
+Column: Alumni Engagement, Unique count: 5
+Column: Stage, Unique count: 6
+Column: Last Gift Date, Unique count: 83
+Column: Last Attempt Date, Unique count: 54
+Column: Last Contact Date, Unique count: 58
+Column: Last Contact Type, Unique count: 9
+Column: Phone Count, Unique count: 20
+Column: FTF Visit Count, Unique count: 14
+Column: Gift Count, Unique count: 42
+Column: ID, Null count: 0
+Column: Name, Null count: 0
+Column: AGE, Null count: 0
+Column: Age Bin, Null count: 0
+Column: Gender, Null count: 0
+Column: Affiliation, Null count: 35
+Column: DonorCode, Null count: 0
+Column: Manager, Null count: 0
+Column: Major, Null count: 227
+Column: Address Type, Null count: 0
+Column: City , Null count: 0
+Column: State, Null count: 0
+Column: Zip Code, Null count: 0
+Column: Job Title, Null count: 0
+Column: Employer, Null count: 0
+Column: Annual Fund Rating, Null count: 0
+Column: Major Gift Capacity, Null count: 24
+Column: LOW_EGC, Null count: 24
+Column: HIGH_EGC, Null count: 24
+Column: Inclination, Null count: 3
+Column: Alumni Engagement, Null count: 51
+Column: Stage, Null count: 0
+Column: Last Gift Date, Null count: 29
+Column: Lifetime Giving, Null count: 174
+Column: Last Attempt Date, Null count: 90
+Column: Last Contact Date, Null count: 18
+Column: Last Contact Type, Null count: 18
+Column: Phone Count, Null count: 27
+Column: FTF Visit Count, Null count: 129
+Column: Gift Count, Null count: 24
+Column: ID, Unique count: 300
+Column: Name, Unique count: 74
+Column: AGE, Unique count: 62
+Column: Age Bin, Unique count: 7
+Column: Gender, Unique count: 2
+Column: Affiliation, Unique count: 52
+Column: DonorCode, Unique count: 7
+Column: Manager, Unique count: 3
+Column: Address Type, Unique count: 2
+Column: City , Unique count: 18
+Column: State, Unique count: 9
+Column: Zip Code, Unique count: 31
+Column: Job Title, Unique count: 8
+Column: Employer, Unique count: 6
+Column: Annual Fund Rating, Unique count: 9
+Column: Major Gift Capacity, Unique count: 7
+Column: LOW_EGC, Unique count: 7
+Column: HIGH_EGC, Unique count: 7
+Column: Inclination, Unique count: 5
+Column: Alumni Engagement, Unique count: 5
+Column: Stage, Unique count: 6
+Column: Last Gift Date, Unique count: 83
+Column: Last Attempt Date, Unique count: 54
+Column: Last Contact Date, Unique count: 58
+Column: Last Contact Type, Unique count: 9
+Column: Phone Count, Unique count: 20
+Column: FTF Visit Count, Unique count: 14
+Column: Gift Count, Unique count: 42
+DecisionTreeClassifier
+[(0.4, 0.986), (0.45, 0.986), (0.5, 0.986), (0.55, 0.986), (0.6, 0.986), (0.65, 0.986), (0.7, 0.986), (0.75, 0.986), (0.8, 0.986)]
+0.8 0.986
+0    196
+1    104
+Name: 2020_DecisionTreeClassifier, dtype: int64
+SGDClassifier
+[(0.8, 0.972), (0.5, 0.981), (0.75, 0.981), (0.4, 0.985), (0.45, 0.985), (0.55, 0.986), (0.6, 0.99), (0.65, 0.99), (0.7, 0.99)]
+0.7 0.99
+0    191
+1    109
+Name: 2020_SGDClassifier, dtype: int64
+GaussianNB
+[(0.4, 0.952), (0.45, 0.952), (0.5, 0.952), (0.55, 0.952), (0.6, 0.952), (0.65, 0.952), (0.7, 0.952), (0.75, 0.952), (0.8, 0.952)]
+0.8 0.952
+0    193
+1    107
+Name: 2020_GaussianNB, dtype: int64
+ComplementNB
+[(0.8, 0.549), (0.75, 0.636), (0.7, 0.728), (0.4, 0.775), (0.65, 0.854), (0.45, 0.857), (0.6, 0.901), (0.5, 0.902), (0.55, 0.916)]
+0.55 0.916
+1    272
+0     28
+Name: 2020_ComplementNB, dtype: int64
+BernoulliNB
+[(0.8, 0.888), (0.45, 0.892), (0.55, 0.894), (0.6, 0.894), (0.65, 0.894), (0.7, 0.895), (0.75, 0.896), (0.4, 0.897), (0.5, 0.898)]
+0.5 0.898
+0    189
+1    111
+Name: 2020_BernoulliNB, dtype: int64
+Column: ID, Null count: 0
+Column: Name, Null count: 0
+Column: AGE, Null count: 0
+Column: Age Bin, Null count: 0
+Column: Gender, Null count: 0
+Column: Affiliation, Null count: 35
+Column: DonorCode, Null count: 0
+Column: Manager, Null count: 0
+Column: Major, Null count: 227
+Column: Address Type, Null count: 0
+Column: City , Null count: 0
+Column: State, Null count: 0
+Column: Zip Code, Null count: 0
+Column: Job Title, Null count: 0
+Column: Employer, Null count: 0
+Column: Annual Fund Rating, Null count: 0
+Column: Major Gift Capacity, Null count: 24
+Column: LOW_EGC, Null count: 24
+Column: HIGH_EGC, Null count: 24
+Column: Inclination, Null count: 3
+Column: Alumni Engagement, Null count: 51
+Column: Stage, Null count: 0
+Column: Last Gift Date, Null count: 29
+Column: Lifetime Giving, Null count: 174
+Column: Last Attempt Date, Null count: 90
+Column: Last Contact Date, Null count: 18
+Column: Last Contact Type, Null count: 18
+Column: Phone Count, Null count: 27
+Column: FTF Visit Count, Null count: 129
+Column: Gift Count, Null count: 24
+Column: ID, Unique count: 300
+Column: Name, Unique count: 74
+Column: AGE, Unique count: 62
+Column: Age Bin, Unique count: 7
+Column: Gender, Unique count: 2
+Column: Affiliation, Unique count: 52
+Column: DonorCode, Unique count: 7
+Column: Manager, Unique count: 3
+Column: Address Type, Unique count: 2
+Column: City , Unique count: 18
+Column: State, Unique count: 9
+Column: Zip Code, Unique count: 31
+Column: Job Title, Unique count: 8
+Column: Employer, Unique count: 6
+Column: Annual Fund Rating, Unique count: 9
+Column: Major Gift Capacity, Unique count: 7
+Column: LOW_EGC, Unique count: 7
+Column: HIGH_EGC, Unique count: 7
+Column: Inclination, Unique count: 5
+Column: Alumni Engagement, Unique count: 5
+Column: Stage, Unique count: 6
+Column: Last Gift Date, Unique count: 83
+Column: Last Attempt Date, Unique count: 54
+Column: Last Contact Date, Unique count: 58
+Column: Last Contact Type, Unique count: 9
+Column: Phone Count, Unique count: 20
+Column: FTF Visit Count, Unique count: 14
+Column: Gift Count, Unique count: 42
+DecisionTreeClassifier
+[(0.4, 0.995), (0.45, 0.995), (0.5, 0.995), (0.55, 0.995), (0.6, 0.995), (0.65, 0.995), (0.7, 0.995), (0.75, 0.995), (0.8, 0.995)]
+0.8 0.995
+0    196
+1    104
+Name: 2020_DecisionTreeClassifier, dtype: int64
+GaussianNB
+[(0.4, 0.952), (0.45, 0.952), (0.5, 0.952), (0.55, 0.952), (0.6, 0.952), (0.65, 0.952), (0.7, 0.952), (0.75, 0.952), (0.8, 0.952)]
+0.8 0.952
+0    193
+1    107
+Name: 2020_GaussianNB, dtype: int64
+SGDClassifier
+[(0.4, 0.96), (0.45, 0.965), (0.5, 0.975), (0.55, 0.98), (0.65, 0.981), (0.6, 0.985), (0.7, 0.986), (0.75, 0.99), (0.8, 0.99)]
+0.8 0.99
 0    195
 1    105
 Name: 2020_SGDClassifier, dtype: int64
-all columns: Index(['ID', 'Name', 'AGE', 'Age Bin', 'Gender', 'Affiliation', 'DonorCode',
-       'Manager', 'Major', 'Address Type', 'City ', 'State', 'Zip Code',
-       'Job Title', 'Employer', 'Annual Fund Rating', 'Major Gift Capacity',
-       'LOW_EGC', 'HIGH_EGC', 'Inclination', 'Alumni Engagement', 'Stage',
-       'Last Gift Date', 'Last Gift Amount', 'FY 17 Giving', 'FY 16 Giving',
-       'FY 15 Giving', 'FY 14 Giving', 'FY 13 Giving', 'Lifetime Giving',
-       'Last Attempt Date', 'Last Contact Date', 'Last Contact Type',
-       'Phone Count', 'FTF Visit Count', 'Gift Count'],
-      dtype='object')
-(300, 36)
-donation columns: ['Last Gift Amount', 'FY 17 Giving', 'FY 16 Giving', 'FY 15 Giving', 'FY 14 Giving', 'FY 13 Giving']
-0    197
-1    103
-Name: target, dtype: int64
-30
-Column: ID, Null count: 0
-Column: Name, Null count: 0
-Column: AGE, Null count: 0
-Column: Age Bin, Null count: 0
-Column: Gender, Null count: 0
-Column: Affiliation, Null count: 35
-Column: DonorCode, Null count: 0
-Column: Manager, Null count: 0
-Column: Major, Null count: 227
-Column: Address Type, Null count: 0
-Column: City , Null count: 0
-Column: State, Null count: 0
-Column: Zip Code, Null count: 0
-Column: Job Title, Null count: 0
-Column: Employer, Null count: 0
-Column: Annual Fund Rating, Null count: 0
-Column: Major Gift Capacity, Null count: 24
-Column: LOW_EGC, Null count: 24
-Column: HIGH_EGC, Null count: 24
-Column: Inclination, Null count: 3
-Column: Alumni Engagement, Null count: 51
-Column: Stage, Null count: 0
-Column: Last Gift Date, Null count: 29
-Column: Lifetime Giving, Null count: 174
-Column: Last Attempt Date, Null count: 90
-Column: Last Contact Date, Null count: 18
-Column: Last Contact Type, Null count: 18
-Column: Phone Count, Null count: 27
-Column: FTF Visit Count, Null count: 129
-Column: Gift Count, Null count: 24
-_____________
-
-Column: ID, Unique count: 300
-Column: Name, Unique count: 74
-Column: AGE, Unique count: 62
-Column: Age Bin, Unique count: 7
-Column: Gender, Unique count: 2
-Column: Affiliation, Unique count: 52
-Column: DonorCode, Unique count: 7
-Column: Manager, Unique count: 3
-Column: Address Type, Unique count: 2
-Column: City , Unique count: 18
-Column: State, Unique count: 9
-Column: Zip Code, Unique count: 31
-Column: Job Title, Unique count: 8
-Column: Employer, Unique count: 6
-Column: Annual Fund Rating, Unique count: 9
-Column: Major Gift Capacity, Unique count: 7
-Column: LOW_EGC, Unique count: 7
-Column: HIGH_EGC, Unique count: 7
-Column: Inclination, Unique count: 5
-Column: Alumni Engagement, Unique count: 5
-Column: Stage, Unique count: 6
-Column: Last Gift Date, Unique count: 83
-Column: Last Attempt Date, Unique count: 54
-Column: Last Contact Date, Unique count: 58
-Column: Last Contact Type, Unique count: 9
-Column: Phone Count, Unique count: 20
-Column: FTF Visit Count, Unique count: 14
-Column: Gift Count, Unique count: 42
-(300, 27)
-Index(['Name', 'AGE', 'Age Bin', 'Gender', 'Affiliation', 'DonorCode',
-       'Manager', 'Address Type', 'City ', 'State', 'Zip Code', 'Job Title',
-       'Employer', 'Annual Fund Rating', 'Major Gift Capacity', 'LOW_EGC',
-       'HIGH_EGC', 'Inclination', 'Alumni Engagement', 'Stage',
-       'Last Gift Date', 'Last Attempt Date', 'Last Contact Date',
-       'Last Contact Type', 'Phone Count', 'FTF Visit Count', 'Gift Count'],
-      dtype='object')
-Categorical columns: ['Gender', 'Manager', 'Address Type', 'Inclination', 'Alumni Engagement']
-Classifier: LogisticRegression and time(seconds): 0.333
-
-Classifier: LogisticRegression and f1-score 0.67
-classification report
-              precision    recall  f1-score   support
-
-           0       0.68      1.00      0.81        36
-           1       1.00      0.29      0.45        24
-
-    accuracy                           0.72        60
-   macro avg       0.84      0.65      0.63        60
-weighted avg       0.81      0.72      0.67        60
-
-___________________________
-
-Classifier: GaussianNB and time(seconds): 0.01
-
-Classifier: GaussianNB and f1-score 0.92
-classification report
-              precision    recall  f1-score   support
-
-           0       0.92      0.94      0.93        36
-           1       0.91      0.88      0.89        24
-
-    accuracy                           0.92        60
-   macro avg       0.92      0.91      0.91        60
-weighted avg       0.92      0.92      0.92        60
-
-___________________________
-
-Classifier: MultinomialNB and time(seconds): 0.002
-
-Classifier: MultinomialNB and f1-score 0.67
-classification report
-              precision    recall  f1-score   support
-
-           0       0.68      1.00      0.81        36
-           1       1.00      0.29      0.45        24
-
-    accuracy                           0.72        60
-   macro avg       0.84      0.65      0.63        60
-weighted avg       0.81      0.72      0.67        60
-
-___________________________
-
-Classifier: ComplementNB and time(seconds): 0.002
-
-Classifier: ComplementNB and f1-score 0.9
-classification report
-              precision    recall  f1-score   support
-
-           0       0.88      0.97      0.92        36
-           1       0.95      0.79      0.86        24
-
-    accuracy                           0.90        60
-   macro avg       0.91      0.88      0.89        60
-weighted avg       0.90      0.90      0.90        60
-
-___________________________
-
-Classifier: BernoulliNB and time(seconds): 0.004
-
-Classifier: BernoulliNB and f1-score 0.9
-classification report
-              precision    recall  f1-score   support
-
-           0       0.89      0.94      0.92        36
-           1       0.91      0.83      0.87        24
-
-    accuracy                           0.90        60
-   macro avg       0.90      0.89      0.89        60
-weighted avg       0.90      0.90      0.90        60
-
-___________________________
-
-Classifier: DecisionTreeClassifier and time(seconds): 0.011
-
-Classifier: DecisionTreeClassifier and f1-score 0.95
-classification report
-              precision    recall  f1-score   support
-
-           0       0.97      0.94      0.96        36
-           1       0.92      0.96      0.94        24
-
-    accuracy                           0.95        60
-   macro avg       0.95      0.95      0.95        60
-weighted avg       0.95      0.95      0.95        60
-
-___________________________
-
-Classifier: SGDClassifier and time(seconds): 0.01
-
-Classifier: SGDClassifier and f1-score 0.97
-classification report
-              precision    recall  f1-score   support
-
-           0       1.00      0.94      0.97        36
-           1       0.92      1.00      0.96        24
-
-    accuracy                           0.97        60
-   macro avg       0.96      0.97      0.97        60
-weighted avg       0.97      0.97      0.97        60
-
-___________________________
-
-Classifier: PassiveAggressiveClassifier and time(seconds): 0.02
-
-Classifier: PassiveAggressiveClassifier and f1-score 0.92
-classification report
-              precision    recall  f1-score   support
-
-           0       0.90      0.97      0.93        36
-           1       0.95      0.83      0.89        24
-
-    accuracy                           0.92        60
-   macro avg       0.92      0.90      0.91        60
-weighted avg       0.92      0.92      0.92        60
-
-___________________________
-
-Classifier: LinearSVC and time(seconds): 0.011
-
-Classifier: LinearSVC and f1-score 0.88
-classification report
-              precision    recall  f1-score   support
-
-           0       0.85      0.97      0.91        36
-           1       0.95      0.75      0.84        24
-
-    accuracy                           0.88        60
-   macro avg       0.90      0.86      0.87        60
-weighted avg       0.89      0.88      0.88        60
-
-___________________________
-
-Classifier: RandomForestClassifier and time(seconds): 0.017
-
-Classifier: RandomForestClassifier and f1-score 0.83
-classification report
-              precision    recall  f1-score   support
-
-           0       0.81      0.94      0.87        36
-           1       0.89      0.67      0.76        24
-
-    accuracy                           0.83        60
-   macro avg       0.85      0.81      0.82        60
-weighted avg       0.84      0.83      0.83        60
-
-___________________________
-
-0    192
-1    108
-Name: 2020_SGDClassifier, dtype: int64
-0    196
-1    104
-Name: 2020_DecisionTreeClassifier, dtype: int64
-0    193
-1    107
-Name: 2020_GaussianNB, dtype: int64
-0    177
-1    123
-Name: 2020_PassiveAggressiveClassifier, dtype: int64
-1    221
-0     79
+ComplementNB
+[(0.8, 0.549), (0.75, 0.636), (0.7, 0.728), (0.4, 0.775), (0.65, 0.854), (0.45, 0.857), (0.6, 0.901), (0.5, 0.902), (0.55, 0.916)]
+0.55 0.916
+1    272
+0     28
 Name: 2020_ComplementNB, dtype: int64
-all columns: Index(['ID', 'Name', 'AGE', 'Age Bin', 'Gender', 'Affiliation', 'DonorCode',
-       'Manager', 'Major', 'Address Type', 'City ', 'State', 'Zip Code',
-       'Job Title', 'Employer', 'Annual Fund Rating', 'Major Gift Capacity',
-       'LOW_EGC', 'HIGH_EGC', 'Inclination', 'Alumni Engagement', 'Stage',
-       'Last Gift Date', 'Last Gift Amount', 'FY 17 Giving', 'FY 16 Giving',
-       'FY 15 Giving', 'FY 14 Giving', 'FY 13 Giving', 'Lifetime Giving',
-       'Last Attempt Date', 'Last Contact Date', 'Last Contact Type',
-       'Phone Count', 'FTF Visit Count', 'Gift Count'],
-      dtype='object')
-(300, 36)
-donation columns: ['Last Gift Amount', 'FY 17 Giving', 'FY 16 Giving', 'FY 15 Giving', 'FY 14 Giving', 'FY 13 Giving']
-0    197
-1    103
-Name: target, dtype: int64
-30
-all columns: Index(['ID', 'Name', 'AGE', 'Age Bin', 'Gender', 'Affiliation', 'DonorCode',
-       'Manager', 'Major', 'Address Type', 'City ', 'State', 'Zip Code',
-       'Job Title', 'Employer', 'Annual Fund Rating', 'Major Gift Capacity',
-       'LOW_EGC', 'HIGH_EGC', 'Inclination', 'Alumni Engagement', 'Stage',
-       'Last Gift Date', 'Last Gift Amount', 'FY 17 Giving', 'FY 16 Giving',
-       'FY 15 Giving', 'FY 14 Giving', 'FY 13 Giving', 'Lifetime Giving',
-       'Last Attempt Date', 'Last Contact Date', 'Last Contact Type',
-       'Phone Count', 'FTF Visit Count', 'Gift Count'],
-      dtype='object')
-(300, 36)
-donation columns: ['Last Gift Amount', 'FY 17 Giving', 'FY 16 Giving', 'FY 15 Giving', 'FY 14 Giving', 'FY 13 Giving']
-0    197
-1    103
-Name: target, dtype: int64
-30
+BernoulliNB
+[(0.8, 0.888), (0.45, 0.892), (0.55, 0.894), (0.6, 0.894), (0.65, 0.894), (0.7, 0.895), (0.75, 0.896), (0.4, 0.897), (0.5, 0.898)]
+0.5 0.898
+0    189
+1    111
+Name: 2020_BernoulliNB, dtype: int64
 Column: ID, Null count: 0
 Column: Name, Null count: 0
 Column: AGE, Null count: 0
@@ -1056,8 +1024,6 @@ Column: Last Contact Type, Null count: 18
 Column: Phone Count, Null count: 27
 Column: FTF Visit Count, Null count: 129
 Column: Gift Count, Null count: 24
-_____________
-
 Column: ID, Unique count: 300
 Column: Name, Unique count: 74
 Column: AGE, Unique count: 62
@@ -1086,528 +1052,36 @@ Column: Last Contact Type, Unique count: 9
 Column: Phone Count, Unique count: 20
 Column: FTF Visit Count, Unique count: 14
 Column: Gift Count, Unique count: 42
-(300, 27)
-Index(['Name', 'AGE', 'Age Bin', 'Gender', 'Affiliation', 'DonorCode',
-       'Manager', 'Address Type', 'City ', 'State', 'Zip Code', 'Job Title',
-       'Employer', 'Annual Fund Rating', 'Major Gift Capacity', 'LOW_EGC',
-       'HIGH_EGC', 'Inclination', 'Alumni Engagement', 'Stage',
-       'Last Gift Date', 'Last Attempt Date', 'Last Contact Date',
-       'Last Contact Type', 'Phone Count', 'FTF Visit Count', 'Gift Count'],
-      dtype='object')
-Categorical columns: ['Gender', 'Manager', 'Address Type', 'Inclination', 'Alumni Engagement']
-all columns: Index(['ID', 'Name', 'AGE', 'Age Bin', 'Gender', 'Affiliation', 'DonorCode',
-       'Manager', 'Major', 'Address Type', 'City ', 'State', 'Zip Code',
-       'Job Title', 'Employer', 'Annual Fund Rating', 'Major Gift Capacity',
-       'LOW_EGC', 'HIGH_EGC', 'Inclination', 'Alumni Engagement', 'Stage',
-       'Last Gift Date', 'Last Gift Amount', 'FY 17 Giving', 'FY 16 Giving',
-       'FY 15 Giving', 'FY 14 Giving', 'FY 13 Giving', 'Lifetime Giving',
-       'Last Attempt Date', 'Last Contact Date', 'Last Contact Type',
-       'Phone Count', 'FTF Visit Count', 'Gift Count'],
-      dtype='object')
-(300, 36)
-donation columns: ['Last Gift Amount', 'FY 17 Giving', 'FY 16 Giving', 'FY 15 Giving', 'FY 14 Giving', 'FY 13 Giving']
-0    197
-1    103
-Name: target, dtype: int64
-30
-Column: ID, Null count: 0
-Column: Name, Null count: 0
-Column: AGE, Null count: 0
-Column: Age Bin, Null count: 0
-Column: Gender, Null count: 0
-Column: Affiliation, Null count: 35
-Column: DonorCode, Null count: 0
-Column: Manager, Null count: 0
-Column: Major, Null count: 227
-Column: Address Type, Null count: 0
-Column: City , Null count: 0
-Column: State, Null count: 0
-Column: Zip Code, Null count: 0
-Column: Job Title, Null count: 0
-Column: Employer, Null count: 0
-Column: Annual Fund Rating, Null count: 0
-Column: Major Gift Capacity, Null count: 24
-Column: LOW_EGC, Null count: 24
-Column: HIGH_EGC, Null count: 24
-Column: Inclination, Null count: 3
-Column: Alumni Engagement, Null count: 51
-Column: Stage, Null count: 0
-Column: Last Gift Date, Null count: 29
-Column: Lifetime Giving, Null count: 174
-Column: Last Attempt Date, Null count: 90
-Column: Last Contact Date, Null count: 18
-Column: Last Contact Type, Null count: 18
-Column: Phone Count, Null count: 27
-Column: FTF Visit Count, Null count: 129
-Column: Gift Count, Null count: 24
-_____________
-
-Column: ID, Unique count: 300
-Column: Name, Unique count: 74
-Column: AGE, Unique count: 62
-Column: Age Bin, Unique count: 7
-Column: Gender, Unique count: 2
-Column: Affiliation, Unique count: 52
-Column: DonorCode, Unique count: 7
-Column: Manager, Unique count: 3
-Column: Address Type, Unique count: 2
-Column: City , Unique count: 18
-Column: State, Unique count: 9
-Column: Zip Code, Unique count: 31
-Column: Job Title, Unique count: 8
-Column: Employer, Unique count: 6
-Column: Annual Fund Rating, Unique count: 9
-Column: Major Gift Capacity, Unique count: 7
-Column: LOW_EGC, Unique count: 7
-Column: HIGH_EGC, Unique count: 7
-Column: Inclination, Unique count: 5
-Column: Alumni Engagement, Unique count: 5
-Column: Stage, Unique count: 6
-Column: Last Gift Date, Unique count: 83
-Column: Last Attempt Date, Unique count: 54
-Column: Last Contact Date, Unique count: 58
-Column: Last Contact Type, Unique count: 9
-Column: Phone Count, Unique count: 20
-Column: FTF Visit Count, Unique count: 14
-Column: Gift Count, Unique count: 42
-(300, 27)
-Index(['Name', 'AGE', 'Age Bin', 'Gender', 'Affiliation', 'DonorCode',
-       'Manager', 'Address Type', 'City ', 'State', 'Zip Code', 'Job Title',
-       'Employer', 'Annual Fund Rating', 'Major Gift Capacity', 'LOW_EGC',
-       'HIGH_EGC', 'Inclination', 'Alumni Engagement', 'Stage',
-       'Last Gift Date', 'Last Attempt Date', 'Last Contact Date',
-       'Last Contact Type', 'Phone Count', 'FTF Visit Count', 'Gift Count'],
-      dtype='object')
-Categorical columns: ['Gender', 'Manager', 'Address Type', 'Inclination', 'Alumni Engagement']
-Classifier: LogisticRegression and time(seconds): 0.238
-
-Classifier: LogisticRegression and f1-score 0.67
-classification report
-              precision    recall  f1-score   support
-
-           0       0.68      1.00      0.81        36
-           1       1.00      0.29      0.45        24
-
-    accuracy                           0.72        60
-   macro avg       0.84      0.65      0.63        60
-weighted avg       0.81      0.72      0.67        60
-
-___________________________
-
-Classifier: GaussianNB and time(seconds): 0.007
-
-Classifier: GaussianNB and f1-score 0.92
-classification report
-              precision    recall  f1-score   support
-
-           0       0.92      0.94      0.93        36
-           1       0.91      0.88      0.89        24
-
-    accuracy                           0.92        60
-   macro avg       0.92      0.91      0.91        60
-weighted avg       0.92      0.92      0.92        60
-
-___________________________
-
-Classifier: MultinomialNB and time(seconds): 0.002
-
-Classifier: MultinomialNB and f1-score 0.67
-classification report
-              precision    recall  f1-score   support
-
-           0       0.68      1.00      0.81        36
-           1       1.00      0.29      0.45        24
-
-    accuracy                           0.72        60
-   macro avg       0.84      0.65      0.63        60
-weighted avg       0.81      0.72      0.67        60
-
-___________________________
-
-Classifier: ComplementNB and time(seconds): 0.008
-
-Classifier: ComplementNB and f1-score 0.9
-classification report
-              precision    recall  f1-score   support
-
-           0       0.88      0.97      0.92        36
-           1       0.95      0.79      0.86        24
-
-    accuracy                           0.90        60
-   macro avg       0.91      0.88      0.89        60
-weighted avg       0.90      0.90      0.90        60
-
-___________________________
-
-Classifier: BernoulliNB and time(seconds): 0.004
-
-Classifier: BernoulliNB and f1-score 0.9
-classification report
-              precision    recall  f1-score   support
-
-           0       0.89      0.94      0.92        36
-           1       0.91      0.83      0.87        24
-
-    accuracy                           0.90        60
-   macro avg       0.90      0.89      0.89        60
-weighted avg       0.90      0.90      0.90        60
-
-___________________________
-
-Classifier: DecisionTreeClassifier and time(seconds): 0.015
-
-Classifier: DecisionTreeClassifier and f1-score 0.95
-classification report
-              precision    recall  f1-score   support
-
-           0       0.97      0.94      0.96        36
-           1       0.92      0.96      0.94        24
-
-    accuracy                           0.95        60
-   macro avg       0.95      0.95      0.95        60
-weighted avg       0.95      0.95      0.95        60
-
-___________________________
-
-Classifier: SGDClassifier and time(seconds): 0.005
-
-Classifier: SGDClassifier and f1-score 0.93
-classification report
-              precision    recall  f1-score   support
-
-           0       0.92      0.97      0.95        36
-           1       0.95      0.88      0.91        24
-
-    accuracy                           0.93        60
-   macro avg       0.94      0.92      0.93        60
-weighted avg       0.93      0.93      0.93        60
-
-___________________________
-
-Classifier: PassiveAggressiveClassifier and time(seconds): 0.027
-
-Classifier: PassiveAggressiveClassifier and f1-score 0.92
-classification report
-              precision    recall  f1-score   support
-
-           0       0.90      0.97      0.93        36
-           1       0.95      0.83      0.89        24
-
-    accuracy                           0.92        60
-   macro avg       0.92      0.90      0.91        60
-weighted avg       0.92      0.92      0.92        60
-
-___________________________
-
-Classifier: LinearSVC and time(seconds): 0.016
-
-Classifier: LinearSVC and f1-score 0.88
-classification report
-              precision    recall  f1-score   support
-
-           0       0.85      0.97      0.91        36
-           1       0.95      0.75      0.84        24
-
-    accuracy                           0.88        60
-   macro avg       0.90      0.86      0.87        60
-weighted avg       0.89      0.88      0.88        60
-
-___________________________
-
-Classifier: RandomForestClassifier and time(seconds): 0.018
-
-Classifier: RandomForestClassifier and f1-score 0.79
-classification report
-              precision    recall  f1-score   support
-
-           0       0.77      0.94      0.85        36
-           1       0.88      0.58      0.70        24
-
-    accuracy                           0.80        60
-   macro avg       0.82      0.76      0.78        60
-weighted avg       0.81      0.80      0.79        60
-
-___________________________
-
-0    196
-1    104
-Name: 2020_DecisionTreeClassifier, dtype: int64
-0    195
-1    105
-Name: 2020_SGDClassifier, dtype: int64
-0    193
-1    107
-Name: 2020_GaussianNB, dtype: int64
-0    179
-1    121
-Name: 2020_PassiveAggressiveClassifier, dtype: int64
-1    221
-0     79
-Name: 2020_ComplementNB, dtype: int64
-all columns: Index(['ID', 'Name', 'AGE', 'Age Bin', 'Gender', 'Affiliation', 'DonorCode',
-       'Manager', 'Major', 'Address Type', 'City ', 'State', 'Zip Code',
-       'Job Title', 'Employer', 'Annual Fund Rating', 'Major Gift Capacity',
-       'LOW_EGC', 'HIGH_EGC', 'Inclination', 'Alumni Engagement', 'Stage',
-       'Last Gift Date', 'Last Gift Amount', 'FY 17 Giving', 'FY 16 Giving',
-       'FY 15 Giving', 'FY 14 Giving', 'FY 13 Giving', 'Lifetime Giving',
-       'Last Attempt Date', 'Last Contact Date', 'Last Contact Type',
-       'Phone Count', 'FTF Visit Count', 'Gift Count'],
-      dtype='object')
-(300, 36)
-donation columns: ['Last Gift Amount', 'FY 17 Giving', 'FY 16 Giving', 'FY 15 Giving', 'FY 14 Giving', 'FY 13 Giving']
-0    197
-1    103
-Name: target, dtype: int64
-30
-Column: ID, Null count: 0
-Column: Name, Null count: 0
-Column: AGE, Null count: 0
-Column: Age Bin, Null count: 0
-Column: Gender, Null count: 0
-Column: Affiliation, Null count: 35
-Column: DonorCode, Null count: 0
-Column: Manager, Null count: 0
-Column: Major, Null count: 227
-Column: Address Type, Null count: 0
-Column: City , Null count: 0
-Column: State, Null count: 0
-Column: Zip Code, Null count: 0
-Column: Job Title, Null count: 0
-Column: Employer, Null count: 0
-Column: Annual Fund Rating, Null count: 0
-Column: Major Gift Capacity, Null count: 24
-Column: LOW_EGC, Null count: 24
-Column: HIGH_EGC, Null count: 24
-Column: Inclination, Null count: 3
-Column: Alumni Engagement, Null count: 51
-Column: Stage, Null count: 0
-Column: Last Gift Date, Null count: 29
-Column: Lifetime Giving, Null count: 174
-Column: Last Attempt Date, Null count: 90
-Column: Last Contact Date, Null count: 18
-Column: Last Contact Type, Null count: 18
-Column: Phone Count, Null count: 27
-Column: FTF Visit Count, Null count: 129
-Column: Gift Count, Null count: 24
-_____________
-
-Column: ID, Unique count: 300
-Column: Name, Unique count: 74
-Column: AGE, Unique count: 62
-Column: Age Bin, Unique count: 7
-Column: Gender, Unique count: 2
-Column: Affiliation, Unique count: 52
-Column: DonorCode, Unique count: 7
-Column: Manager, Unique count: 3
-Column: Address Type, Unique count: 2
-Column: City , Unique count: 18
-Column: State, Unique count: 9
-Column: Zip Code, Unique count: 31
-Column: Job Title, Unique count: 8
-Column: Employer, Unique count: 6
-Column: Annual Fund Rating, Unique count: 9
-Column: Major Gift Capacity, Unique count: 7
-Column: LOW_EGC, Unique count: 7
-Column: HIGH_EGC, Unique count: 7
-Column: Inclination, Unique count: 5
-Column: Alumni Engagement, Unique count: 5
-Column: Stage, Unique count: 6
-Column: Last Gift Date, Unique count: 83
-Column: Last Attempt Date, Unique count: 54
-Column: Last Contact Date, Unique count: 58
-Column: Last Contact Type, Unique count: 9
-Column: Phone Count, Unique count: 20
-Column: FTF Visit Count, Unique count: 14
-Column: Gift Count, Unique count: 42
-(300, 27)
-Index(['Name', 'AGE', 'Age Bin', 'Gender', 'Affiliation', 'DonorCode',
-       'Manager', 'Address Type', 'City ', 'State', 'Zip Code', 'Job Title',
-       'Employer', 'Annual Fund Rating', 'Major Gift Capacity', 'LOW_EGC',
-       'HIGH_EGC', 'Inclination', 'Alumni Engagement', 'Stage',
-       'Last Gift Date', 'Last Attempt Date', 'Last Contact Date',
-       'Last Contact Type', 'Phone Count', 'FTF Visit Count', 'Gift Count'],
-      dtype='object')
-Categorical columns: ['Gender', 'Manager', 'Address Type', 'Inclination', 'Alumni Engagement']
-Classifier: LogisticRegression and time(seconds): 0.681
-
-Classifier: LogisticRegression and f1-score 0.67
-classification report
-              precision    recall  f1-score   support
-
-           0       0.68      1.00      0.81        36
-           1       1.00      0.29      0.45        24
-
-    accuracy                           0.72        60
-   macro avg       0.84      0.65      0.63        60
-weighted avg       0.81      0.72      0.67        60
-
-___________________________
-
-Classifier: GaussianNB and time(seconds): 0.061
-
-Classifier: GaussianNB and f1-score 0.92
-classification report
-              precision    recall  f1-score   support
-
-           0       0.92      0.94      0.93        36
-           1       0.91      0.88      0.89        24
-
-    accuracy                           0.92        60
-   macro avg       0.92      0.91      0.91        60
-weighted avg       0.92      0.92      0.92        60
-
-___________________________
-
-Classifier: MultinomialNB and time(seconds): 0.005
-
-Classifier: MultinomialNB and f1-score 0.67
-classification report
-              precision    recall  f1-score   support
-
-           0       0.68      1.00      0.81        36
-           1       1.00      0.29      0.45        24
-
-    accuracy                           0.72        60
-   macro avg       0.84      0.65      0.63        60
-weighted avg       0.81      0.72      0.67        60
-
-___________________________
-
-Classifier: ComplementNB and time(seconds): 0.003
-
-Classifier: ComplementNB and f1-score 0.9
-classification report
-              precision    recall  f1-score   support
-
-           0       0.88      0.97      0.92        36
-           1       0.95      0.79      0.86        24
-
-    accuracy                           0.90        60
-   macro avg       0.91      0.88      0.89        60
-weighted avg       0.90      0.90      0.90        60
-
-___________________________
-
-Classifier: BernoulliNB and time(seconds): 0.006
-
-Classifier: BernoulliNB and f1-score 0.9
-classification report
-              precision    recall  f1-score   support
-
-           0       0.89      0.94      0.92        36
-           1       0.91      0.83      0.87        24
-
-    accuracy                           0.90        60
-   macro avg       0.90      0.89      0.89        60
-weighted avg       0.90      0.90      0.90        60
-
-___________________________
-
-Classifier: DecisionTreeClassifier and time(seconds): 0.018
-
-Classifier: DecisionTreeClassifier and f1-score 0.95
-classification report
-              precision    recall  f1-score   support
-
-           0       0.95      0.97      0.96        36
-           1       0.96      0.92      0.94        24
-
-    accuracy                           0.95        60
-   macro avg       0.95      0.94      0.95        60
-weighted avg       0.95      0.95      0.95        60
-
-___________________________
-
-Classifier: SGDClassifier and time(seconds): 0.009
-
-Classifier: SGDClassifier and f1-score 0.92
-classification report
-              precision    recall  f1-score   support
-
-           0       0.92      0.94      0.93        36
-           1       0.91      0.88      0.89        24
-
-    accuracy                           0.92        60
-   macro avg       0.92      0.91      0.91        60
-weighted avg       0.92      0.92      0.92        60
-
-___________________________
-
-Classifier: PassiveAggressiveClassifier and time(seconds): 0.03
-
-Classifier: PassiveAggressiveClassifier and f1-score 0.88
-classification report
-              precision    recall  f1-score   support
-
-           0       0.85      0.97      0.91        36
-           1       0.95      0.75      0.84        24
-
-    accuracy                           0.88        60
-   macro avg       0.90      0.86      0.87        60
-weighted avg       0.89      0.88      0.88        60
-
-___________________________
-
-Classifier: LinearSVC and time(seconds): 0.017
-
-Classifier: LinearSVC and f1-score 0.88
-classification report
-              precision    recall  f1-score   support
-
-           0       0.85      0.97      0.91        36
-           1       0.95      0.75      0.84        24
-
-    accuracy                           0.88        60
-   macro avg       0.90      0.86      0.87        60
-weighted avg       0.89      0.88      0.88        60
-
-___________________________
-
-Classifier: RandomForestClassifier and time(seconds): 0.039
-
-Classifier: RandomForestClassifier and f1-score 0.82
-classification report
-              precision    recall  f1-score   support
-
-           0       0.80      0.97      0.88        36
-           1       0.94      0.62      0.75        24
-
-    accuracy                           0.83        60
-   macro avg       0.87      0.80      0.81        60
-weighted avg       0.85      0.83      0.82        60
-
-___________________________
-
+DecisionTreeClassifier
+[(0.4, 0.985), (0.45, 0.985), (0.5, 0.985), (0.55, 0.985), (0.6, 0.985), (0.65, 0.985), (0.7, 0.985), (0.75, 0.985), (0.8, 0.985)]
+0.8 0.985
 0    198
 1    102
 Name: 2020_DecisionTreeClassifier, dtype: int64
+GaussianNB
+[(0.4, 0.952), (0.45, 0.952), (0.5, 0.952), (0.55, 0.952), (0.6, 0.952), (0.65, 0.952), (0.7, 0.952), (0.75, 0.952), (0.8, 0.952)]
+0.8 0.952
 0    193
 1    107
 Name: 2020_GaussianNB, dtype: int64
-0    194
-1    106
-Name: 2020_SGDClassifier, dtype: int64
-1    221
-0     79
+ComplementNB
+[(0.8, 0.549), (0.75, 0.636), (0.7, 0.728), (0.4, 0.775), (0.65, 0.854), (0.45, 0.857), (0.6, 0.901), (0.5, 0.902), (0.55, 0.916)]
+0.55 0.916
+1    272
+0     28
 Name: 2020_ComplementNB, dtype: int64
-0    191
-1    109
+BernoulliNB
+[(0.8, 0.888), (0.45, 0.892), (0.55, 0.894), (0.6, 0.894), (0.65, 0.894), (0.7, 0.895), (0.75, 0.896), (0.4, 0.897), (0.5, 0.898)]
+0.5 0.898
+0    189
+1    111
 Name: 2020_BernoulliNB, dtype: int64
-all columns: Index(['ID', 'Name', 'AGE', 'Age Bin', 'Gender', 'Affiliation', 'DonorCode',
-       'Manager', 'Major', 'Address Type', 'City ', 'State', 'Zip Code',
-       'Job Title', 'Employer', 'Annual Fund Rating', 'Major Gift Capacity',
-       'LOW_EGC', 'HIGH_EGC', 'Inclination', 'Alumni Engagement', 'Stage',
-       'Last Gift Date', 'Last Gift Amount', 'FY 17 Giving', 'FY 16 Giving',
-       'FY 15 Giving', 'FY 14 Giving', 'FY 13 Giving', 'Lifetime Giving',
-       'Last Attempt Date', 'Last Contact Date', 'Last Contact Type',
-       'Phone Count', 'FTF Visit Count', 'Gift Count'],
-      dtype='object')
-(300, 36)
-donation columns: ['Last Gift Amount', 'FY 17 Giving', 'FY 16 Giving', 'FY 15 Giving', 'FY 14 Giving', 'FY 13 Giving']
-0    197
-1    103
-Name: target, dtype: int64
-30
+PassiveAggressiveClassifier
+[(0.8, 0.873), (0.75, 0.932), (0.4, 0.944), (0.7, 0.958), (0.45, 0.96), (0.5, 0.97), (0.6, 0.976), (0.55, 0.98), (0.65, 0.981)]
+0.65 0.981
+0    167
+1    133
+Name: 2020_PassiveAggressiveClassifier, dtype: int64
 Column: ID, Null count: 0
 Column: Name, Null count: 0
 Column: AGE, Null count: 0
@@ -1638,8 +1112,6 @@ Column: Last Contact Type, Null count: 18
 Column: Phone Count, Null count: 27
 Column: FTF Visit Count, Null count: 129
 Column: Gift Count, Null count: 24
-_____________
-
 Column: ID, Unique count: 300
 Column: Name, Unique count: 74
 Column: AGE, Unique count: 62
@@ -1668,468 +1140,36 @@ Column: Last Contact Type, Unique count: 9
 Column: Phone Count, Unique count: 20
 Column: FTF Visit Count, Unique count: 14
 Column: Gift Count, Unique count: 42
-(300, 27)
-Index(['Name', 'AGE', 'Age Bin', 'Gender', 'Affiliation', 'DonorCode',
-       'Manager', 'Address Type', 'City ', 'State', 'Zip Code', 'Job Title',
-       'Employer', 'Annual Fund Rating', 'Major Gift Capacity', 'LOW_EGC',
-       'HIGH_EGC', 'Inclination', 'Alumni Engagement', 'Stage',
-       'Last Gift Date', 'Last Attempt Date', 'Last Contact Date',
-       'Last Contact Type', 'Phone Count', 'FTF Visit Count', 'Gift Count'],
-      dtype='object')
-Categorical columns: ['Gender', 'Manager', 'Address Type', 'Inclination', 'Alumni Engagement']
-Classifier: LogisticRegression and time(seconds): 0.331
-
-Classifier: LogisticRegression and f1-score 0.67
-classification report
-              precision    recall  f1-score   support
-
-           0       0.68      1.00      0.81        36
-           1       1.00      0.29      0.45        24
-
-    accuracy                           0.72        60
-   macro avg       0.84      0.65      0.63        60
-weighted avg       0.81      0.72      0.67        60
-
-___________________________
-
-Classifier: GaussianNB and time(seconds): 0.008
-
-Classifier: GaussianNB and f1-score 0.92
-classification report
-              precision    recall  f1-score   support
-
-           0       0.92      0.94      0.93        36
-           1       0.91      0.88      0.89        24
-
-    accuracy                           0.92        60
-   macro avg       0.92      0.91      0.91        60
-weighted avg       0.92      0.92      0.92        60
-
-___________________________
-
-Classifier: MultinomialNB and time(seconds): 0.002
-
-Classifier: MultinomialNB and f1-score 0.67
-classification report
-              precision    recall  f1-score   support
-
-           0       0.68      1.00      0.81        36
-           1       1.00      0.29      0.45        24
-
-    accuracy                           0.72        60
-   macro avg       0.84      0.65      0.63        60
-weighted avg       0.81      0.72      0.67        60
-
-___________________________
-
-Classifier: ComplementNB and time(seconds): 0.002
-
-Classifier: ComplementNB and f1-score 0.9
-classification report
-              precision    recall  f1-score   support
-
-           0       0.88      0.97      0.92        36
-           1       0.95      0.79      0.86        24
-
-    accuracy                           0.90        60
-   macro avg       0.91      0.88      0.89        60
-weighted avg       0.90      0.90      0.90        60
-
-___________________________
-
-Classifier: BernoulliNB and time(seconds): 0.005
-
-Classifier: BernoulliNB and f1-score 0.9
-classification report
-              precision    recall  f1-score   support
-
-           0       0.89      0.94      0.92        36
-           1       0.91      0.83      0.87        24
-
-    accuracy                           0.90        60
-   macro avg       0.90      0.89      0.89        60
-weighted avg       0.90      0.90      0.90        60
-
-___________________________
-
-Classifier: DecisionTreeClassifier and time(seconds): 0.012
-
-Classifier: DecisionTreeClassifier and f1-score 0.98
-classification report
-              precision    recall  f1-score   support
-
-           0       1.00      0.97      0.99        36
-           1       0.96      1.00      0.98        24
-
-    accuracy                           0.98        60
-   macro avg       0.98      0.99      0.98        60
-weighted avg       0.98      0.98      0.98        60
-
-___________________________
-
-Classifier: SGDClassifier and time(seconds): 0.004
-
-Classifier: SGDClassifier and f1-score 0.95
-classification report
-              precision    recall  f1-score   support
-
-           0       0.92      1.00      0.96        36
-           1       1.00      0.88      0.93        24
-
-    accuracy                           0.95        60
-   macro avg       0.96      0.94      0.95        60
-weighted avg       0.95      0.95      0.95        60
-
-___________________________
-
-Classifier: PassiveAggressiveClassifier and time(seconds): 0.02
-
-Classifier: PassiveAggressiveClassifier and f1-score 0.88
-classification report
-              precision    recall  f1-score   support
-
-           0       0.85      0.97      0.91        36
-           1       0.95      0.75      0.84        24
-
-    accuracy                           0.88        60
-   macro avg       0.90      0.86      0.87        60
-weighted avg       0.89      0.88      0.88        60
-
-___________________________
-
-Classifier: LinearSVC and time(seconds): 0.011
-
-Classifier: LinearSVC and f1-score 0.88
-classification report
-              precision    recall  f1-score   support
-
-           0       0.85      0.97      0.91        36
-           1       0.95      0.75      0.84        24
-
-    accuracy                           0.88        60
-   macro avg       0.90      0.86      0.87        60
-weighted avg       0.89      0.88      0.88        60
-
-___________________________
-
-Classifier: RandomForestClassifier and time(seconds): 0.019
-
-Classifier: RandomForestClassifier and f1-score 0.71
-classification report
-              precision    recall  f1-score   support
-
-           0       0.71      0.94      0.81        36
-           1       0.83      0.42      0.56        24
-
-    accuracy                           0.73        60
-   macro avg       0.77      0.68      0.68        60
-weighted avg       0.76      0.73      0.71        60
-
-___________________________
-
-0    196
-1    104
+DecisionTreeClassifier
+[(0.4, 0.985), (0.45, 0.985), (0.5, 0.985), (0.55, 0.985), (0.6, 0.985), (0.65, 0.985), (0.7, 0.985), (0.75, 0.985), (0.8, 0.985)]
+0.8 0.985
+0    198
+1    102
 Name: 2020_DecisionTreeClassifier, dtype: int64
-0    194
-1    106
-Name: 2020_SGDClassifier, dtype: int64
+GaussianNB
+[(0.4, 0.952), (0.45, 0.952), (0.5, 0.952), (0.55, 0.952), (0.6, 0.952), (0.65, 0.952), (0.7, 0.952), (0.75, 0.952), (0.8, 0.952)]
+0.8 0.952
 0    193
 1    107
 Name: 2020_GaussianNB, dtype: int64
-1    221
-0     79
+ComplementNB
+[(0.8, 0.549), (0.75, 0.636), (0.7, 0.728), (0.4, 0.775), (0.65, 0.854), (0.45, 0.857), (0.6, 0.901), (0.5, 0.902), (0.55, 0.916)]
+0.55 0.916
+1    272
+0     28
 Name: 2020_ComplementNB, dtype: int64
-0    191
-1    109
+BernoulliNB
+[(0.8, 0.888), (0.45, 0.892), (0.55, 0.894), (0.6, 0.894), (0.65, 0.894), (0.7, 0.895), (0.75, 0.896), (0.4, 0.897), (0.5, 0.898)]
+0.5 0.898
+0    189
+1    111
 Name: 2020_BernoulliNB, dtype: int64
-all columns: Index(['ID', 'Name', 'AGE', 'Age Bin', 'Gender', 'Affiliation', 'DonorCode',
-       'Manager', 'Major', 'Address Type', 'City ', 'State', 'Zip Code',
-       'Job Title', 'Employer', 'Annual Fund Rating', 'Major Gift Capacity',
-       'LOW_EGC', 'HIGH_EGC', 'Inclination', 'Alumni Engagement', 'Stage',
-       'Last Gift Date', 'Last Gift Amount', 'FY 17 Giving', 'FY 16 Giving',
-       'FY 15 Giving', 'FY 14 Giving', 'FY 13 Giving', 'Lifetime Giving',
-       'Last Attempt Date', 'Last Contact Date', 'Last Contact Type',
-       'Phone Count', 'FTF Visit Count', 'Gift Count'],
-      dtype='object')
-(300, 36)
-donation columns: ['Last Gift Amount', 'FY 17 Giving', 'FY 16 Giving', 'FY 15 Giving', 'FY 14 Giving', 'FY 13 Giving']
-0    197
-1    103
-Name: target, dtype: int64
-30
-Column: ID, Null count: 0
-Column: Name, Null count: 0
-Column: AGE, Null count: 0
-Column: Age Bin, Null count: 0
-Column: Gender, Null count: 0
-Column: Affiliation, Null count: 35
-Column: DonorCode, Null count: 0
-Column: Manager, Null count: 0
-Column: Major, Null count: 227
-Column: Address Type, Null count: 0
-Column: City , Null count: 0
-Column: State, Null count: 0
-Column: Zip Code, Null count: 0
-Column: Job Title, Null count: 0
-Column: Employer, Null count: 0
-Column: Annual Fund Rating, Null count: 0
-Column: Major Gift Capacity, Null count: 24
-Column: LOW_EGC, Null count: 24
-Column: HIGH_EGC, Null count: 24
-Column: Inclination, Null count: 3
-Column: Alumni Engagement, Null count: 51
-Column: Stage, Null count: 0
-Column: Last Gift Date, Null count: 29
-Column: Lifetime Giving, Null count: 174
-Column: Last Attempt Date, Null count: 90
-Column: Last Contact Date, Null count: 18
-Column: Last Contact Type, Null count: 18
-Column: Phone Count, Null count: 27
-Column: FTF Visit Count, Null count: 129
-Column: Gift Count, Null count: 24
-_____________
-
-Column: ID, Unique count: 300
-Column: Name, Unique count: 74
-Column: AGE, Unique count: 62
-Column: Age Bin, Unique count: 7
-Column: Gender, Unique count: 2
-Column: Affiliation, Unique count: 52
-Column: DonorCode, Unique count: 7
-Column: Manager, Unique count: 3
-Column: Address Type, Unique count: 2
-Column: City , Unique count: 18
-Column: State, Unique count: 9
-Column: Zip Code, Unique count: 31
-Column: Job Title, Unique count: 8
-Column: Employer, Unique count: 6
-Column: Annual Fund Rating, Unique count: 9
-Column: Major Gift Capacity, Unique count: 7
-Column: LOW_EGC, Unique count: 7
-Column: HIGH_EGC, Unique count: 7
-Column: Inclination, Unique count: 5
-Column: Alumni Engagement, Unique count: 5
-Column: Stage, Unique count: 6
-Column: Last Gift Date, Unique count: 83
-Column: Last Attempt Date, Unique count: 54
-Column: Last Contact Date, Unique count: 58
-Column: Last Contact Type, Unique count: 9
-Column: Phone Count, Unique count: 20
-Column: FTF Visit Count, Unique count: 14
-Column: Gift Count, Unique count: 42
-(300, 27)
-Index(['Name', 'AGE', 'Age Bin', 'Gender', 'Affiliation', 'DonorCode',
-       'Manager', 'Address Type', 'City ', 'State', 'Zip Code', 'Job Title',
-       'Employer', 'Annual Fund Rating', 'Major Gift Capacity', 'LOW_EGC',
-       'HIGH_EGC', 'Inclination', 'Alumni Engagement', 'Stage',
-       'Last Gift Date', 'Last Attempt Date', 'Last Contact Date',
-       'Last Contact Type', 'Phone Count', 'FTF Visit Count', 'Gift Count'],
-      dtype='object')
-Categorical columns: ['Gender', 'Manager', 'Address Type', 'Inclination', 'Alumni Engagement']
-Classifier: LogisticRegression and time(seconds): 0.266
-
-Classifier: LogisticRegression and f1-score 0.67
-classification report
-___________________________
-
-Classifier: GaussianNB and time(seconds): 0.007
-
-Classifier: GaussianNB and f1-score 0.92
-classification report
-___________________________
-
-Classifier: MultinomialNB and time(seconds): 0.002
-
-Classifier: MultinomialNB and f1-score 0.67
-classification report
-___________________________
-
-Classifier: ComplementNB and time(seconds): 0.002
-
-Classifier: ComplementNB and f1-score 0.9
-classification report
-___________________________
-
-Classifier: BernoulliNB and time(seconds): 0.005
-
-Classifier: BernoulliNB and f1-score 0.9
-classification report
-___________________________
-
-Classifier: DecisionTreeClassifier and time(seconds): 0.025
-
-Classifier: DecisionTreeClassifier and f1-score 0.95
-classification report
-___________________________
-
-Classifier: SGDClassifier and time(seconds): 0.012
-
-Classifier: SGDClassifier and f1-score 0.95
-classification report
-___________________________
-
-Classifier: PassiveAggressiveClassifier and time(seconds): 0.031
-
-Classifier: PassiveAggressiveClassifier and f1-score 0.88
-classification report
-___________________________
-
-Classifier: LinearSVC and time(seconds): 0.026
-
-Classifier: LinearSVC and f1-score 0.88
-classification report
-___________________________
-
-Classifier: RandomForestClassifier and time(seconds): 0.032
-
-Classifier: RandomForestClassifier and f1-score 0.81
-classification report
-___________________________
-
-all columns: Index(['ID', 'Name', 'AGE', 'Age Bin', 'Gender', 'Affiliation', 'DonorCode',
-       'Manager', 'Major', 'Address Type', 'City ', 'State', 'Zip Code',
-       'Job Title', 'Employer', 'Annual Fund Rating', 'Major Gift Capacity',
-       'LOW_EGC', 'HIGH_EGC', 'Inclination', 'Alumni Engagement', 'Stage',
-       'Last Gift Date', 'Last Gift Amount', 'FY 17 Giving', 'FY 16 Giving',
-       'FY 15 Giving', 'FY 14 Giving', 'FY 13 Giving', 'Lifetime Giving',
-       'Last Attempt Date', 'Last Contact Date', 'Last Contact Type',
-       'Phone Count', 'FTF Visit Count', 'Gift Count'],
-      dtype='object')
-(300, 36)
-donation columns: ['Last Gift Amount', 'FY 17 Giving', 'FY 16 Giving', 'FY 15 Giving', 'FY 14 Giving', 'FY 13 Giving']
-0    197
-1    103
-Name: target, dtype: int64
-30
-Column: ID, Null count: 0
-Column: Name, Null count: 0
-Column: AGE, Null count: 0
-Column: Age Bin, Null count: 0
-Column: Gender, Null count: 0
-Column: Affiliation, Null count: 35
-Column: DonorCode, Null count: 0
-Column: Manager, Null count: 0
-Column: Major, Null count: 227
-Column: Address Type, Null count: 0
-Column: City , Null count: 0
-Column: State, Null count: 0
-Column: Zip Code, Null count: 0
-Column: Job Title, Null count: 0
-Column: Employer, Null count: 0
-Column: Annual Fund Rating, Null count: 0
-Column: Major Gift Capacity, Null count: 24
-Column: LOW_EGC, Null count: 24
-Column: HIGH_EGC, Null count: 24
-Column: Inclination, Null count: 3
-Column: Alumni Engagement, Null count: 51
-Column: Stage, Null count: 0
-Column: Last Gift Date, Null count: 29
-Column: Lifetime Giving, Null count: 174
-Column: Last Attempt Date, Null count: 90
-Column: Last Contact Date, Null count: 18
-Column: Last Contact Type, Null count: 18
-Column: Phone Count, Null count: 27
-Column: FTF Visit Count, Null count: 129
-Column: Gift Count, Null count: 24
-_____________
-
-Column: ID, Unique count: 300
-Column: Name, Unique count: 74
-Column: AGE, Unique count: 62
-Column: Age Bin, Unique count: 7
-Column: Gender, Unique count: 2
-Column: Affiliation, Unique count: 52
-Column: DonorCode, Unique count: 7
-Column: Manager, Unique count: 3
-Column: Address Type, Unique count: 2
-Column: City , Unique count: 18
-Column: State, Unique count: 9
-Column: Zip Code, Unique count: 31
-Column: Job Title, Unique count: 8
-Column: Employer, Unique count: 6
-Column: Annual Fund Rating, Unique count: 9
-Column: Major Gift Capacity, Unique count: 7
-Column: LOW_EGC, Unique count: 7
-Column: HIGH_EGC, Unique count: 7
-Column: Inclination, Unique count: 5
-Column: Alumni Engagement, Unique count: 5
-Column: Stage, Unique count: 6
-Column: Last Gift Date, Unique count: 83
-Column: Last Attempt Date, Unique count: 54
-Column: Last Contact Date, Unique count: 58
-Column: Last Contact Type, Unique count: 9
-Column: Phone Count, Unique count: 20
-Column: FTF Visit Count, Unique count: 14
-Column: Gift Count, Unique count: 42
-(300, 27)
-Index(['Name', 'AGE', 'Age Bin', 'Gender', 'Affiliation', 'DonorCode',
-       'Manager', 'Address Type', 'City ', 'State', 'Zip Code', 'Job Title',
-       'Employer', 'Annual Fund Rating', 'Major Gift Capacity', 'LOW_EGC',
-       'HIGH_EGC', 'Inclination', 'Alumni Engagement', 'Stage',
-       'Last Gift Date', 'Last Attempt Date', 'Last Contact Date',
-       'Last Contact Type', 'Phone Count', 'FTF Visit Count', 'Gift Count'],
-      dtype='object')
-Categorical columns: ['Gender', 'Manager', 'Address Type', 'Inclination', 'Alumni Engagement']
-Classifier: LogisticRegression and time(seconds): 0.306
-
-Classifier: LogisticRegression and f1-score 0.67
-classification report
-___________________________
-
-Classifier: GaussianNB and time(seconds): 0.007
-
-Classifier: GaussianNB and f1-score 0.92
-classification report
-___________________________
-
-Classifier: MultinomialNB and time(seconds): 0.002
-
-Classifier: MultinomialNB and f1-score 0.67
-classification report
-___________________________
-
-Classifier: ComplementNB and time(seconds): 0.001
-
-Classifier: ComplementNB and f1-score 0.9
-classification report
-___________________________
-
-Classifier: BernoulliNB and time(seconds): 0.004
-
-Classifier: BernoulliNB and f1-score 0.9
-classification report
-___________________________
-
-Classifier: DecisionTreeClassifier and time(seconds): 0.009
-
-Classifier: DecisionTreeClassifier and f1-score 0.97
-classification report
-___________________________
-
-Classifier: SGDClassifier and time(seconds): 0.004
-
-Classifier: SGDClassifier and f1-score 0.97
-classification report
-___________________________
-
-Classifier: PassiveAggressiveClassifier and time(seconds): 0.019
-
-Classifier: PassiveAggressiveClassifier and f1-score 0.9
-classification report
-___________________________
-
-Classifier: LinearSVC and time(seconds): 0.012
-
-Classifier: LinearSVC and f1-score 0.88
-classification report
-___________________________
-
-Classifier: RandomForestClassifier and time(seconds): 0.017
-
-Classifier: RandomForestClassifier and f1-score 0.86
-classification report
-___________________________
-
+SGDClassifier
+[(0.4, 0.965), (0.45, 0.965), (0.5, 0.97), (0.55, 0.975), (0.75, 0.981), (0.8, 0.981), (0.7, 0.985), (0.6, 0.99), (0.65, 0.99)]
+0.65 0.99
+0    195
+1    105
+Name: 2020_SGDClassifier, dtype: int64
 Column: ID, Null count: 0
 Column: Name, Null count: 0
 Column: AGE, Null count: 0
@@ -2188,6 +1228,36 @@ Column: Last Contact Type, Unique count: 9
 Column: Phone Count, Unique count: 20
 Column: FTF Visit Count, Unique count: 14
 Column: Gift Count, Unique count: 42
+DecisionTreeClassifier
+[(0.4, 0.985), (0.45, 0.985), (0.5, 0.985), (0.55, 0.985), (0.6, 0.985), (0.65, 0.985), (0.7, 0.985), (0.75, 0.985), (0.8, 0.985)]
+0.8 0.985
+0    198
+1    102
+Name: 2020_DecisionTreeClassifier, dtype: int64
+SGDClassifier
+[(0.4, 0.975), (0.45, 0.975), (0.5, 0.981), (0.55, 0.981), (0.6, 0.981), (0.8, 0.981), (0.7, 0.986), (0.75, 0.986), (0.65, 0.99)]
+0.65 0.99
+0    193
+1    107
+Name: 2020_SGDClassifier, dtype: int64
+GaussianNB
+[(0.4, 0.952), (0.45, 0.952), (0.5, 0.952), (0.55, 0.952), (0.6, 0.952), (0.65, 0.952), (0.7, 0.952), (0.75, 0.952), (0.8, 0.952)]
+0.8 0.952
+0    193
+1    107
+Name: 2020_GaussianNB, dtype: int64
+ComplementNB
+[(0.8, 0.549), (0.75, 0.636), (0.7, 0.728), (0.4, 0.775), (0.65, 0.854), (0.45, 0.857), (0.6, 0.901), (0.5, 0.902), (0.55, 0.916)]
+0.55 0.916
+1    272
+0     28
+Name: 2020_ComplementNB, dtype: int64
+BernoulliNB
+[(0.8, 0.888), (0.45, 0.892), (0.55, 0.894), (0.6, 0.894), (0.65, 0.894), (0.7, 0.895), (0.75, 0.896), (0.4, 0.897), (0.5, 0.898)]
+0.5 0.898
+0    189
+1    111
+Name: 2020_BernoulliNB, dtype: int64
 Column: ID, Null count: 0
 Column: Name, Null count: 0
 Column: AGE, Null count: 0
@@ -2246,815 +1316,33 @@ Column: Last Contact Type, Unique count: 9
 Column: Phone Count, Unique count: 20
 Column: FTF Visit Count, Unique count: 14
 Column: Gift Count, Unique count: 42
-Column: ID, Null count: 0
-Column: Name, Null count: 0
-Column: AGE, Null count: 0
-Column: Age Bin, Null count: 0
-Column: Gender, Null count: 0
-Column: Affiliation, Null count: 35
-Column: DonorCode, Null count: 0
-Column: Manager, Null count: 0
-Column: Major, Null count: 227
-Column: Address Type, Null count: 0
-Column: City , Null count: 0
-Column: State, Null count: 0
-Column: Zip Code, Null count: 0
-Column: Job Title, Null count: 0
-Column: Employer, Null count: 0
-Column: Annual Fund Rating, Null count: 0
-Column: Major Gift Capacity, Null count: 24
-Column: LOW_EGC, Null count: 24
-Column: HIGH_EGC, Null count: 24
-Column: Inclination, Null count: 3
-Column: Alumni Engagement, Null count: 51
-Column: Stage, Null count: 0
-Column: Last Gift Date, Null count: 29
-Column: Lifetime Giving, Null count: 174
-Column: Last Attempt Date, Null count: 90
-Column: Last Contact Date, Null count: 18
-Column: Last Contact Type, Null count: 18
-Column: Phone Count, Null count: 27
-Column: FTF Visit Count, Null count: 129
-Column: Gift Count, Null count: 24
-Column: ID, Unique count: 300
-Column: Name, Unique count: 74
-Column: AGE, Unique count: 62
-Column: Age Bin, Unique count: 7
-Column: Gender, Unique count: 2
-Column: Affiliation, Unique count: 52
-Column: DonorCode, Unique count: 7
-Column: Manager, Unique count: 3
-Column: Address Type, Unique count: 2
-Column: City , Unique count: 18
-Column: State, Unique count: 9
-Column: Zip Code, Unique count: 31
-Column: Job Title, Unique count: 8
-Column: Employer, Unique count: 6
-Column: Annual Fund Rating, Unique count: 9
-Column: Major Gift Capacity, Unique count: 7
-Column: LOW_EGC, Unique count: 7
-Column: HIGH_EGC, Unique count: 7
-Column: Inclination, Unique count: 5
-Column: Alumni Engagement, Unique count: 5
-Column: Stage, Unique count: 6
-Column: Last Gift Date, Unique count: 83
-Column: Last Attempt Date, Unique count: 54
-Column: Last Contact Date, Unique count: 58
-Column: Last Contact Type, Unique count: 9
-Column: Phone Count, Unique count: 20
-Column: FTF Visit Count, Unique count: 14
-Column: Gift Count, Unique count: 42
-Column: ID, Null count: 0
-Column: Name, Null count: 0
-Column: AGE, Null count: 0
-Column: Age Bin, Null count: 0
-Column: Gender, Null count: 0
-Column: Affiliation, Null count: 35
-Column: DonorCode, Null count: 0
-Column: Manager, Null count: 0
-Column: Major, Null count: 227
-Column: Address Type, Null count: 0
-Column: City , Null count: 0
-Column: State, Null count: 0
-Column: Zip Code, Null count: 0
-Column: Job Title, Null count: 0
-Column: Employer, Null count: 0
-Column: Annual Fund Rating, Null count: 0
-Column: Major Gift Capacity, Null count: 24
-Column: LOW_EGC, Null count: 24
-Column: HIGH_EGC, Null count: 24
-Column: Inclination, Null count: 3
-Column: Alumni Engagement, Null count: 51
-Column: Stage, Null count: 0
-Column: Last Gift Date, Null count: 29
-Column: Lifetime Giving, Null count: 174
-Column: Last Attempt Date, Null count: 90
-Column: Last Contact Date, Null count: 18
-Column: Last Contact Type, Null count: 18
-Column: Phone Count, Null count: 27
-Column: FTF Visit Count, Null count: 129
-Column: Gift Count, Null count: 24
-Column: ID, Unique count: 300
-Column: Name, Unique count: 74
-Column: AGE, Unique count: 62
-Column: Age Bin, Unique count: 7
-Column: Gender, Unique count: 2
-Column: Affiliation, Unique count: 52
-Column: DonorCode, Unique count: 7
-Column: Manager, Unique count: 3
-Column: Address Type, Unique count: 2
-Column: City , Unique count: 18
-Column: State, Unique count: 9
-Column: Zip Code, Unique count: 31
-Column: Job Title, Unique count: 8
-Column: Employer, Unique count: 6
-Column: Annual Fund Rating, Unique count: 9
-Column: Major Gift Capacity, Unique count: 7
-Column: LOW_EGC, Unique count: 7
-Column: HIGH_EGC, Unique count: 7
-Column: Inclination, Unique count: 5
-Column: Alumni Engagement, Unique count: 5
-Column: Stage, Unique count: 6
-Column: Last Gift Date, Unique count: 83
-Column: Last Attempt Date, Unique count: 54
-Column: Last Contact Date, Unique count: 58
-Column: Last Contact Type, Unique count: 9
-Column: Phone Count, Unique count: 20
-Column: FTF Visit Count, Unique count: 14
-Column: Gift Count, Unique count: 42
-Column: ID, Null count: 0
-Column: Name, Null count: 0
-Column: AGE, Null count: 0
-Column: Age Bin, Null count: 0
-Column: Gender, Null count: 0
-Column: Affiliation, Null count: 35
-Column: DonorCode, Null count: 0
-Column: Manager, Null count: 0
-Column: Major, Null count: 227
-Column: Address Type, Null count: 0
-Column: City , Null count: 0
-Column: State, Null count: 0
-Column: Zip Code, Null count: 0
-Column: Job Title, Null count: 0
-Column: Employer, Null count: 0
-Column: Annual Fund Rating, Null count: 0
-Column: Major Gift Capacity, Null count: 24
-Column: LOW_EGC, Null count: 24
-Column: HIGH_EGC, Null count: 24
-Column: Inclination, Null count: 3
-Column: Alumni Engagement, Null count: 51
-Column: Stage, Null count: 0
-Column: Last Gift Date, Null count: 29
-Column: Lifetime Giving, Null count: 174
-Column: Last Attempt Date, Null count: 90
-Column: Last Contact Date, Null count: 18
-Column: Last Contact Type, Null count: 18
-Column: Phone Count, Null count: 27
-Column: FTF Visit Count, Null count: 129
-Column: Gift Count, Null count: 24
-Column: ID, Unique count: 300
-Column: Name, Unique count: 74
-Column: AGE, Unique count: 62
-Column: Age Bin, Unique count: 7
-Column: Gender, Unique count: 2
-Column: Affiliation, Unique count: 52
-Column: DonorCode, Unique count: 7
-Column: Manager, Unique count: 3
-Column: Address Type, Unique count: 2
-Column: City , Unique count: 18
-Column: State, Unique count: 9
-Column: Zip Code, Unique count: 31
-Column: Job Title, Unique count: 8
-Column: Employer, Unique count: 6
-Column: Annual Fund Rating, Unique count: 9
-Column: Major Gift Capacity, Unique count: 7
-Column: LOW_EGC, Unique count: 7
-Column: HIGH_EGC, Unique count: 7
-Column: Inclination, Unique count: 5
-Column: Alumni Engagement, Unique count: 5
-Column: Stage, Unique count: 6
-Column: Last Gift Date, Unique count: 83
-Column: Last Attempt Date, Unique count: 54
-Column: Last Contact Date, Unique count: 58
-Column: Last Contact Type, Unique count: 9
-Column: Phone Count, Unique count: 20
-Column: FTF Visit Count, Unique count: 14
-Column: Gift Count, Unique count: 42
-Column: ID, Null count: 0
-Column: Name, Null count: 0
-Column: AGE, Null count: 0
-Column: Age Bin, Null count: 0
-Column: Gender, Null count: 0
-Column: Affiliation, Null count: 35
-Column: DonorCode, Null count: 0
-Column: Manager, Null count: 0
-Column: Major, Null count: 227
-Column: Address Type, Null count: 0
-Column: City , Null count: 0
-Column: State, Null count: 0
-Column: Zip Code, Null count: 0
-Column: Job Title, Null count: 0
-Column: Employer, Null count: 0
-Column: Annual Fund Rating, Null count: 0
-Column: Major Gift Capacity, Null count: 24
-Column: LOW_EGC, Null count: 24
-Column: HIGH_EGC, Null count: 24
-Column: Inclination, Null count: 3
-Column: Alumni Engagement, Null count: 51
-Column: Stage, Null count: 0
-Column: Last Gift Date, Null count: 29
-Column: Lifetime Giving, Null count: 174
-Column: Last Attempt Date, Null count: 90
-Column: Last Contact Date, Null count: 18
-Column: Last Contact Type, Null count: 18
-Column: Phone Count, Null count: 27
-Column: FTF Visit Count, Null count: 129
-Column: Gift Count, Null count: 24
-Column: ID, Unique count: 300
-Column: Name, Unique count: 74
-Column: AGE, Unique count: 62
-Column: Age Bin, Unique count: 7
-Column: Gender, Unique count: 2
-Column: Affiliation, Unique count: 52
-Column: DonorCode, Unique count: 7
-Column: Manager, Unique count: 3
-Column: Address Type, Unique count: 2
-Column: City , Unique count: 18
-Column: State, Unique count: 9
-Column: Zip Code, Unique count: 31
-Column: Job Title, Unique count: 8
-Column: Employer, Unique count: 6
-Column: Annual Fund Rating, Unique count: 9
-Column: Major Gift Capacity, Unique count: 7
-Column: LOW_EGC, Unique count: 7
-Column: HIGH_EGC, Unique count: 7
-Column: Inclination, Unique count: 5
-Column: Alumni Engagement, Unique count: 5
-Column: Stage, Unique count: 6
-Column: Last Gift Date, Unique count: 83
-Column: Last Attempt Date, Unique count: 54
-Column: Last Contact Date, Unique count: 58
-Column: Last Contact Type, Unique count: 9
-Column: Phone Count, Unique count: 20
-Column: FTF Visit Count, Unique count: 14
-Column: Gift Count, Unique count: 42
-Column: ID, Null count: 0
-Column: Name, Null count: 0
-Column: AGE, Null count: 0
-Column: Age Bin, Null count: 0
-Column: Gender, Null count: 0
-Column: Affiliation, Null count: 35
-Column: DonorCode, Null count: 0
-Column: Manager, Null count: 0
-Column: Major, Null count: 227
-Column: Address Type, Null count: 0
-Column: City , Null count: 0
-Column: State, Null count: 0
-Column: Zip Code, Null count: 0
-Column: Job Title, Null count: 0
-Column: Employer, Null count: 0
-Column: Annual Fund Rating, Null count: 0
-Column: Major Gift Capacity, Null count: 24
-Column: LOW_EGC, Null count: 24
-Column: HIGH_EGC, Null count: 24
-Column: Inclination, Null count: 3
-Column: Alumni Engagement, Null count: 51
-Column: Stage, Null count: 0
-Column: Last Gift Date, Null count: 29
-Column: Lifetime Giving, Null count: 174
-Column: Last Attempt Date, Null count: 90
-Column: Last Contact Date, Null count: 18
-Column: Last Contact Type, Null count: 18
-Column: Phone Count, Null count: 27
-Column: FTF Visit Count, Null count: 129
-Column: Gift Count, Null count: 24
-Column: ID, Unique count: 300
-Column: Name, Unique count: 74
-Column: AGE, Unique count: 62
-Column: Age Bin, Unique count: 7
-Column: Gender, Unique count: 2
-Column: Affiliation, Unique count: 52
-Column: DonorCode, Unique count: 7
-Column: Manager, Unique count: 3
-Column: Address Type, Unique count: 2
-Column: City , Unique count: 18
-Column: State, Unique count: 9
-Column: Zip Code, Unique count: 31
-Column: Job Title, Unique count: 8
-Column: Employer, Unique count: 6
-Column: Annual Fund Rating, Unique count: 9
-Column: Major Gift Capacity, Unique count: 7
-Column: LOW_EGC, Unique count: 7
-Column: HIGH_EGC, Unique count: 7
-Column: Inclination, Unique count: 5
-Column: Alumni Engagement, Unique count: 5
-Column: Stage, Unique count: 6
-Column: Last Gift Date, Unique count: 83
-Column: Last Attempt Date, Unique count: 54
-Column: Last Contact Date, Unique count: 58
-Column: Last Contact Type, Unique count: 9
-Column: Phone Count, Unique count: 20
-Column: FTF Visit Count, Unique count: 14
-Column: Gift Count, Unique count: 42
-Column: ID, Null count: 0
-Column: Name, Null count: 0
-Column: AGE, Null count: 0
-Column: Age Bin, Null count: 0
-Column: Gender, Null count: 0
-Column: Affiliation, Null count: 35
-Column: DonorCode, Null count: 0
-Column: Manager, Null count: 0
-Column: Major, Null count: 227
-Column: Address Type, Null count: 0
-Column: City , Null count: 0
-Column: State, Null count: 0
-Column: Zip Code, Null count: 0
-Column: Job Title, Null count: 0
-Column: Employer, Null count: 0
-Column: Annual Fund Rating, Null count: 0
-Column: Major Gift Capacity, Null count: 24
-Column: LOW_EGC, Null count: 24
-Column: HIGH_EGC, Null count: 24
-Column: Inclination, Null count: 3
-Column: Alumni Engagement, Null count: 51
-Column: Stage, Null count: 0
-Column: Last Gift Date, Null count: 29
-Column: Lifetime Giving, Null count: 174
-Column: Last Attempt Date, Null count: 90
-Column: Last Contact Date, Null count: 18
-Column: Last Contact Type, Null count: 18
-Column: Phone Count, Null count: 27
-Column: FTF Visit Count, Null count: 129
-Column: Gift Count, Null count: 24
-Column: ID, Unique count: 300
-Column: Name, Unique count: 74
-Column: AGE, Unique count: 62
-Column: Age Bin, Unique count: 7
-Column: Gender, Unique count: 2
-Column: Affiliation, Unique count: 52
-Column: DonorCode, Unique count: 7
-Column: Manager, Unique count: 3
-Column: Address Type, Unique count: 2
-Column: City , Unique count: 18
-Column: State, Unique count: 9
-Column: Zip Code, Unique count: 31
-Column: Job Title, Unique count: 8
-Column: Employer, Unique count: 6
-Column: Annual Fund Rating, Unique count: 9
-Column: Major Gift Capacity, Unique count: 7
-Column: LOW_EGC, Unique count: 7
-Column: HIGH_EGC, Unique count: 7
-Column: Inclination, Unique count: 5
-Column: Alumni Engagement, Unique count: 5
-Column: Stage, Unique count: 6
-Column: Last Gift Date, Unique count: 83
-Column: Last Attempt Date, Unique count: 54
-Column: Last Contact Date, Unique count: 58
-Column: Last Contact Type, Unique count: 9
-Column: Phone Count, Unique count: 20
-Column: FTF Visit Count, Unique count: 14
-Column: Gift Count, Unique count: 42
-Column: ID, Null count: 0
-Column: Name, Null count: 0
-Column: AGE, Null count: 0
-Column: Age Bin, Null count: 0
-Column: Gender, Null count: 0
-Column: Affiliation, Null count: 35
-Column: DonorCode, Null count: 0
-Column: Manager, Null count: 0
-Column: Major, Null count: 227
-Column: Address Type, Null count: 0
-Column: City , Null count: 0
-Column: State, Null count: 0
-Column: Zip Code, Null count: 0
-Column: Job Title, Null count: 0
-Column: Employer, Null count: 0
-Column: Annual Fund Rating, Null count: 0
-Column: Major Gift Capacity, Null count: 24
-Column: LOW_EGC, Null count: 24
-Column: HIGH_EGC, Null count: 24
-Column: Inclination, Null count: 3
-Column: Alumni Engagement, Null count: 51
-Column: Stage, Null count: 0
-Column: Last Gift Date, Null count: 29
-Column: Lifetime Giving, Null count: 174
-Column: Last Attempt Date, Null count: 90
-Column: Last Contact Date, Null count: 18
-Column: Last Contact Type, Null count: 18
-Column: Phone Count, Null count: 27
-Column: FTF Visit Count, Null count: 129
-Column: Gift Count, Null count: 24
-Column: ID, Unique count: 300
-Column: Name, Unique count: 74
-Column: AGE, Unique count: 62
-Column: Age Bin, Unique count: 7
-Column: Gender, Unique count: 2
-Column: Affiliation, Unique count: 52
-Column: DonorCode, Unique count: 7
-Column: Manager, Unique count: 3
-Column: Address Type, Unique count: 2
-Column: City , Unique count: 18
-Column: State, Unique count: 9
-Column: Zip Code, Unique count: 31
-Column: Job Title, Unique count: 8
-Column: Employer, Unique count: 6
-Column: Annual Fund Rating, Unique count: 9
-Column: Major Gift Capacity, Unique count: 7
-Column: LOW_EGC, Unique count: 7
-Column: HIGH_EGC, Unique count: 7
-Column: Inclination, Unique count: 5
-Column: Alumni Engagement, Unique count: 5
-Column: Stage, Unique count: 6
-Column: Last Gift Date, Unique count: 83
-Column: Last Attempt Date, Unique count: 54
-Column: Last Contact Date, Unique count: 58
-Column: Last Contact Type, Unique count: 9
-Column: Phone Count, Unique count: 20
-Column: FTF Visit Count, Unique count: 14
-Column: Gift Count, Unique count: 42
-Column: ID, Null count: 0
-Column: Name, Null count: 0
-Column: AGE, Null count: 0
-Column: Age Bin, Null count: 0
-Column: Gender, Null count: 0
-Column: Affiliation, Null count: 35
-Column: DonorCode, Null count: 0
-Column: Manager, Null count: 0
-Column: Major, Null count: 227
-Column: Address Type, Null count: 0
-Column: City , Null count: 0
-Column: State, Null count: 0
-Column: Zip Code, Null count: 0
-Column: Job Title, Null count: 0
-Column: Employer, Null count: 0
-Column: Annual Fund Rating, Null count: 0
-Column: Major Gift Capacity, Null count: 24
-Column: LOW_EGC, Null count: 24
-Column: HIGH_EGC, Null count: 24
-Column: Inclination, Null count: 3
-Column: Alumni Engagement, Null count: 51
-Column: Stage, Null count: 0
-Column: Last Gift Date, Null count: 29
-Column: Lifetime Giving, Null count: 174
-Column: Last Attempt Date, Null count: 90
-Column: Last Contact Date, Null count: 18
-Column: Last Contact Type, Null count: 18
-Column: Phone Count, Null count: 27
-Column: FTF Visit Count, Null count: 129
-Column: Gift Count, Null count: 24
-Column: ID, Unique count: 300
-Column: Name, Unique count: 74
-Column: AGE, Unique count: 62
-Column: Age Bin, Unique count: 7
-Column: Gender, Unique count: 2
-Column: Affiliation, Unique count: 52
-Column: DonorCode, Unique count: 7
-Column: Manager, Unique count: 3
-Column: Address Type, Unique count: 2
-Column: City , Unique count: 18
-Column: State, Unique count: 9
-Column: Zip Code, Unique count: 31
-Column: Job Title, Unique count: 8
-Column: Employer, Unique count: 6
-Column: Annual Fund Rating, Unique count: 9
-Column: Major Gift Capacity, Unique count: 7
-Column: LOW_EGC, Unique count: 7
-Column: HIGH_EGC, Unique count: 7
-Column: Inclination, Unique count: 5
-Column: Alumni Engagement, Unique count: 5
-Column: Stage, Unique count: 6
-Column: Last Gift Date, Unique count: 83
-Column: Last Attempt Date, Unique count: 54
-Column: Last Contact Date, Unique count: 58
-Column: Last Contact Type, Unique count: 9
-Column: Phone Count, Unique count: 20
-Column: FTF Visit Count, Unique count: 14
-Column: Gift Count, Unique count: 42
-Column: ID, Null count: 0
-Column: Name, Null count: 0
-Column: AGE, Null count: 0
-Column: Age Bin, Null count: 0
-Column: Gender, Null count: 0
-Column: Affiliation, Null count: 35
-Column: DonorCode, Null count: 0
-Column: Manager, Null count: 0
-Column: Major, Null count: 227
-Column: Address Type, Null count: 0
-Column: City , Null count: 0
-Column: State, Null count: 0
-Column: Zip Code, Null count: 0
-Column: Job Title, Null count: 0
-Column: Employer, Null count: 0
-Column: Annual Fund Rating, Null count: 0
-Column: Major Gift Capacity, Null count: 24
-Column: LOW_EGC, Null count: 24
-Column: HIGH_EGC, Null count: 24
-Column: Inclination, Null count: 3
-Column: Alumni Engagement, Null count: 51
-Column: Stage, Null count: 0
-Column: Last Gift Date, Null count: 29
-Column: Lifetime Giving, Null count: 174
-Column: Last Attempt Date, Null count: 90
-Column: Last Contact Date, Null count: 18
-Column: Last Contact Type, Null count: 18
-Column: Phone Count, Null count: 27
-Column: FTF Visit Count, Null count: 129
-Column: Gift Count, Null count: 24
-Column: ID, Unique count: 300
-Column: Name, Unique count: 74
-Column: AGE, Unique count: 62
-Column: Age Bin, Unique count: 7
-Column: Gender, Unique count: 2
-Column: Affiliation, Unique count: 52
-Column: DonorCode, Unique count: 7
-Column: Manager, Unique count: 3
-Column: Address Type, Unique count: 2
-Column: City , Unique count: 18
-Column: State, Unique count: 9
-Column: Zip Code, Unique count: 31
-Column: Job Title, Unique count: 8
-Column: Employer, Unique count: 6
-Column: Annual Fund Rating, Unique count: 9
-Column: Major Gift Capacity, Unique count: 7
-Column: LOW_EGC, Unique count: 7
-Column: HIGH_EGC, Unique count: 7
-Column: Inclination, Unique count: 5
-Column: Alumni Engagement, Unique count: 5
-Column: Stage, Unique count: 6
-Column: Last Gift Date, Unique count: 83
-Column: Last Attempt Date, Unique count: 54
-Column: Last Contact Date, Unique count: 58
-Column: Last Contact Type, Unique count: 9
-Column: Phone Count, Unique count: 20
-Column: FTF Visit Count, Unique count: 14
-Column: Gift Count, Unique count: 42
-Column: ID, Null count: 0
-Column: Name, Null count: 0
-Column: AGE, Null count: 0
-Column: Age Bin, Null count: 0
-Column: Gender, Null count: 0
-Column: Affiliation, Null count: 35
-Column: DonorCode, Null count: 0
-Column: Manager, Null count: 0
-Column: Major, Null count: 227
-Column: Address Type, Null count: 0
-Column: City , Null count: 0
-Column: State, Null count: 0
-Column: Zip Code, Null count: 0
-Column: Job Title, Null count: 0
-Column: Employer, Null count: 0
-Column: Annual Fund Rating, Null count: 0
-Column: Major Gift Capacity, Null count: 24
-Column: LOW_EGC, Null count: 24
-Column: HIGH_EGC, Null count: 24
-Column: Inclination, Null count: 3
-Column: Alumni Engagement, Null count: 51
-Column: Stage, Null count: 0
-Column: Last Gift Date, Null count: 29
-Column: Lifetime Giving, Null count: 174
-Column: Last Attempt Date, Null count: 90
-Column: Last Contact Date, Null count: 18
-Column: Last Contact Type, Null count: 18
-Column: Phone Count, Null count: 27
-Column: FTF Visit Count, Null count: 129
-Column: Gift Count, Null count: 24
-Column: ID, Unique count: 300
-Column: Name, Unique count: 74
-Column: AGE, Unique count: 62
-Column: Age Bin, Unique count: 7
-Column: Gender, Unique count: 2
-Column: Affiliation, Unique count: 52
-Column: DonorCode, Unique count: 7
-Column: Manager, Unique count: 3
-Column: Address Type, Unique count: 2
-Column: City , Unique count: 18
-Column: State, Unique count: 9
-Column: Zip Code, Unique count: 31
-Column: Job Title, Unique count: 8
-Column: Employer, Unique count: 6
-Column: Annual Fund Rating, Unique count: 9
-Column: Major Gift Capacity, Unique count: 7
-Column: LOW_EGC, Unique count: 7
-Column: HIGH_EGC, Unique count: 7
-Column: Inclination, Unique count: 5
-Column: Alumni Engagement, Unique count: 5
-Column: Stage, Unique count: 6
-Column: Last Gift Date, Unique count: 83
-Column: Last Attempt Date, Unique count: 54
-Column: Last Contact Date, Unique count: 58
-Column: Last Contact Type, Unique count: 9
-Column: Phone Count, Unique count: 20
-Column: FTF Visit Count, Unique count: 14
-Column: Gift Count, Unique count: 42
-Column: ID, Null count: 0
-Column: Name, Null count: 0
-Column: AGE, Null count: 0
-Column: Age Bin, Null count: 0
-Column: Gender, Null count: 0
-Column: Affiliation, Null count: 35
-Column: DonorCode, Null count: 0
-Column: Manager, Null count: 0
-Column: Major, Null count: 227
-Column: Address Type, Null count: 0
-Column: City , Null count: 0
-Column: State, Null count: 0
-Column: Zip Code, Null count: 0
-Column: Job Title, Null count: 0
-Column: Employer, Null count: 0
-Column: Annual Fund Rating, Null count: 0
-Column: Major Gift Capacity, Null count: 24
-Column: LOW_EGC, Null count: 24
-Column: HIGH_EGC, Null count: 24
-Column: Inclination, Null count: 3
-Column: Alumni Engagement, Null count: 51
-Column: Stage, Null count: 0
-Column: Last Gift Date, Null count: 29
-Column: Lifetime Giving, Null count: 174
-Column: Last Attempt Date, Null count: 90
-Column: Last Contact Date, Null count: 18
-Column: Last Contact Type, Null count: 18
-Column: Phone Count, Null count: 27
-Column: FTF Visit Count, Null count: 129
-Column: Gift Count, Null count: 24
-Column: ID, Unique count: 300
-Column: Name, Unique count: 74
-Column: AGE, Unique count: 62
-Column: Age Bin, Unique count: 7
-Column: Gender, Unique count: 2
-Column: Affiliation, Unique count: 52
-Column: DonorCode, Unique count: 7
-Column: Manager, Unique count: 3
-Column: Address Type, Unique count: 2
-Column: City , Unique count: 18
-Column: State, Unique count: 9
-Column: Zip Code, Unique count: 31
-Column: Job Title, Unique count: 8
-Column: Employer, Unique count: 6
-Column: Annual Fund Rating, Unique count: 9
-Column: Major Gift Capacity, Unique count: 7
-Column: LOW_EGC, Unique count: 7
-Column: HIGH_EGC, Unique count: 7
-Column: Inclination, Unique count: 5
-Column: Alumni Engagement, Unique count: 5
-Column: Stage, Unique count: 6
-Column: Last Gift Date, Unique count: 83
-Column: Last Attempt Date, Unique count: 54
-Column: Last Contact Date, Unique count: 58
-Column: Last Contact Type, Unique count: 9
-Column: Phone Count, Unique count: 20
-Column: FTF Visit Count, Unique count: 14
-Column: Gift Count, Unique count: 42
-Column: ID, Null count: 0
-Column: Name, Null count: 0
-Column: AGE, Null count: 0
-Column: Age Bin, Null count: 0
-Column: Gender, Null count: 0
-Column: Affiliation, Null count: 35
-Column: DonorCode, Null count: 0
-Column: Manager, Null count: 0
-Column: Major, Null count: 227
-Column: Address Type, Null count: 0
-Column: City , Null count: 0
-Column: State, Null count: 0
-Column: Zip Code, Null count: 0
-Column: Job Title, Null count: 0
-Column: Employer, Null count: 0
-Column: Annual Fund Rating, Null count: 0
-Column: Major Gift Capacity, Null count: 24
-Column: LOW_EGC, Null count: 24
-Column: HIGH_EGC, Null count: 24
-Column: Inclination, Null count: 3
-Column: Alumni Engagement, Null count: 51
-Column: Stage, Null count: 0
-Column: Last Gift Date, Null count: 29
-Column: Lifetime Giving, Null count: 174
-Column: Last Attempt Date, Null count: 90
-Column: Last Contact Date, Null count: 18
-Column: Last Contact Type, Null count: 18
-Column: Phone Count, Null count: 27
-Column: FTF Visit Count, Null count: 129
-Column: Gift Count, Null count: 24
-Column: ID, Unique count: 300
-Column: Name, Unique count: 74
-Column: AGE, Unique count: 62
-Column: Age Bin, Unique count: 7
-Column: Gender, Unique count: 2
-Column: Affiliation, Unique count: 52
-Column: DonorCode, Unique count: 7
-Column: Manager, Unique count: 3
-Column: Address Type, Unique count: 2
-Column: City , Unique count: 18
-Column: State, Unique count: 9
-Column: Zip Code, Unique count: 31
-Column: Job Title, Unique count: 8
-Column: Employer, Unique count: 6
-Column: Annual Fund Rating, Unique count: 9
-Column: Major Gift Capacity, Unique count: 7
-Column: LOW_EGC, Unique count: 7
-Column: HIGH_EGC, Unique count: 7
-Column: Inclination, Unique count: 5
-Column: Alumni Engagement, Unique count: 5
-Column: Stage, Unique count: 6
-Column: Last Gift Date, Unique count: 83
-Column: Last Attempt Date, Unique count: 54
-Column: Last Contact Date, Unique count: 58
-Column: Last Contact Type, Unique count: 9
-Column: Phone Count, Unique count: 20
-Column: FTF Visit Count, Unique count: 14
-Column: Gift Count, Unique count: 42
-Column: ID, Null count: 0
-Column: Name, Null count: 0
-Column: AGE, Null count: 0
-Column: Age Bin, Null count: 0
-Column: Gender, Null count: 0
-Column: Affiliation, Null count: 35
-Column: DonorCode, Null count: 0
-Column: Manager, Null count: 0
-Column: Major, Null count: 227
-Column: Address Type, Null count: 0
-Column: City , Null count: 0
-Column: State, Null count: 0
-Column: Zip Code, Null count: 0
-Column: Job Title, Null count: 0
-Column: Employer, Null count: 0
-Column: Annual Fund Rating, Null count: 0
-Column: Major Gift Capacity, Null count: 24
-Column: LOW_EGC, Null count: 24
-Column: HIGH_EGC, Null count: 24
-Column: Inclination, Null count: 3
-Column: Alumni Engagement, Null count: 51
-Column: Stage, Null count: 0
-Column: Last Gift Date, Null count: 29
-Column: Lifetime Giving, Null count: 174
-Column: Last Attempt Date, Null count: 90
-Column: Last Contact Date, Null count: 18
-Column: Last Contact Type, Null count: 18
-Column: Phone Count, Null count: 27
-Column: FTF Visit Count, Null count: 129
-Column: Gift Count, Null count: 24
-Column: ID, Unique count: 300
-Column: Name, Unique count: 74
-Column: AGE, Unique count: 62
-Column: Age Bin, Unique count: 7
-Column: Gender, Unique count: 2
-Column: Affiliation, Unique count: 52
-Column: DonorCode, Unique count: 7
-Column: Manager, Unique count: 3
-Column: Address Type, Unique count: 2
-Column: City , Unique count: 18
-Column: State, Unique count: 9
-Column: Zip Code, Unique count: 31
-Column: Job Title, Unique count: 8
-Column: Employer, Unique count: 6
-Column: Annual Fund Rating, Unique count: 9
-Column: Major Gift Capacity, Unique count: 7
-Column: LOW_EGC, Unique count: 7
-Column: HIGH_EGC, Unique count: 7
-Column: Inclination, Unique count: 5
-Column: Alumni Engagement, Unique count: 5
-Column: Stage, Unique count: 6
-Column: Last Gift Date, Unique count: 83
-Column: Last Attempt Date, Unique count: 54
-Column: Last Contact Date, Unique count: 58
-Column: Last Contact Type, Unique count: 9
-Column: Phone Count, Unique count: 20
-Column: FTF Visit Count, Unique count: 14
-Column: Gift Count, Unique count: 42
-Column: ID, Null count: 0
-Column: Name, Null count: 0
-Column: AGE, Null count: 0
-Column: Age Bin, Null count: 0
-Column: Gender, Null count: 0
-Column: Affiliation, Null count: 35
-Column: DonorCode, Null count: 0
-Column: Manager, Null count: 0
-Column: Major, Null count: 227
-Column: Address Type, Null count: 0
-Column: City , Null count: 0
-Column: State, Null count: 0
-Column: Zip Code, Null count: 0
-Column: Job Title, Null count: 0
-Column: Employer, Null count: 0
-Column: Annual Fund Rating, Null count: 0
-Column: Major Gift Capacity, Null count: 24
-Column: LOW_EGC, Null count: 24
-Column: HIGH_EGC, Null count: 24
-Column: Inclination, Null count: 3
-Column: Alumni Engagement, Null count: 51
-Column: Stage, Null count: 0
-Column: Last Gift Date, Null count: 29
-Column: Lifetime Giving, Null count: 174
-Column: Last Attempt Date, Null count: 90
-Column: Last Contact Date, Null count: 18
-Column: Last Contact Type, Null count: 18
-Column: Phone Count, Null count: 27
-Column: FTF Visit Count, Null count: 129
-Column: Gift Count, Null count: 24
-Column: ID, Unique count: 300
-Column: Name, Unique count: 74
-Column: AGE, Unique count: 62
-Column: Age Bin, Unique count: 7
-Column: Gender, Unique count: 2
-Column: Affiliation, Unique count: 52
-Column: DonorCode, Unique count: 7
-Column: Manager, Unique count: 3
-Column: Address Type, Unique count: 2
-Column: City , Unique count: 18
-Column: State, Unique count: 9
-Column: Zip Code, Unique count: 31
-Column: Job Title, Unique count: 8
-Column: Employer, Unique count: 6
-Column: Annual Fund Rating, Unique count: 9
-Column: Major Gift Capacity, Unique count: 7
-Column: LOW_EGC, Unique count: 7
-Column: HIGH_EGC, Unique count: 7
-Column: Inclination, Unique count: 5
-Column: Alumni Engagement, Unique count: 5
-Column: Stage, Unique count: 6
-Column: Last Gift Date, Unique count: 83
-Column: Last Attempt Date, Unique count: 54
-Column: Last Contact Date, Unique count: 58
-Column: Last Contact Type, Unique count: 9
-Column: Phone Count, Unique count: 20
-Column: FTF Visit Count, Unique count: 14
-Column: Gift Count, Unique count: 42
+DecisionTreeClassifier
+[(0.4, 0.985), (0.45, 0.985), (0.5, 0.985), (0.55, 0.985), (0.6, 0.985), (0.65, 0.985), (0.7, 0.985), (0.75, 0.985), (0.8, 0.985)]
+0.8 0.985
+0    198
+1    102
+Name: 2020_DecisionTreeClassifier, dtype: int64
+SGDClassifier
+[(0.4, 0.98), (0.45, 0.98), (0.6, 0.981), (0.8, 0.981), (0.5, 0.985), (0.55, 0.985), (0.65, 0.986), (0.7, 0.99), (0.75, 0.99)]
+0.75 0.99
+0    193
+1    107
+Name: 2020_SGDClassifier, dtype: int64
+GaussianNB
+[(0.4, 0.952), (0.45, 0.952), (0.5, 0.952), (0.55, 0.952), (0.6, 0.952), (0.65, 0.952), (0.7, 0.952), (0.75, 0.952), (0.8, 0.952)]
+0.8 0.952
+0    193
+1    107
+Name: 2020_GaussianNB, dtype: int64
+ComplementNB
+[(0.8, 0.549), (0.75, 0.636), (0.7, 0.728), (0.4, 0.775), (0.65, 0.854), (0.45, 0.857), (0.6, 0.901), (0.5, 0.902), (0.55, 0.916)]
+0.55 0.916
+1    272
+0     28
+Name: 2020_ComplementNB, dtype: int64
+BernoulliNB
+[(0.8, 0.888), (0.45, 0.892), (0.55, 0.894), (0.6, 0.894), (0.65, 0.894), (0.7, 0.895), (0.75, 0.896), (0.4, 0.897), (0.5, 0.898)]
+0.5 0.898
+0    189
+1    111
+Name: 2020_BernoulliNB, dtype: int64
