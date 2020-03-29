@@ -36,8 +36,19 @@ import ast
 import glob
 import operator
 
+
+class CustomPDF(FPDF):
+    def footer(self):
+        self.set_y(-10)
+        self.set_font('Arial', 'I', 8)
+
+        # Add a page number
+        page = 'Page ' + str(self.page_no())
+        self.cell(0, 10, page, 0, 0, 'C')
+
+
 warnings.filterwarnings("ignore")
-pdf = FPDF()
+pdf = CustomPDF()
 pdf.set_font('Arial')
 pdf.add_page()
 image_index = 0
@@ -218,7 +229,7 @@ def calculate_feature_importance(df_info, feature_dict):
 
     sorted_idx = np.argsort(feature_imp)
     pos = np.arange(sorted_idx.shape[0]) + .5
-    pdf.multi_cell(h=5.0, w=0, txt="Feature Importance")
+    pdf.multi_cell(h=5.0, w=0, txt="Feature Importance Plot")
     pdf.ln(5)
     featfig = plt.figure(figsize=(10, 6))
     featax = featfig.add_subplot(1, 1, 1)
@@ -230,20 +241,41 @@ def calculate_feature_importance(df_info, feature_dict):
     global image_index
     plots_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "Plots"))
     plt.savefig("{}/temp_{}.png".format(plots_path, image_index))
-    pdf.image("{}/temp_{}.png".format(plots_path, image_index), w=100)
+    pdf.image("{}/temp_{}.png".format(plots_path, image_index), w=100, h=80)
     image_index += 1
     pdf.ln(10)
     # plt.show()
 
 
+def add_classification_report_table(y_test, y_pred):
+    report=classification_report(y_test, y_pred, output_dict=True)
+    report_df = pd.DataFrame(report).transpose()
+    report_df['f1-score'] = report_df['f1-score'].apply(lambda x: str(round(x, 2)))
+    report_df['precision'] = report_df['precision'].apply(lambda x: str(round(x, 2)))
+    report_df['recall'] = report_df['recall'].apply(lambda x: str(round(x, 2)))
+    report_df['support'] = report_df['support'].apply(lambda x: str(x))
+    report_df.reset_index(inplace=True)
+    report_df = pd.DataFrame(np.vstack([report_df.columns, report_df]))
+    report_df = report_df.values.tolist()
+    del report_df[3]
+    spacing=1.2
+    col_width = pdf.w / 7.5
+    row_height = pdf.font_size
+    for row in report_df:
+        for item in row:
+            pdf.cell(col_width, row_height*spacing, txt=item, border=1)
+        pdf.ln(row_height*spacing)
+
+
 def print_confusion_matrix_classification_report(y_test, y_pred):
     df_cm = pd.DataFrame(confusion_matrix(y_test, y_pred), range(2), range(2))
+    print(df_cm)
     sn.set(font_scale=1.4) # for label size
     sn.heatmap(df_cm, annot=True, fmt="d", annot_kws={"size": 16}) # font size
     plt.xlabel("Predicted")
     plt.ylabel("True")
     global image_index
-    pdf.multi_cell(h=5.0, w=0, txt="Confusion Matrix")
+    pdf.multi_cell(h=5.0, w=0, txt="Confusion Matrix Plot")
     pdf.ln(5)
     plots_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "Plots"))
     plt.savefig("{}/temp_{}.png".format(plots_path, image_index))
@@ -252,7 +284,7 @@ def print_confusion_matrix_classification_report(y_test, y_pred):
     # plt.show()
     pdf.multi_cell(h=5.0, w=0, txt="Classification Report")
     pdf.ln(5)
-    pdf.multi_cell(h=5.0, w=0, txt=classification_report(y_test, y_pred))
+    add_classification_report_table(y_test, y_pred)
     pdf.ln(5)
     # pdf.multi_cell(h=5.0, w=0, txt="___________________________\n")
     # pdf.ln(5)
@@ -276,6 +308,17 @@ def plot_roc_curve(roc_fpr, roc_tpr, roc_auc):
     model_names = list(roc_fpr.keys())
     pdf.multi_cell(h=5.0, w=0, txt="Receiver Operating Characteristic (ROC) Curve")
     pdf.ln(5)
+    pdf.multi_cell(h=5.0, w=0, txt="It is a plot of the false positive rate (x-axis) versus the true positive rate "
+                                   "(y-axis). True positive rate or sensitivity describes how good the model is at "
+                                   "predicting the positive class when the actual outcome is positive. False positive "
+                                   "rate decribes how often a positive class is predicted when the actual outcome is "
+                                   "negative. A model with perfect skill is represented by a line that travels from "
+                                   "the bottom left of the plot to the top left and then across the top to the top "
+                                   "right and has Area Under Curve (AUC) as 1. A model with no skill is represented by "
+                                   "a diagonal line from the bottom left of the plot to the top right and has an AUC "
+                                   "of 0.5. We can compare multiple models using AUC value, Best model will have AUC "
+                                   "close to 1.")
+    pdf.ln(5)
     for model_name in model_names:
         fpr = roc_fpr.get(model_name)
         tpr = roc_tpr.get(model_name)
@@ -292,14 +335,14 @@ def plot_roc_curve(roc_fpr, roc_tpr, roc_auc):
     global image_index
     plots_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "Plots"))
     plt.savefig("{}/temp_{}.png".format(plots_path, image_index))
-    pdf.image("{}/temp_{}.png".format(plots_path, image_index), w=100)
+    pdf.image("{}/temp_{}.png".format(plots_path, image_index), w=125, h=100)
     image_index += 1
     pdf.ln(10)
 
 
 def model_selection(X, y, X_pred, feature_names, df_info):
     models = [{'label': 'LogisticRegression', 'model': LogisticRegression()},
-                {'label': 'GaussianNB', 'model': GaussianNB()},
+                # {'label': 'GaussianNB', 'model': GaussianNB()},
                 {'label': 'MultinomialNB', 'model': MultinomialNB()},
                 {'label': 'ComplementNB', 'model': ComplementNB()},
                 {'label': 'BernoulliNB', 'model': BernoulliNB()},
@@ -310,13 +353,35 @@ def model_selection(X, y, X_pred, feature_names, df_info):
                 {'label': 'RandomForestClassifier', 'model': RandomForestClassifier()}]
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
-    pdf.multi_cell(h=5.0, w=0, txt="5. Train data (80%) used: {}".format(X_train.shape[0]))
+    pdf.multi_cell(h=5.0, w=0, txt="5. Training data (80%) used: {}".format(X_train.shape[0]))
     pdf.ln(5)
     pdf.multi_cell(h=5.0, w=0, txt="6. Test data (20%) used: {}".format(X_test.shape[0]))
     pdf.ln(5)
     print_steps_taken()
     pdf.multi_cell(h=7.5, w=0, txt="Model Summary", align="C", border=1)
     pdf.ln(5)
+
+    pdf.multi_cell(h=5.0, w=0, txt="Following terms used below are defined as follows")
+    pdf.ln(5)
+    pdf.multi_cell(h=5.0, w=0, txt="Precision: It is fraction of correctly classified instances among all predicted "
+                                   "instances.")
+    pdf.ln(2.5)
+    pdf.multi_cell(h=5.0, w=0, txt="Recall: It is fraction of correctly classified instanes among all actual/true "
+                                   "instances.")
+    pdf.ln(2.5)
+    pdf.multi_cell(h=5.0, w=0, txt="F1-score: It is a harmonic mean of precision and recall.")
+    pdf.ln(2.5)
+    pdf.multi_cell(h=5.0, w=0, txt="Support: Number of samples used for the experiment.")
+    pdf.ln(2.5)
+    pdf.multi_cell(h=5.0, w=0, txt="Confusion matrix plot: It is a plot of the true count (x-axis) versus predicted "
+                                   "count (y-axis) for both the classes. "
+                                   "Top left box represents count of true negatives, top right "
+                                   "box represents count of false negatives, bottom left box represents count of false "
+                                   "positive and bottom right box represents count of true positives.")
+    pdf.ln(2.5)
+    pdf.multi_cell(h=5.0, w=0, txt="Feature importance plot: Y-axis: variable present in input file and X-axis: "
+                                   "relative % of feature importance.")
+    pdf.ln(7.5)
 
     plt.figure(figsize=(15, 10))
     model_f1_score={}
@@ -361,7 +426,8 @@ def model_selection(X, y, X_pred, feature_names, df_info):
             feature_value = model.coef_[0][:-1]
 
         feature_dict = {i: abs(j) for i, j in zip(feature_names, feature_value)}
-        calculate_feature_importance(df_info, feature_dict)
+        if m['label'] not in ['GaussianNB']:
+            calculate_feature_importance(df_info, feature_dict)
         fpr, tpr, auc = calculate_fpr_tpr(model, y_test, y_pred, X_test)
         roc_fpr[m['label']] = fpr
         roc_tpr[m['label']] = tpr
@@ -376,6 +442,11 @@ def generate_prediction_file(df, model_f1_score, classification_full_pred, class
     top_5_model = sorted(model_f1_score, key=model_f1_score.get, reverse=True)[:5]
     # print(top_5_model, model_f1_score, classification_full_pred.keys(), classification_full_pred_prob.keys())
     pdf.multi_cell(h=7.5, w=0, txt="Top 5 models used to predict", align="C", border=1)
+    pdf.ln(5)
+    pdf.multi_cell(h=5.0, w=0, txt="Top 5 classifiers are selected out of 9 classifiers based on f1-score and used for"
+                                   " prediction. We identified optimal threshold to separate donor and non-donor "
+                                   "classes. Following are f1-score, threshold and count of donor and non-donor "
+                                   "samples.")
     pdf.ln(5)
     for ind, m in enumerate(top_5_model):
         prediction = classification_full_pred.get(m)
@@ -462,25 +533,25 @@ def transform_features(vectorizer, df_info):
 def print_steps_taken():
     pdf.multi_cell(h=7.5, w=0, txt="Steps taken to run the model", align="C", border=1)
     pdf.ln(5)
-    pdf.multi_cell(h=5.0, w=0, txt="1. Data Input")
+    pdf.multi_cell(h=5.0, w=0, txt="1. Read input data file.")
     pdf.ln(5)
-    pdf.multi_cell(h=5.0, w=0, txt="2. Data cleaning: Remove null rows and columns")
+    pdf.multi_cell(h=5.0, w=0, txt="2. Data cleaning: Remove null rows and columns.")
     pdf.ln(5)
-    pdf.multi_cell(h=5.0, w=0, txt="3. Identify columns containing categorical and textual data")
+    pdf.multi_cell(h=5.0, w=0, txt="3. Identify columns containing categorical and textual data.")
     pdf.ln(5)
-    pdf.multi_cell(h=5.0, w=0, txt="4. Assign target value to each sample")
+    pdf.multi_cell(h=5.0, w=0, txt="4. Assign target value to each sample.")
     pdf.ln(5)
-    pdf.multi_cell(h=5.0, w=0, txt="5. Train 10 classifiers by spliting dataset for train and test")
+    pdf.multi_cell(h=5.0, w=0, txt="5. Train 9 different classifiers by spliting dataset for train and test.")
     pdf.ln(5)
-    pdf.multi_cell(h=5.0, w=0, txt="6. Calculate feature importance for each classifier")
+    pdf.multi_cell(h=5.0, w=0, txt="6. Calculate feature importance for each classifier.")
     pdf.ln(5)
-    pdf.multi_cell(h=5.0, w=0, txt="7. Plot confusion matrix and classification report")
+    pdf.multi_cell(h=5.0, w=0, txt="7. Plot confusion matrix and classification report.")
     pdf.ln(5)
-    pdf.multi_cell(h=5.0, w=0, txt="8. Select top 5 classifier using f1-score")
+    pdf.multi_cell(h=5.0, w=0, txt="8. Select top 5 classifier using f1-score.")
     pdf.ln(5)
-    pdf.multi_cell(h=5.0, w=0, txt="9. Receiver Operating Characteristic (ROC) Curve")
+    pdf.multi_cell(h=5.0, w=0, txt="9. Receiver Operating Characteristic (ROC) Curve.")
     pdf.ln(5)
-    pdf.multi_cell(h=5.0, w=0, txt="10. Identify optimal threshold and predict")
+    pdf.multi_cell(h=5.0, w=0, txt="10. Identify optimal threshold and predict.")
     pdf.ln(10)
 
 
