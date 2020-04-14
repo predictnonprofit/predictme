@@ -25,7 +25,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.calibration import CalibratedClassifierCV
 from matplotlib.backends.backend_pdf import PdfPages
 from collections import Counter
-
+from datetime import date
 from fpdf import FPDF
 
 import sys
@@ -189,20 +189,31 @@ def process_donation_columns(df, donation_columns):
     del donation_columns['donation_non_zero']
     # print(donation_columns['target'].value_counts())
 
-    positive_class_count = donation_columns[donation_columns['target'] == 1].shape[0]
-    negative_class_count = donation_columns[donation_columns['target'] == 0].shape[0]
+    # positive_class_count = donation_columns[donation_columns['target'] == 1].shape[0]
+    # negative_class_count = donation_columns[donation_columns['target'] == 0].shape[0]
 
-    pdf.multi_cell(h=5.0, w=0, txt="3. Positive sample count: {} and Negative sample count: {}".format(positive_class_count,
-                                                                                                    negative_class_count))
+    # pdf.multi_cell(h=5.0, w=0, txt="3. Positive sample count: {} and Negative sample count: {}".format(positive_class_count,
+    #                                                                                                 negative_class_count))
 
     # pdf.multi_cell(h=5.0, w=0, txt=str(donation_columns['target'].value_counts()))
-    pdf.ln(5)
+    # pdf.ln(5)
     return donation_columns
 
 
 def generate_correlation(donation_columns):
-    fig, ax = plt.subplots(figsize=(8, 8))
+    pdf.set_font('Arial', 'BU')
+    pdf.multi_cell(h=5.0, w=0, txt="Correlation Plot")
+    pdf.set_font('Arial')
+    pdf.ln(3)
+    pdf.multi_cell(h=5.0, w=0, txt="Correlation explains how one or more variables are related to each other.")
+    pdf.ln(3)
+    fig, ax = plt.subplots(figsize=(13, 13))
     ax = sn.heatmap(donation_columns.corr(), annot=True)
+    global image_index
+    plots_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "Plots"))
+    plt.savefig("{}/temp_{}.png".format(plots_path, image_index))
+    pdf.image("{}/temp_{}.png".format(plots_path, image_index), w=125, h=100)
+    image_index += 1
 
 
 def get_feature_weights(feature_list, feature_dict):
@@ -212,7 +223,8 @@ def get_feature_weights(feature_list, feature_dict):
     return sum_
 
 
-def calculate_feature_importance(df_info, feature_dict):
+def calculate_feature_importance(df_info, feature_names, feature_value):
+    feature_dict = {i: abs(j) for i, j in zip(feature_names, feature_value)}
     info_columns = list(df_info.columns)
     info_columns.remove('comb_text')
     
@@ -229,21 +241,23 @@ def calculate_feature_importance(df_info, feature_dict):
 
     sorted_idx = np.argsort(feature_imp)
     pos = np.arange(sorted_idx.shape[0]) + .5
-    pdf.multi_cell(h=5.0, w=0, txt="Feature Importance Plot")
+    pdf.set_font('Arial', 'B')
+    pdf.multi_cell(h=5.0, w=0, txt="# Feature Importance Plot")
+    pdf.set_font('Arial')
     pdf.ln(5)
     featfig = plt.figure(figsize=(10, 6))
     featax = featfig.add_subplot(1, 1, 1)
     featax.barh(pos, sorted(feature_imp), align='center')
     featax.set_yticks(pos)
-    featax.set_yticklabels(np.array(feature_columns)[sorted_idx], fontsize=8)
-    featax.set_xlabel('Relative Feature Importance')
+    featax.set_yticklabels(np.array(feature_columns)[sorted_idx], fontsize=10)
+    featax.set_xlabel('% Relative Feature Importance')
     plt.tight_layout()
     global image_index
     plots_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "Plots"))
     plt.savefig("{}/temp_{}.png".format(plots_path, image_index))
-    pdf.image("{}/temp_{}.png".format(plots_path, image_index), w=100, h=80)
+    pdf.image("{}/temp_{}.png".format(plots_path, image_index), w=160, h=96)
     image_index += 1
-    pdf.ln(10)
+    pdf.ln(5)
     # plt.show()
 
 
@@ -254,16 +268,23 @@ def add_classification_report_table(y_test, y_pred):
     report_df['precision'] = report_df['precision'].apply(lambda x: str(round(x, 2)))
     report_df['recall'] = report_df['recall'].apply(lambda x: str(round(x, 2)))
     report_df['support'] = report_df['support'].apply(lambda x: str(x))
+    report_df = report_df.rename(columns={"f1-score": "F1-score",
+                                          "precision": "Precision",
+                                          "recall": "Recall",
+                                          "support": "Support"})
     report_df.reset_index(inplace=True)
+    report_df['index'] = report_df['index'].replace({"0": "Non-donor class", "1": "Donor class",
+                                                     "macro avg": "Macro avg", "weighted avg": "Weighted avg"})
+    report_df = report_df.rename(columns={"index": "Index"})
     report_df = pd.DataFrame(np.vstack([report_df.columns, report_df]))
     report_df = report_df.values.tolist()
     del report_df[3]
-    spacing=1.2
-    col_width = pdf.w / 7.5
+    spacing=1.25
+    col_width = pdf.w / 6
     row_height = pdf.font_size
     for row in report_df:
         for item in row:
-            pdf.cell(col_width, row_height*spacing, txt=item, border=1)
+            pdf.cell(col_width, row_height*spacing, txt=item, border=1, align="C")
         pdf.ln(row_height*spacing)
 
 
@@ -271,18 +292,23 @@ def print_confusion_matrix_classification_report(y_test, y_pred):
     df_cm = pd.DataFrame(confusion_matrix(y_test, y_pred), range(2), range(2))
     print(df_cm)
     sn.set(font_scale=1.4) # for label size
-    sn.heatmap(df_cm, annot=True, fmt="d", annot_kws={"size": 16}) # font size
+    sn.heatmap(df_cm, annot=True, fmt="d", annot_kws={"size": 30}) # font size
     plt.xlabel("Predicted")
     plt.ylabel("True")
     global image_index
-    pdf.multi_cell(h=5.0, w=0, txt="Confusion Matrix Plot")
-    pdf.ln(5)
+    pdf.set_font('Arial', 'B')
+    pdf.multi_cell(h=5.0, w=0, txt="# Confusion Matrix Plot")
+    pdf.set_font('Arial')
+    pdf.ln(3)
     plots_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "Plots"))
     plt.savefig("{}/temp_{}.png".format(plots_path, image_index))
-    pdf.image("{}/temp_{}.png".format(plots_path, image_index), w=100)
+    pdf.image("{}/temp_{}.png".format(plots_path, image_index), w=105, h=70)
     image_index += 1
     # plt.show()
-    pdf.multi_cell(h=5.0, w=0, txt="Classification Report")
+    pdf.ln(5)
+    pdf.set_font('Arial', 'B')
+    pdf.multi_cell(h=5.0, w=0, txt="# Classification Report Table")
+    pdf.set_font('Arial')
     pdf.ln(5)
     add_classification_report_table(y_test, y_pred)
     pdf.ln(5)
@@ -304,22 +330,23 @@ def calculate_fpr_tpr(model, y_test, y_pred, X_test):
     return fpr, tpr, auc
 
 
-def plot_roc_curve(roc_fpr, roc_tpr, roc_auc):
-    model_names = list(roc_fpr.keys())
+def plot_roc_curve(roc_fpr, roc_tpr, roc_auc, top_5_models):
+    pdf.set_font('Arial', 'BU')
     pdf.multi_cell(h=5.0, w=0, txt="Receiver Operating Characteristic (ROC) Curve")
+    pdf.set_font('Arial')
     pdf.ln(5)
     pdf.multi_cell(h=5.0, w=0, txt="It is a plot of the false positive rate (x-axis) versus the true positive rate "
                                    "(y-axis). True positive rate or sensitivity describes how good the model is at "
                                    "predicting the positive class when the actual outcome is positive. False positive "
                                    "rate decribes how often a positive class is predicted when the actual outcome is "
-                                   "negative. A model with perfect skill is represented by a line that travels from "
+                                   "negative. A model with high accuracy is represented by a line that travels from "
                                    "the bottom left of the plot to the top left and then across the top to the top "
-                                   "right and has Area Under Curve (AUC) as 1. A model with no skill is represented by "
+                                   "right and has Area Under Curve (AUC) as 1. A model with less accuracy is represented by "
                                    "a diagonal line from the bottom left of the plot to the top right and has an AUC "
                                    "of 0.5. We can compare multiple models using AUC value, Best model will have AUC "
                                    "close to 1.")
     pdf.ln(5)
-    for model_name in model_names:
+    for model_name in top_5_models:
         fpr = roc_fpr.get(model_name)
         tpr = roc_tpr.get(model_name)
         auc = roc_auc.get(model_name)
@@ -335,14 +362,14 @@ def plot_roc_curve(roc_fpr, roc_tpr, roc_auc):
     global image_index
     plots_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "Plots"))
     plt.savefig("{}/temp_{}.png".format(plots_path, image_index))
-    pdf.image("{}/temp_{}.png".format(plots_path, image_index), w=125, h=100)
+    pdf.image("{}/temp_{}.png".format(plots_path, image_index), w=175, h=105)
     image_index += 1
     pdf.ln(10)
 
 
-def model_selection(X, y, X_pred, feature_names, df_info):
+def model_selection(X, y, X_pred):
     models = [{'label': 'LogisticRegression', 'model': LogisticRegression()},
-                # {'label': 'GaussianNB', 'model': GaussianNB()},
+                # {'label': 'GaussianNB', 'model': GaussianNB()}, #No feature importance
                 {'label': 'MultinomialNB', 'model': MultinomialNB()},
                 {'label': 'ComplementNB', 'model': ComplementNB()},
                 {'label': 'BernoulliNB', 'model': BernoulliNB()},
@@ -353,43 +380,47 @@ def model_selection(X, y, X_pred, feature_names, df_info):
                 {'label': 'RandomForestClassifier', 'model': RandomForestClassifier()}]
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
-    pdf.multi_cell(h=5.0, w=0, txt="5. Training data (80%) used: {}".format(X_train.shape[0]))
-    pdf.ln(5)
-    pdf.multi_cell(h=5.0, w=0, txt="6. Test data (20%) used: {}".format(X_test.shape[0]))
-    pdf.ln(5)
+    pdf.multi_cell(h=5.0, w=0, txt="4. 80 % of Data used for Training the model: {}".format(X_train.shape[0]))
+    pdf.ln(3)
+    pdf.multi_cell(h=5.0, w=0, txt="5. 20 % of Data used for Testing the model: {}".format(X_test.shape[0]))
+    pdf.ln(3)
     print_steps_taken()
-    pdf.multi_cell(h=7.5, w=0, txt="Model Summary", align="C", border=1)
-    pdf.ln(5)
-
-    pdf.multi_cell(h=5.0, w=0, txt="Following terms used below are defined as follows")
-    pdf.ln(5)
-    pdf.multi_cell(h=5.0, w=0, txt="Precision: It is fraction of correctly classified instances among all predicted "
-                                   "instances.")
+    pdf.set_font('Arial', 'BU')
+    pdf.multi_cell(h=7.5, w=0, txt="C. Model Summary")
+    pdf.set_font('Arial')
+    pdf.ln(4)
+    pdf.multi_cell(h=5.0, w=0, txt="Following terms are used while executing the models.")
+    pdf.ln(3)
+    pdf.multi_cell(h=5.0, w=0, txt="     1. F1-score: It is a harmonic mean of precision and recall.")
     pdf.ln(2.5)
-    pdf.multi_cell(h=5.0, w=0, txt="Recall: It is fraction of correctly classified instanes among all actual/true "
-                                   "instances.")
+    pdf.multi_cell(h=5.0, w=0, txt="     2. Precision: It is a fraction of correctly classified instances among all "
+                                   "predicted instances.")
     pdf.ln(2.5)
-    pdf.multi_cell(h=5.0, w=0, txt="F1-score: It is a harmonic mean of precision and recall.")
+    pdf.multi_cell(h=5.0, w=0, txt="     3. Recall: It is fraction of correctly classified instanes among all "
+                                   "actual/true instances.")
     pdf.ln(2.5)
-    pdf.multi_cell(h=5.0, w=0, txt="Support: Number of samples used for the experiment.")
+    pdf.multi_cell(h=5.0, w=0, txt="     4. Support: Number of samples used for the experiment.")
     pdf.ln(2.5)
-    pdf.multi_cell(h=5.0, w=0, txt="Confusion matrix plot: It is a plot of the true count (x-axis) versus predicted "
-                                   "count (y-axis) for both the classes. "
+    pdf.multi_cell(h=5.0, w=0, txt="     5. Confusion Matrix Plot: It is a plot of the true count (x-axis) versus "
+                                   "predicted count (y-axis) for              both the classes. "
                                    "Top left box represents count of true negatives, top right "
-                                   "box represents count of false negatives, bottom left box represents count of false "
-                                   "positive and bottom right box represents count of true positives.")
+                                   "box represents                  count of false negatives, bottom left box represents count of"
+                                   " false positive and bottom right                 box represents count of true positives.")
     pdf.ln(2.5)
-    pdf.multi_cell(h=5.0, w=0, txt="Feature importance plot: Y-axis: variable present in input file and X-axis: "
-                                   "relative % of feature importance.")
+    pdf.multi_cell(h=5.0, w=0, txt="     6. Feature Importance Plot: Y-axis: variable present in input file and "
+                                   "X-axis: relative % of feature            importance.")
     pdf.ln(7.5)
 
     plt.figure(figsize=(15, 10))
     model_f1_score={}
     classification_full_pred={}
     classification_full_pred_prob={}
+    feature_importance_dict={}
     roc_fpr={}
     roc_tpr={}
     roc_auc={}
+    y_test_dict={}
+    y_pred_dict={}
     for ind, m in enumerate(models):
         start_time = time.time()
         model = m['model']
@@ -400,20 +431,12 @@ def model_selection(X, y, X_pred, feature_names, df_info):
         classification_full_pred[m['label']] = model.predict(X_pred) ## ADD New columns
         classification_full_pred_prob[m['label']] = model.predict_proba(X_pred)
 
-        pdf.multi_cell(h=5.0, w=0, txt="{}. Classifier: {}".format(ind+1, m['label']))
-        pdf.ln(5)
-
-        pdf.multi_cell(h=5.0, w=0, txt="f1-score {} and  training time(seconds): {}".format(round(f1_score(y_test,
-                                                                                                           y_pred,
-                                                                                            average='weighted'), 2),
-                                                                                            round(time.time() -
-                                                                                                  start_time, 3)))
-        pdf.ln(5)
         # print("Classifier: {} and time(seconds): {}".format(m['label'], round(time.time()-start_time, 3)))
         # print()
         # print("Classifier: {} and f1-score {}".format(m['label'], round(f1_score(y_test, y_pred, average='weighted'), 2)))
         model_f1_score[m['label']] = round(f1_score(y_test, y_pred, average='weighted'), 2)
-        print_confusion_matrix_classification_report(y_test, y_pred)
+        y_test_dict[m['label']] = y_test
+        y_pred_dict[m['label']] = y_pred
         if m['label'] in ['DecisionTreeClassifier', 'RandomForestClassifier']:
             feature_value = model.feature_importances_[:-1]
         elif m['label'] in ['PassiveAggressiveClassifier', 'LinearSVC']:
@@ -425,29 +448,33 @@ def model_selection(X, y, X_pred, feature_names, df_info):
         else:
             feature_value = model.coef_[0][:-1]
 
-        feature_dict = {i: abs(j) for i, j in zip(feature_names, feature_value)}
-        if m['label'] not in ['GaussianNB']:
-            calculate_feature_importance(df_info, feature_dict)
+        feature_importance_dict[m['label']] = feature_value
+
         fpr, tpr, auc = calculate_fpr_tpr(model, y_test, y_pred, X_test)
         roc_fpr[m['label']] = fpr
         roc_tpr[m['label']] = tpr
         roc_auc[m['label']] = auc
 
-    plot_roc_curve(roc_fpr, roc_tpr, roc_auc)
-    return model_f1_score, classification_full_pred, classification_full_pred_prob
+    # calculate_feature_importance(df_info, feature_value)
+    # plot_roc_curve(roc_fpr, roc_tpr, roc_auc)
+    # print_confusion_matrix_classification_report(y_test, y_pred)
+    return model_f1_score, classification_full_pred, classification_full_pred_prob, feature_importance_dict, roc_fpr, \
+           roc_tpr, roc_auc, y_test_dict, y_pred_dict
 
 
-def generate_prediction_file(df, model_f1_score, classification_full_pred, classification_full_pred_prob, y):
+def generate_prediction_file(df, model_f1_score, classification_full_pred, classification_full_pred_prob, y,
+                             feature_importance_dict, roc_fpr, roc_tpr, roc_auc, y_test_dict, y_pred_dict,
+                             feature_names, df_info, donation_columns_df):
     model_f1_score = {k: v for k, v in sorted(model_f1_score.items(), key=lambda item: item[1])}
     top_5_model = sorted(model_f1_score, key=model_f1_score.get, reverse=True)[:5]
     # print(top_5_model, model_f1_score, classification_full_pred.keys(), classification_full_pred_prob.keys())
-    pdf.multi_cell(h=7.5, w=0, txt="Top 5 models used to predict", align="C", border=1)
-    pdf.ln(5)
-    pdf.multi_cell(h=5.0, w=0, txt="Top 5 classifiers are selected out of 9 classifiers based on f1-score and used for"
+    pdf.set_font('Arial', 'BU')
+    pdf.multi_cell(h=7.5, w=0, txt="D. Top 5 models used to predict")
+    pdf.set_font('Arial')
+    pdf.ln(4)
+    pdf.multi_cell(h=5.0, w=0, txt="Top 5 classifiers are selected out of 10 classifiers based on F1-score and used for"
                                    " prediction. We identified optimal threshold to separate donor and non-donor "
-                                   "classes. Following are f1-score, threshold and count of donor and non-donor "
-                                   "samples.")
-    pdf.ln(5)
+                                   "classes. Following are f1-score, threshold and count of donor samples")
     for ind, m in enumerate(top_5_model):
         prediction = classification_full_pred.get(m)
         prob = classification_full_pred_prob.get(m)
@@ -467,17 +494,28 @@ def generate_prediction_file(df, model_f1_score, classification_full_pred, class
         df['2020_{}'.format(m)] = df['non_donor_prob_{}'.format(m)].apply(
             lambda x: 0 if x > max_acc_threshold[0] else 1)
         donor_count = df[df['2020_{}'.format(m)] == 1].shape[0]
+        donor_per = round((donor_count/df.shape[0])*100, 2)
         non_donor_count = df[df['2020_{}'.format(m)] == 0].shape[0]
-        pdf.multi_cell(h=5.0, w=0, txt="{}. {}".format(ind+1, m))
+        pdf.ln(3)
+        pdf.set_font('Arial', 'BU')
+        pdf.multi_cell(h=5.0, w=0, txt="Model {}. {}".format(ind+1, m))
+        pdf.set_font('Arial')
+        pdf.ln(3)
+        pdf.multi_cell(h=5.0, w=0, txt="        a. F1-score: {}".format(model_f1_score.get(m)))
+        pdf.ln(2.5)
+        pdf.multi_cell(h=5.0, w=0, txt="        b. Threshold used: {}".format(max_acc_threshold[0]))
+        pdf.ln(2.5)
+        pdf.multi_cell(h=5.0, w=0, txt="        c. Donor predicted: {}% ({} out of {})".format(donor_per, donor_count,
+                                                                                               df.shape[0]))
         pdf.ln(5)
-        pdf.multi_cell(h=5.0, w=0, txt="F1-score: {}".format(model_f1_score.get(m)))
-        pdf.ln(5)
-        pdf.multi_cell(h=5.0, w=0, txt="Threshold used: {}".format(max_acc_threshold[0]))
-        pdf.ln(5)
-        pdf.multi_cell(h=5.0, w=0, txt="Donor predicted: {}".format(donor_count))
-        pdf.ln(5)
-        pdf.multi_cell(h=5.0, w=0, txt="Non-Donor predicted: {}".format(non_donor_count))
-        pdf.ln(10)
+        print_confusion_matrix_classification_report(y_test_dict.get(m), y_pred_dict.get(m))
+        calculate_feature_importance(df_info, feature_names, feature_importance_dict.get(m))
+        # pdf.multi_cell(h=5.0, w=0, txt="Non-Donor predicted: {}".format(non_donor_count))
+        # pdf.ln(10)
+
+    plot_roc_curve(roc_fpr, roc_tpr, roc_auc, top_5_model)
+    if donation_columns_df.shape[1] != 0:
+        generate_correlation(donation_columns_df)
     return df
 
 
@@ -531,27 +569,36 @@ def transform_features(vectorizer, df_info):
 
 
 def print_steps_taken():
-    pdf.multi_cell(h=7.5, w=0, txt="Steps taken to run the model", align="C", border=1)
     pdf.ln(5)
-    pdf.multi_cell(h=5.0, w=0, txt="1. Read input data file.")
-    pdf.ln(5)
-    pdf.multi_cell(h=5.0, w=0, txt="2. Data cleaning: Remove null rows and columns.")
-    pdf.ln(5)
-    pdf.multi_cell(h=5.0, w=0, txt="3. Identify columns containing categorical and textual data.")
-    pdf.ln(5)
-    pdf.multi_cell(h=5.0, w=0, txt="4. Assign target value to each sample.")
-    pdf.ln(5)
-    pdf.multi_cell(h=5.0, w=0, txt="5. Train 9 different classifiers by spliting dataset for train and test.")
-    pdf.ln(5)
-    pdf.multi_cell(h=5.0, w=0, txt="6. Calculate feature importance for each classifier.")
-    pdf.ln(5)
-    pdf.multi_cell(h=5.0, w=0, txt="7. Plot confusion matrix and classification report.")
-    pdf.ln(5)
-    pdf.multi_cell(h=5.0, w=0, txt="8. Select top 5 classifier using f1-score.")
-    pdf.ln(5)
-    pdf.multi_cell(h=5.0, w=0, txt="9. Receiver Operating Characteristic (ROC) Curve.")
-    pdf.ln(5)
-    pdf.multi_cell(h=5.0, w=0, txt="10. Identify optimal threshold and predict.")
+    pdf.set_font('Arial', 'BU')
+    pdf.multi_cell(h=7.5, w=0, txt="B. Steps Taken to Run the Predictive Models")
+    pdf.set_font('Arial')
+    pdf.ln(4)
+    pdf.multi_cell(h=5.0, w=0, txt="1. Read the input data file provided.")
+    pdf.ln(2.5)
+    pdf.multi_cell(h=5.0, w=0, txt="2. Data cleaning: remove null rows and columns and impute missing values.")
+    pdf.ln(2.5)
+    pdf.multi_cell(h=5.0, w=0, txt="3. Identify columns containing categorical and textual data and convert it to "
+                                   "numerical vectors.")
+    pdf.ln(2.5)
+    pdf.multi_cell(h=5.0, w=0, txt="4. Assign target value: Target values are the dependent variable.")
+    pdf.ln(2.5)
+    pdf.multi_cell(h=5.0, w=0, txt="5. Splitting the dataset for training and testing to train total of 10 different "
+                                   "classifiers.")
+    pdf.ln(2.5)
+    pdf.multi_cell(h=5.0, w=0, txt="6. Calculate Feature Importance for each classifier. Feature importance gives "
+                                   "a score for each feature of your data.")
+    pdf.ln(2.5)
+    pdf.multi_cell(h=5.0, w=0, txt="7. Plot Confusion Matrix and Classification report. A confusion matrix is a table "
+                                   "that is used to describe the performance of a model.")
+    pdf.ln(2.5)
+    pdf.multi_cell(h=5.0, w=0, txt="8. Identify and select top 5 classifiers using the F1-Score. The F1-score is a "
+                                   "measure of a test's (model's) accuracy.")
+    pdf.ln(2.5)
+    pdf.multi_cell(h=5.0, w=0, txt="9. Receiver Operating Characteristic (ROC) Curve. ROC is a probability curve. It "
+                                   "tells how much model is capable of distinguishing between classes.")
+    pdf.ln(2.5)
+    pdf.multi_cell(h=5.0, w=0, txt="10.  Identify optimal threshold (accuracy of the model) and predict.")
     pdf.ln(10)
 
 
@@ -559,8 +606,16 @@ if __name__ == "__main__":
     plots_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "Plots"))
     files = glob.glob('{}/*.png'.format(plots_path))
     logo_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "logo"))
-    pdf.image("{}/logo.png".format(logo_path), w=135, h=60, x=40)
-    pdf.ln(15)
+    pdf.image("{}/logo-new.png".format(logo_path), w=135, h=50, x=40)
+    pdf.ln(5)
+    today = date.today()
+    today_date = today.strftime("%B %d, %Y")
+    # pdf.multi_cell(h=5.0, w=0, txt="PREDICT ME", align="C")
+    # pdf.ln(5)
+    pdf.multi_cell(h=5.0, w=0, txt="Predictive Modeling Results", align="C")
+    pdf.ln(3)
+    pdf.multi_cell(h=5.0, w=0, txt="Report Date: {}".format(today_date), align="C")
+    pdf.ln(5)
     for f in files:
         os.remove(f)
     file_path = sys.argv[1]
@@ -569,13 +624,19 @@ if __name__ == "__main__":
     # print("all columns: {}".format(donor_df.columns))
     # print(donor_df.shape)
     # print("donation columns: {}".format(donation_columns))
-    pdf.multi_cell(h=7.5, w=0, txt="Data Input Summary", align="C", border=1)
-    pdf.ln(5)
+    pdf.set_font('Arial', 'BU')
+    pdf.multi_cell(h=7.5, w=0, txt="A. Data Input Summary")
+    pdf.set_font('Arial')
+    pdf.ln(4)
     donor_df = remove_rows_containg_all_null_values(donor_df)
-    pdf.multi_cell(h=5.0, w=0, txt="1. Total training samples: {}".format(donor_df.shape[0]))
-    pdf.ln(5)
-    pdf.multi_cell(h=5.0, w=0, txt="2. Donation columns: {}".format(donation_columns))
-    pdf.ln(5)
+    pdf.multi_cell(h=5.0, w=0, txt="1. Total Data Sample: {}".format(donor_df.shape[0]))
+    pdf.ln(2.5)
+    pdf.multi_cell(h=5.0, w=0, txt="2. Donation Columns:")
+    pdf.ln(2.5)
+    test_list = [chr(x) for x in range(ord('a'), ord('z') + 1)]
+    for i in range(len(donation_columns)):
+        pdf.multi_cell(h=5.0, w=0, txt="          {}. {}".format(test_list[i], donation_columns[i]))
+        pdf.ln(2.5)
     # donation_columns = identify_years_columns(donor_df)
     donation_columns_df = process_donation_columns(donor_df, donation_columns)
     postive_class = donation_columns_df[donation_columns_df['target'] == 1].shape[0]
@@ -601,11 +662,17 @@ if __name__ == "__main__":
     # print(df_info.columns)
     cat_col = identify_categorical_columns(df, info_columns)
     # print("Categorical columns: {}".format(cat_col))
-    pdf.multi_cell(h=5.0, w=0, txt="4. Categorical columns: {}".format(cat_col))
-    pdf.ln(5)
+
+    pdf.multi_cell(h=5.0, w=0, txt="3. Categorical Columns:")
+    pdf.ln(3)
+    test_list = [chr(x) for x in range(ord('a'), ord('z') + 1)]
+    for i in range(len(cat_col)):
+        pdf.multi_cell(h=5.0, w=0, txt="          {}. {}".format(test_list[i], cat_col[i]))
+        pdf.ln(2.5)
+
     processed_text, tfidf_matrix, feature_names, df_info, vectorizer = feature_extraction(df_info)
     y = list(donation_columns_df['target'])
-    # generate_correlation(donation_columns_df)
+
     if no_donations_columns:
         X_pred = transform_features(vectorizer, donor_df)
         X_train = tfidf_matrix
@@ -623,11 +690,12 @@ if __name__ == "__main__":
         # X_pred = np.append(tfidf_matrix, column_predict, 1)
         # print(X_train.shape, X_pred.shape)
 
+    model_f1_score, classification_full_pred, classification_full_pred_prob, feature_importance_dict, roc_fpr, \
+    roc_tpr, roc_auc, y_test_dict, y_pred_dict = model_selection(X_train, y, X_pred)
+    df_final = generate_prediction_file(donor_df, model_f1_score, classification_full_pred,
+                                        classification_full_pred_prob, y, feature_importance_dict, roc_fpr, roc_tpr,
+                                        roc_auc, y_test_dict, y_pred_dict, feature_names, df_info, donation_columns_df)
 
-    model_f1_score, classification_full_pred, classification_full_pred_prob = model_selection(X_train, y, X_pred,
-                                                                                                  feature_names,
-                                                                                                  df_info)
-    df_final = generate_prediction_file(donor_df, model_f1_score, classification_full_pred, classification_full_pred_prob, y)
     prediction_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "prediction"))
     pdf_report_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "PdfReport"))
     file_path = file_path.split("/")[-1]
