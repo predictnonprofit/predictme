@@ -407,39 +407,41 @@ def model_selection(X, y, X_pred, donation_columns, cat_col):
     pdf.multi_cell(h=7.5, w=0, txt="C. Important Terms Used in Predictive Modeling")
     pdf.set_font(font_style, size=10)
     pdf.ln(1)
-    pdf.multi_cell(h=5.0, w=0, txt="     1. F1-score: It is a harmonic mean of precision and recall")
+    pdf.multi_cell(h=5.0, w=0, txt="     1. F1-score: It is a harmonic mean of precision and recall.")
     pdf.ln(0.5)
     pdf.multi_cell(h=5.0, w=0, txt="     2. Precision: It is a fraction of correctly classified instances among all "
-                                   "predicted instances")
+                                   "predicted instances.")
     pdf.ln(0.5)
     pdf.multi_cell(h=5.0, w=0, txt="     3. Recall: It is a fraction of correctly classified instances among all "
-                                   "actual/valid instances")
+                                   "actual/valid instances.")
     pdf.ln(0.5)
-    pdf.multi_cell(h=5.0, w=0, txt="     4. Support: Number of samples used for the experiment")
+    pdf.multi_cell(h=5.0, w=0, txt="     4. Support: Number of samples used for the experiment.")
     pdf.ln(0.5)
     pdf.multi_cell(h=5.0, w=0, txt="     5. Confusion Matrix Plot: It is a plot of the true count (x-axis) versus "
-                                   "predicted count (y-axis) for both the ")
+                                   "predicted count (y-axis) for both the classes.")
     pdf.ln(0.25)
-    pdf.multi_cell(h=5.0, w=0, txt="         classes. The top left box represents the count of true negatives,"
-                                   " the top right box represents the count")
+    pdf.multi_cell(h=5.0, w=0, txt="         The top left box represents the count of true negatives,"
+                                   " the top right box represents the count of false negatives,")
     pdf.ln(0.25)
-    pdf.multi_cell(h=5.0, w=0, txt="         of false negatives, bottom left box represents the "
-                                   "count of false positives and bottom right box")
-    pdf.ln(0.25)
-    pdf.multi_cell(h=5.0, w=0, txt="         represents the count of true positives")
+    pdf.multi_cell(h=5.0, w=0, txt="         bottom left box represents the count of false positives and bottom right"
+                                   " box represents the count of true positives.")
     pdf.ln(0.5)
     pdf.multi_cell(h=5.0, w=0, txt="     6. Feature Importance Plot: Y-axis: variable present in input file and "
-                                   "X-axis: relative % of feature")
+                                   "X-axis: relative % of feature importance.")
+    pdf.ln(0.5)
+    pdf.multi_cell(h=5.0, w=0, txt="     7. Probability Score: It is a probabilty (likelihood) of an individual to "
+                                   "donate.")
+    pdf.ln(0.5)
+    pdf.multi_cell(h=5.0, w=0, txt="     8. Threshold Value: It is the threshold (cut-off) value used on a probability "
+                                   "score to seperate a donor from a")
     pdf.ln(0.25)
-    pdf.multi_cell(h=5.0, w=0, txt="         importance")
+    pdf.multi_cell(h=5.0, w=0, txt="         nondonor.")
     pdf.ln(0.5)
-    pdf.multi_cell(h=5.0, w=0, txt="     7. Probability Score: It is a probability of a person to donate")
-    pdf.ln(0.5)
-    pdf.multi_cell(h=5.0, w=0, txt="     8. Threshold value: It is a threshold used on probability to separate donor "
-                                   "from non-donor")
-    pdf.ln(0.5)
-    pdf.multi_cell(h=5.0, w=0, txt="     9. Predicted Classification (0 and 1): The value 1 signifies person is likely "
-                                   "to donate and 0 is not likely to donate")
+    pdf.multi_cell(h=5.0, w=0, txt="     9. Predicted Classification (0 and 1): Classification value 1 indicates an "
+                                   "individual likely to donate and classification")
+    pdf.ln(0.25)
+    pdf.multi_cell(h=5.0, w=0, txt="         value 0 indicates an individual less likely to donate. They follow the "
+                                   "threshold (cut-off) value logic.")
     pdf.ln(0.5)
     pdf.ln(3)
 
@@ -598,41 +600,39 @@ def print_steps_taken():
     pdf.multi_cell(h=7.5, w=0, txt="B. Running the Predictive Model: A Step by Step Guide")
     pdf.set_font(font_style, size=10)
     pdf.ln(1)
-    pdf.multi_cell(h=5.0, w=0, txt="     1. Read the input data file provided")
+    pdf.multi_cell(h=5.0, w=0, txt="     1. Read the input data file provided.")
     pdf.ln(0.5)
-    pdf.multi_cell(h=5.0, w=0, txt="     2. Cleaning up of data: remove null rows and columns and impute missing values")
+    pdf.multi_cell(h=5.0, w=0, txt="     2. Cleaning up of data: remove null rows and columns and impute missing values.")
     pdf.ln(0.5)
     pdf.multi_cell(h=5.0, w=0, txt="     3. Identifying columns containing categorical and textual data and converting "
-                                   "it to numerical values")
+                                   "it to numerical values.")
     pdf.ln(0.5)
-    pdf.multi_cell(h=5.0, w=0, txt="     4. Assigning Target Value: Target values are the dependent variable")
+    pdf.multi_cell(h=5.0, w=0, txt="     4. Assigning Target Value: Target values are the dependent variable.")
     pdf.ln(0.5)
     pdf.multi_cell(h=5.0, w=0, txt="     5. Splitting the dataset for training and testing to train a total of 10 "
-                                   "different classifiers (for example Logistic")
+                                   "different classifiers (for example Naive Bayes,")
     pdf.ln(0.25)
-    pdf.multi_cell(h=5.0, w=0, txt="         Regression, Naive Bayes and Random Forest)")
+    pdf.multi_cell(h=5.0, w=0, txt="         Logistic Regression and Random Forest).")
     pdf.ln(0.5)
     pdf.multi_cell(h=5.0, w=0, txt="     6. Calculating Feature Importance for each classifier. Feature importance "
-                                   "gives a score for each feature of")
-    pdf.ln(0.25)
-    pdf.multi_cell(h=5.0, w=0, txt="         your data")
+                                   "gives a score for each feature of your data.")
     pdf.ln(0.5)
     pdf.multi_cell(h=5.0, w=0, txt="     7. Plot Confusion Matrix and Classification report. A confusion matrix is a "
                                    "table that is used to describe the")
     pdf.ln(0.25)
-    pdf.multi_cell(h=5.0, w=0, txt="         performance of a model")
+    pdf.multi_cell(h=5.0, w=0, txt="         performance of a model.")
     pdf.ln(0.5)
     pdf.multi_cell(h=5.0, w=0, txt="     8. Identifying and selecting the best fit classifier (model) using the "
-                                   "F1-score. The F1-score is a measure of")
+                                   "F1-score. The F1-score is a measure of a test's")
     pdf.ln(0.25)
-    pdf.multi_cell(h=5.0, w=0, txt="         a test's (model's) accuracy")
+    pdf.multi_cell(h=5.0, w=0, txt="         (model's) accuracy.")
     pdf.ln(0.5)
     pdf.multi_cell(h=5.0, w=0, txt="     9. Receiver Operating Characteristic (ROC) Curve. ROC is a probability curve. "
-                                   "It tells how much a model")
+                                   "It tells how much a model is capable")
     pdf.ln(0.25)
-    pdf.multi_cell(h=5.0, w=0, txt="         is capable of distinguishing between classes")
+    pdf.multi_cell(h=5.0, w=0, txt="         of distinguishing between classes.")
     pdf.ln(0.5)
-    pdf.multi_cell(h=5.0, w=0, txt="     10. Identifying the optimal threshold (accuracy of the model) and predict")
+    pdf.multi_cell(h=5.0, w=0, txt="     10. Identifying the optimal threshold (accuracy of the model) and predict.")
     pdf.ln(3)
 
 
