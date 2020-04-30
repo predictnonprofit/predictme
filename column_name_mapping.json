@@ -1,0 +1,6 @@
+{
+  "Sample2": "[' 2019 Amount ',' 2018 Amount ',' 2017 Amount ',' 2016 Amount ',' 2015 Amount ']",
+  "Sample8": "['funding1','fund2','donations3','gifts4','donat5','transac6','grants7','money8','gift9','gift10','funding11','donations12','donations13']",
+  "Sample9": "['PrevFYGiving','PrevFY1Giving','PrevFY2Giving','PrevFY3Giving','PrevFY4Giving','CurrFYGiving']",
+  "Sample10": "['Last Gift Amount', 'FY 17 Giving', 'FY 16 Giving','FY 15 Giving', 'FY 14 Giving', 'FY 13 Giving']"
+}

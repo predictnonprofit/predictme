@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import re
+import json
 import matplotlib.pyplot as plt
 import seaborn as sn
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -82,9 +83,14 @@ def read_input_file(file_path):
 
 
 # Mark columns as donation if it contains 20 (It should come from UI)
-def identify_years_columns(df):
-    column_names = df.columns
-    return [col for col in column_names if "20" in col]
+def identify_years_columns(file_name):
+    mapping_file_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "column_name_mapping.json"))
+    with open(mapping_file_path) as jsonfile:
+        data = json.load(jsonfile)
+    for k, v in data.items():
+        if k in file_name:
+            return v
+    return "[]"
 
 
 # Identify text columns
@@ -114,7 +120,7 @@ def remove_columns_unique_values(df, column_names):
     return final_df
 
 
-# Identify categorical columns
+# Identify unique categorical columns
 def identify_categorical_columns(df, column_names):
     cat_col_ = []
     for col in column_names:
@@ -123,7 +129,7 @@ def identify_categorical_columns(df, column_names):
     return cat_col_
 
 
-# Clean input text
+# Regex function to clean input text
 def text_processing(text):
     pre_text=[]
     for x in text:
@@ -165,11 +171,14 @@ def clean_donation(donation):
 
 
 # Identify target value for each record
-def process_donation_columns(df, donation_columns):
+def process_donation_columns(df, donation_columns, no_donation_columns):
     if '2018 Donations Gave in the Area' in donation_columns:
         donation_columns.remove('2018 Donations Gave in the Area')
     if '2019 Donations Gave in the Area' in donation_columns:
         donation_columns.remove('2019 Donations Gave in the Area')
+
+    if no_donation_columns:
+        donation_columns = ast.literal_eval(donation_columns)
     donation_columns = df[donation_columns].fillna("0")
     donation_columns = donation_columns.astype(str)
 
@@ -203,8 +212,9 @@ def generate_correlation(donation_columns):
     pdf.ln(2)
     pdf.multi_cell(h=5.0, w=0, txt="Correlation explains how one or more variables are related to each other.")
     sn.set(font_scale=2)
-    fig, ax = plt.subplots(figsize=(20, 20))
+    fig, ax = plt.subplots(figsize=(25, 25))
     ax = sn.heatmap(donation_columns.corr().round(2).replace(-0, 0), annot=True)
+    plt.title('Correlation Plot', fontsize=36)
     global image_index
     plots_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "Plots"))
     plt.savefig("{}/temp_{}.png".format(plots_path, image_index))
@@ -301,6 +311,7 @@ def print_confusion_matrix_classification_report(y_test, y_pred):
     pdf.set_font(font_style, 'BU', size=10)
     pdf.multi_cell(h=5.0, w=0, txt="# Confusion Matrix Plot")
     pdf.set_font(font_style, size=10)
+    plt.title('Confusion Matrix Plot', fontsize=36)
     plots_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "Plots"))
     plt.savefig("{}/temp_{}.png".format(plots_path, image_index))
     pdf.image("{}/temp_{}.png".format(plots_path, image_index), w=112, h=75)
@@ -370,7 +381,7 @@ def plot_roc_curve(roc_fpr, roc_tpr, roc_auc, top_5_models):
 
 
 # Train 10 classifiers
-def model_selection(X, y, X_pred, donation_columns, cat_col):
+def model_selection(X, y, X_pred, donation_columns, cat_col, no_donation_columns):
     models = [{'label': 'LogisticRegression', 'model': LogisticRegression()},
                 {'label': 'RidgeClassifier', 'model': RidgeClassifier()},  # No predict_proba
                 {'label': 'MultinomialNB', 'model': MultinomialNB()},
@@ -383,19 +394,27 @@ def model_selection(X, y, X_pred, donation_columns, cat_col):
                 {'label': 'RandomForestClassifier', 'model': RandomForestClassifier()}]
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
-    pdf.multi_cell(h=5.0, w=0, txt="              a. 80% ({}) of data used for training the model".format(
-        convert_number_format(X_train.shape[0])))
-    pdf.ln(0.5)
-    pdf.multi_cell(h=5.0, w=0, txt="              b. 20% ({}) of data used for testing the model".format(
-        convert_number_format(X_test.shape[0])))
-    pdf.ln(0.5)
-    pdf.multi_cell(h=5.0, w=0, txt="     2. Donation Columns:")
-    pdf.ln(0.5)
+    if not no_donation_columns:
+        pdf.ln(1)
+        pdf.multi_cell(h=5.0, w=0, txt="              a. 80% ({}) of data used for training the model".format(
+            convert_number_format(X_train.shape[0])))
+        pdf.ln(0.5)
+        pdf.multi_cell(h=5.0, w=0, txt="              b. 20% ({}) of data used for testing the model".format(
+            convert_number_format(X_test.shape[0])))
+        pdf.ln(0.5)
+
     test_list = [chr(x) for x in range(ord('a'), ord('z') + 1)]
-    for i in range(len(donation_columns)):
-        pdf.multi_cell(h=5.0, w=0, txt="              {}. {}".format(test_list[i], donation_columns[i]))
-        pdf.ln(0.3)
-    pdf.ln(0.5)
+    if not no_donation_columns:
+        pdf.multi_cell(h=5.0, w=0, txt="     2. Donation Columns:")
+        pdf.ln(0.5)
+        for i in range(len(donation_columns)):
+            pdf.multi_cell(h=5.0, w=0, txt="              {}. {}".format(test_list[i], donation_columns[i]))
+            pdf.ln(0.3)
+        pdf.ln(0.5)
+    else:
+        pdf.multi_cell(h=5.0, w=0, txt="     2. Donation Columns: No donation columns are not present in the uploaded "
+                                       "file.")
+        pdf.ln(0.5)
     pdf.multi_cell(h=5.0, w=0, txt="     3. Categorical Columns:")
     pdf.ln(0.5)
     for i in range(len(cat_col)):
@@ -418,15 +437,17 @@ def model_selection(X, y, X_pred, donation_columns, cat_col):
     pdf.multi_cell(h=5.0, w=0, txt="     4. Support: Number of samples used for the experiment.")
     pdf.ln(0.5)
     pdf.multi_cell(h=5.0, w=0, txt="     5. Confusion Matrix Plot: It is a plot of the true count (x-axis) versus "
-                                   "predicted count (y-axis) for both the classes.")
+                                   "predicted count (y-axis) for both the classes")
     pdf.ln(0.25)
-    pdf.multi_cell(h=5.0, w=0, txt="         The top left box represents the count of true negatives,"
-                                   " the top right box represents the count of false negatives,")
+    pdf.multi_cell(h=5.0, w=0, txt="         (donor and non-donor). The top left box represents the count of true "
+                                   "negatives, the top right box represents the")
     pdf.ln(0.25)
-    pdf.multi_cell(h=5.0, w=0, txt="         bottom left box represents the count of false positives and bottom right"
-                                   " box represents the count of true positives.")
+    pdf.multi_cell(h=5.0, w=0, txt="         count of false negatives, bottom left box represents the count of false "
+                                   "positives and bottom right box represents")
+    pdf.ln(0.25)
+    pdf.multi_cell(h=5.0, w=0, txt="         the count of true positives.")
     pdf.ln(0.5)
-    pdf.multi_cell(h=5.0, w=0, txt="     6. Feature Importance Plot: Y-axis: variable present in input file and "
+    pdf.multi_cell(h=5.0, w=0, txt="     6. Feature Importance Plot: Y-axis: feature present in input file and "
                                    "X-axis: relative % of feature importance.")
     pdf.ln(0.5)
     pdf.multi_cell(h=5.0, w=0, txt="     7. Probability Score: It is a probabilty (likelihood) of an individual to "
@@ -435,7 +456,7 @@ def model_selection(X, y, X_pred, donation_columns, cat_col):
     pdf.multi_cell(h=5.0, w=0, txt="     8. Threshold Value: It is the threshold (cut-off) value used on a probability "
                                    "score to seperate a donor from a")
     pdf.ln(0.25)
-    pdf.multi_cell(h=5.0, w=0, txt="         nondonor.")
+    pdf.multi_cell(h=5.0, w=0, txt="         non-donor.")
     pdf.ln(0.5)
     pdf.multi_cell(h=5.0, w=0, txt="     9. Predicted Classification (0 and 1): Classification value 1 indicates an "
                                    "individual likely to donate and classification")
@@ -497,14 +518,15 @@ def generate_prediction_file(df, model_f1_score, classification_full_pred, class
                              feature_importance_dict, roc_fpr, roc_tpr, roc_auc, y_test_dict, y_pred_dict,
                              feature_names, df_info, donation_columns_df, no_donations_columns):
     model_f1_score = {k: v for k, v in sorted(model_f1_score.items(), key=lambda item: item[1])}
+    # Number of models we want in report, modify the count below
     top_5_model = sorted(model_f1_score, key=model_f1_score.get, reverse=True)[:1]
     pdf.set_font(font_style, 'BU', size=10)
     pdf.multi_cell(h=7.5, w=0, txt="D. Best Fit Model Used in Predictive Modeling")
     pdf.set_font(font_style, size=10)
     pdf.ln(1)
     pdf.multi_cell(h=5.0, w=0, txt="Best fit classifier (model) is selected (out of 10 classifiers) based on F1-score and used "
-                                   "for prediction. Model identified the optimal threshold to separate donor and "
-                                   "non-donor classes. Following are F1-score, threshold and count of donor samples.")
+                                   "for prediction. Model identified the optimal threshold to separate classes (donor and "
+                                   "non-donor). Following are F1-score, threshold and count of donor samples.")
     for ind, m in enumerate(top_5_model):
         prediction = classification_full_pred.get(m)
         prob = classification_full_pred_prob.get(m)
@@ -542,10 +564,11 @@ def generate_prediction_file(df, model_f1_score, classification_full_pred, class
             donor_per, convert_number_format(donor_count), convert_number_format(df.shape[0])))
         pdf.ln(3)
         print_confusion_matrix_classification_report(y_test_dict.get(m), y_pred_dict.get(m))
-        calculate_feature_importance(df_info, feature_names, feature_importance_dict.get(m))
+        if not no_donations_columns:
+            calculate_feature_importance(df_info, feature_names, feature_importance_dict.get(m))
 
     plot_roc_curve(roc_fpr, roc_tpr, roc_auc, top_5_model)
-    if donation_columns_df.shape[1] != 0:
+    if (donation_columns_df.shape[1] != 0) and (not no_donations_columns):
         generate_correlation(donation_columns_df)
     return df, m
 
@@ -569,7 +592,7 @@ def find_similar_files(input_file):
     directory_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "donation_amount_files"))
     input_features = get_tfidf_features(input_file)
     common_features = {}
-    for file_name in glob.glob(directory_path+'/*.csv'):
+    for file_name in glob.glob(directory_path+'/*.*'):
         if file_name != input_file:
             file_features = get_tfidf_features(file_name)
             print("Total features: {} for: {}".format(len(set(file_features)), file_name.split('/')[-1]))
@@ -630,7 +653,7 @@ def print_steps_taken():
     pdf.multi_cell(h=5.0, w=0, txt="     9. Receiver Operating Characteristic (ROC) Curve. ROC is a probability curve. "
                                    "It tells how much a model is capable")
     pdf.ln(0.25)
-    pdf.multi_cell(h=5.0, w=0, txt="         of distinguishing between classes.")
+    pdf.multi_cell(h=5.0, w=0, txt="         of distinguishing between classes (donor and non-donor).")
     pdf.ln(0.5)
     pdf.multi_cell(h=5.0, w=0, txt="     10. Identifying the optimal threshold (accuracy of the model) and predict.")
     pdf.ln(3)
@@ -666,32 +689,36 @@ if __name__ == "__main__":
     pdf.set_font(font_style, size=10)
     pdf.ln(1)
     donor_df = remove_rows_containg_all_null_values(donor_df)
-
-    donation_columns_df = process_donation_columns(donor_df, donation_columns)
+    no_donations_columns = False
+    donation_columns_df = process_donation_columns(donor_df, donation_columns, no_donations_columns)
     postive_class = donation_columns_df[donation_columns_df['target'] == 1].shape[0]
     negative_class = donation_columns_df[donation_columns_df['target'] == 0].shape[0]
-    no_donations_columns = False
+
+    pdf.multi_cell(h=5.0, w=0, txt="     1. Total Data Sample: {}".format(convert_number_format(donor_df.shape[0])))
+
     if (len(donation_columns) == 0) | ((postive_class <= (donation_columns_df.shape[0])*0.02) |
                                        (negative_class <= (donation_columns_df.shape[0])*0.02)):
         print("No donation columns present or data is skewed")
         new_file = find_similar_files(file_path)
-        pdf.multi_cell(h=5.0, w=0, txt="")
         print(new_file)
         df = read_input_file(new_file)
         df = remove_rows_containg_all_null_values(df)
-        donation_columns = identify_years_columns(df)
-        donation_columns_df = process_donation_columns(df, donation_columns)
+        donation_columns = identify_years_columns(new_file)
         no_donations_columns = True
+        donation_columns_df = process_donation_columns(df, donation_columns, no_donations_columns)
     else:
         df = donor_df
 
-    pdf.multi_cell(h=5.0, w=0, txt="     1. Total Data Sample: {}".format(convert_number_format(df.shape[0])))
-    pdf.ln(1)
     info_columns = identify_info_columns(df, donation_columns, True)
-    if len(info_columns) == 0:
-        raise ValueError("Text columns are missing in uploaded file")
+    if len(info_columns) < 3:
+        raise ValueError("In order for the model to run, please supply a minimum of three text columns on your donor "
+                         "file.")
     df_info = remove_columns_unique_values(df, info_columns)
-    cat_col = identify_categorical_columns(df, info_columns)
+    if no_donations_columns:
+        info_columns = identify_info_columns(donor_df, [], True)
+        cat_col = identify_categorical_columns(donor_df, info_columns)
+    else:
+        cat_col = identify_categorical_columns(df, info_columns)
 
     processed_text, tfidf_matrix, feature_names, df_info, vectorizer = feature_extraction(df_info)
     y = list(donation_columns_df['target'])
@@ -705,7 +732,8 @@ if __name__ == "__main__":
         del donation_columns_df['target']
 
     model_f1_score, classification_full_pred, classification_full_pred_prob, feature_importance_dict, roc_fpr, \
-    roc_tpr, roc_auc, y_test_dict, y_pred_dict = model_selection(X_train, y, X_pred, donation_columns, cat_col)
+    roc_tpr, roc_auc, y_test_dict, y_pred_dict = model_selection(X_train, y, X_pred, donation_columns, cat_col,
+                                                                 no_donations_columns)
     df_final, best_model = generate_prediction_file(donor_df, model_f1_score, classification_full_pred,
                                         classification_full_pred_prob, y, feature_importance_dict, roc_fpr, roc_tpr,
                                         roc_auc, y_test_dict, y_pred_dict, feature_names, df_info, donation_columns_df,
