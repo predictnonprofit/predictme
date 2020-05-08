@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import random
 import re
 import json
 import matplotlib.pyplot as plt
@@ -149,11 +150,11 @@ def feature_extraction(df_info):
     feature_count = int(0.5*unique_features)
     if feature_count <= 1000:
         feature_count = 1000
-    elif feature_count >= 10000:
-        feature_count = 10000
+    elif feature_count >= 3000:
+        feature_count = 3000
     else:
         feature_count = int(0.5*unique_features)
-
+    print("unique features {} and feature count {}".format(unique_features, feature_count))
     vectorizer = TfidfVectorizer(max_features=feature_count)
     X = vectorizer.fit_transform(processed_text)
     tfidf_matrix = X.todense()
@@ -171,14 +172,12 @@ def clean_donation(donation):
 
 
 # Identify target value for each record
-def process_donation_columns(df, donation_columns, no_donation_columns):
-    if '2018 Donations Gave in the Area' in donation_columns:
-        donation_columns.remove('2018 Donations Gave in the Area')
-    if '2019 Donations Gave in the Area' in donation_columns:
-        donation_columns.remove('2019 Donations Gave in the Area')
-
+def process_donation_columns(df, donation_columns, no_donation_columns, skewed_target_value):
     if no_donation_columns:
         donation_columns = ast.literal_eval(donation_columns)
+    elif skewed_target_value:
+        donation_columns = ast.literal_eval(donation_columns)
+
     donation_columns = df[donation_columns].fillna("0")
     donation_columns = donation_columns.astype(str)
 
@@ -205,21 +204,47 @@ def process_donation_columns(df, donation_columns, no_donation_columns):
 
 
 # Generate correlation plot for donation columns
-def generate_correlation(donation_columns):
-    pdf.set_font(font_style, 'BU', size=10)
-    pdf.multi_cell(h=5.0, w=0, txt="# Correlation Plot")
-    pdf.set_font(font_style, size=10)
-    pdf.ln(2)
-    pdf.multi_cell(h=5.0, w=0, txt="Correlation explains how one or more variables are related to each other.")
-    sn.set(font_scale=2)
-    fig, ax = plt.subplots(figsize=(25, 25))
-    ax = sn.heatmap(donation_columns.corr().round(2).replace(-0, 0), annot=True)
-    plt.title('Correlation Plot', fontsize=36)
-    global image_index
-    plots_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "Plots"))
-    plt.savefig("{}/temp_{}.png".format(plots_path, image_index))
-    pdf.image("{}/temp_{}.png".format(plots_path, image_index), w=175, h=150)
-    image_index += 1
+def generate_correlation(donation_columns, no_donation_columns, skewed_target_value):
+    if no_donation_columns:
+        pdf.set_font(font_style, 'BU', size=10)
+        pdf.multi_cell(h=5.0, w=0, txt="# Correlation Plot")
+        pdf.set_font(font_style, size=10)
+        pdf.ln(1)
+        pdf.multi_cell(h=5.0, w=0, txt="Correlation Plot: Please note that Correlation is calculated based on the similar "
+                                       "donor datasets stored in Predict Me's server. These datasets are used to find "
+                                       "common donor attributes to maximize the model performance.")
+        pdf.ln(0.5)
+        pdf.multi_cell(h=5.0, w=0, txt="NOTE: The uploaded donor file is missing donation information (amount) required"
+                                       " for plotting a Correlation Matrix.")
+        pdf.ln(2)
+    elif skewed_target_value:
+        pdf.set_font(font_style, 'BU', size=10)
+        pdf.multi_cell(h=5.0, w=0, txt="# Correlation Plot")
+        pdf.set_font(font_style, size=10)
+        pdf.ln(1)
+        pdf.multi_cell(h=5.0, w=0, txt="Correlation Plot: The uploaded donor file has an imbalanced dataset. More than 98% "
+                                       "of your sample belongs to one class (0 or 1 Target Value) that make up a large "
+                                       "proportion of the data.")
+        pdf.ln(0.5)
+
+        pdf.multi_cell(h=5.0, w=0, txt="Please note that Correlation is calculated based on the similar donor datasets "
+                                       "stored in Predict Me's server. These datasets are used to avoid imbalanced data"
+                                       " issues and find common donor attributes to maximize the model performance.")
+        pdf.ln(0.5)
+        pdf.multi_cell(h=5.0, w=0, txt="NOTE: The uploaded donor file is missing text values (attributes) required for "
+                                       "plotting a Correlation.")
+        pdf.ln(2)
+    else:
+        pdf.ln(2)
+        sn.set(font_scale=2)
+        fig, ax = plt.subplots(figsize=(25, 25))
+        ax = sn.heatmap(donation_columns.corr().round(2).replace(-0, 0), annot=True)
+        plt.title('Correlation Plot', fontsize=45)
+        global image_index
+        plots_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "Plots"))
+        plt.savefig("{}/temp_{}.png".format(plots_path, image_index))
+        pdf.image("{}/temp_{}.png".format(plots_path, image_index), w=175, h=150)
+        image_index += 1
 
 
 # Calculate sum of feature weights
@@ -231,7 +256,7 @@ def get_feature_weights(feature_list, feature_dict):
 
 
 # Plot feature importance for each column
-def calculate_feature_importance(df_info, feature_names, feature_value):
+def calculate_feature_importance(df_info, feature_names, feature_value, no_donation_columns, skewed_target_value):
     feature_dict = {i: abs(j) for i, j in zip(feature_names, feature_value)}
     info_columns = list(df_info.columns)
     info_columns.remove('comb_text')
@@ -249,25 +274,51 @@ def calculate_feature_importance(df_info, feature_names, feature_value):
     sn.set(font_scale=2)
     sorted_idx = np.argsort(feature_imp)
     pos = np.arange(sorted_idx.shape[0]) + .5
-    pdf.set_font(font_style, 'BU', size=10)
-    pdf.multi_cell(h=5.0, w=0, txt="# Feature Importance Plot")
-    pdf.set_font(font_style, size=10)
-    pdf.ln(1)
-    featfig = plt.figure(figsize=(10, 6))
-    featax = featfig.add_subplot(1, 1, 1)
-    featax.barh(pos, sorted(feature_imp), align='center')
-    featax.set_yticks(pos)
-    featax.set_yticklabels(np.array(feature_columns)[sorted_idx], fontsize=12)
-    featax.set_xlabel('% Relative Feature Importance', fontsize=20)
-    # featax.set_xticklabels(fontsize=12)
-    plt.tight_layout()
-    plt.title('Feature Importance Plot', fontsize=20)
-    global image_index
-    plots_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "Plots"))
-    plt.savefig("{}/temp_{}.png".format(plots_path, image_index))
-    pdf.image("{}/temp_{}.png".format(plots_path, image_index), w=170, h=102)
-    image_index += 1
-    pdf.ln(2)
+    if no_donation_columns:
+        pdf.set_font(font_style, 'BU', size=10)
+        pdf.multi_cell(h=5.0, w=0, txt="# Feature Importance Plot")
+        pdf.set_font(font_style, size=10)
+        pdf.ln(1)
+        pdf.multi_cell(h=5.0, w=0, txt="Feature Importance Plot: Please note that Feature Importance is calculated based "
+                                       "on the similar donor datasets stored in Predict Me's server. These datasets "
+                                       "are used to find common donor attributes to maximize the model performance.")
+        pdf.ln(0.5)
+        pdf.multi_cell(h=5.0, w=0, txt="NOTE: The uploaded donor file is missing text values (attributes) required for "
+                                       "plotting a Feature Importance.")
+        pdf.ln(2)
+    elif skewed_target_value:
+        pdf.set_font(font_style, 'BU', size=10)
+        pdf.multi_cell(h=5.0, w=0, txt="# Feature Importance Plot")
+        pdf.set_font(font_style, size=10)
+        pdf.ln(1)
+        pdf.multi_cell(h=5.0, w=0, txt="Feature Importance Plot: The uploaded donor file has an imbalanced dataset. More "
+                                       "than 98% of your samples belong to one class (0 or 1 Target Value) that make up"
+                                       " a large proportion of the data.")
+        pdf.ln(0.5)
+        pdf.multi_cell(h=5.0, w=0, txt="Please note that Feature Importance is calculated based on the similar donor "
+                                       "datasets stored in Predict Me's server. These datasets are used to avoid "
+                                       "imbalanced data issues and find common donor attributes to maximize the model "
+                                       "performance.")
+        pdf.ln(0.5)
+        pdf.multi_cell(h=5.0, w=0, txt="NOTE: The uploaded donor file is missing text values (attributes) required for "
+                                       "plotting a Feature Importance.")
+        pdf.ln(2)
+    else:
+        featfig = plt.figure(figsize=(10, 6))
+        featax = featfig.add_subplot(1, 1, 1)
+        featax.barh(pos, sorted(feature_imp), align='center')
+        featax.set_yticks(pos)
+        featax.set_yticklabels(np.array(feature_columns)[sorted_idx], fontsize=12)
+        featax.set_xlabel('% Relative Feature Importance', fontsize=16)
+        # featax.set_xticklabels(fontsize=12)
+        plt.tight_layout()
+        plt.title('Feature Importance Plot', fontsize=16)
+        global image_index
+        plots_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "Plots"))
+        plt.savefig("{}/temp_{}.png".format(plots_path, image_index))
+        pdf.image("{}/temp_{}.png".format(plots_path, image_index), w=170, h=102)
+        image_index += 1
+        pdf.ln(2)
 
 
 # Generate classification report
@@ -299,7 +350,7 @@ def add_classification_report_table(y_test, y_pred):
 
 
 # Plot confusion matrix
-def print_confusion_matrix_classification_report(y_test, y_pred):
+def print_confusion_matrix_classification_report(y_test, y_pred, no_donation_columns, skewed_target_value):
     df_cm = pd.DataFrame(confusion_matrix(y_test, y_pred), range(2), range(2))
     plt.figure(figsize=(15, 10))
     sn.set(font_scale=2.5) # for label size
@@ -308,8 +359,23 @@ def print_confusion_matrix_classification_report(y_test, y_pred):
     plt.ylabel("True")
     plt.tick_params(axis="both", which="both", labelsize="large")
     global image_index
-    pdf.set_font(font_style, 'BU', size=10)
-    pdf.multi_cell(h=5.0, w=0, txt="# Confusion Matrix Plot")
+    pdf.set_font(font_style, size=10)
+    # pdf.multi_cell(h=5.0, w=0, txt="# Confusion Matrix Plot")
+    if no_donation_columns:
+        pdf.multi_cell(h=5.0, w=0, txt="Confusion Matrix Plot: Please note that the output displayed is based on the similar"
+                                       " reference donor datasets stored in Predict Me's server. These datasets are "
+                                       "used to find common donor attributes to maximize the model performance.")
+    if skewed_target_value:
+        pdf.multi_cell(h=5.0, w=0, txt="Confusion Matrix Plot: The uploaded donor file has an imbalanced dataset. More "
+                                       "than 98% of your samples belong to one class (0 or 1 Target Value) that make up"
+                                       " a large proportion of the data.")
+        pdf.ln(0.5)
+        pdf.multi_cell(h=5.0, w=0, txt="Please note that the output displayed is based on the similar reference donor "
+                                       "datasets stored in Predict Me's server. These datasets are used to avoid "
+                                       "imbalanced data issues and find common donor attributes to maximize the model "
+                                       "performance.")
+
+    pdf.ln(1)
     pdf.set_font(font_style, size=10)
     plt.title('Confusion Matrix Plot', fontsize=36)
     plots_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "Plots"))
@@ -337,16 +403,17 @@ def calculate_fpr_tpr(model, y_test, y_pred, X_test):
 
 
 # Plot ROC curve
-def plot_roc_curve(roc_fpr, roc_tpr, roc_auc, top_5_models):
+def plot_roc_curve(roc_fpr, roc_tpr, roc_auc, top_5_models, no_donation_columns, skewed_target_value):
     pdf.set_font(font_style, 'BU', size=10)
     pdf.multi_cell(h=5.0, w=0, txt="# Receiver Operating Characteristic (ROC) Curve")
     pdf.set_font(font_style, size=10)
     pdf.ln(2)
     pdf.multi_cell(h=5.0, w=0, txt="It is a plot of the false positive rate (x-axis) versus the true positive rate "
-                                   "(y-axis). True positive rate or sensitivity describes how good the model is at "
-                                   "predicting the positive class when the actual outcome is positive. False positive "
-                                   "rate explains how often a positive class is predicted when the actual result is "
-                                   "negative.")
+                                   "(y-axis). True positive rate or sensitivity ")
+    pdf.ln(0.25)
+    pdf.multi_cell(h=5.0, w=0, txt="describes how good the model is at predicting the positive class when the actual "
+                                   "outcome is positive. False positive rate explains how often a positive class is "
+                                   "predicted when the actual result is negative.")
     pdf.ln(0.5)
     pdf.multi_cell(h=5.0, w=0, txt="A model with high accuracy is represented by a line that travels from "
                                    "the bottom left of the plot to the top left and then across the top to the top "
@@ -356,7 +423,23 @@ def plot_roc_curve(roc_fpr, roc_tpr, roc_auc, top_5_models):
     pdf.ln(0.5)
     pdf.multi_cell(h=5.0, w=0, txt="We can compare multiple models using AUC value; the best model will have AUC "
                                    "close to 1.")
-    pdf.ln(3)
+    pdf.ln(1)
+    if no_donation_columns:
+        pdf.multi_cell(h=5.0, w=0, txt="ROC: Please note that the output displayed is based on the similar reference "
+                                       "donor datasets stored in Predict Me's server. These datasets are used to find "
+                                       "common donor attributes to maximize the model performance.")
+        pdf.ln(1)
+    if skewed_target_value:
+        pdf.multi_cell(h=5.0, w=0, txt="ROC: The uploaded donor file has an imbalanced dataset. More than 98% of your "
+                                       "samples belong to one class (0 or 1 Target Value) that make up a large "
+                                       "proportion of the data.")
+        pdf.ln(0.5)
+        pdf.multi_cell(h=5.0, w=0, txt="Please note that the output displayed is based on the similar reference donor "
+                                       "datasets stored in Predict Me's server. These datasets are used to avoid "
+                                       "imbalanced data issues and find common donor attributes to maximize the model "
+                                       "performance.")
+        pdf.ln(1)
+    pdf.ln(2)
     plt.figure(figsize=(15, 10))
     sn.set(font_scale=2)
     for model_name in top_5_models:
@@ -381,7 +464,7 @@ def plot_roc_curve(roc_fpr, roc_tpr, roc_auc, top_5_models):
 
 
 # Train 10 classifiers
-def model_selection(X, y, X_pred, donation_columns, cat_col, no_donation_columns):
+def model_selection(X, y, X_pred, donation_columns, cat_col, no_donation_columns, skewed_target_value):
     models = [{'label': 'LogisticRegression', 'model': LogisticRegression()},
                 {'label': 'RidgeClassifier', 'model': RidgeClassifier()},  # No predict_proba
                 {'label': 'MultinomialNB', 'model': MultinomialNB()},
@@ -394,7 +477,7 @@ def model_selection(X, y, X_pred, donation_columns, cat_col, no_donation_columns
                 {'label': 'RandomForestClassifier', 'model': RandomForestClassifier()}]
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
-    if not no_donation_columns:
+    if (not no_donation_columns) & (not skewed_target_value):
         pdf.ln(1)
         pdf.multi_cell(h=5.0, w=0, txt="              a. 80% ({}) of data used for training the model".format(
             convert_number_format(X_train.shape[0])))
@@ -404,22 +487,37 @@ def model_selection(X, y, X_pred, donation_columns, cat_col, no_donation_columns
         pdf.ln(0.5)
 
     test_list = [chr(x) for x in range(ord('a'), ord('z') + 1)]
-    if not no_donation_columns:
+    if no_donation_columns:
+        pdf.multi_cell(h=5.0, w=0, txt="     2. Donation Columns: The uploaded donor file is missing donation "
+                                       "information (amount) to show donation column(s).")
+        pdf.ln(0.5)
+    elif skewed_target_value:
+        pdf.multi_cell(h=5.0, w=0, txt="     2. Donation Columns: The uploaded donor file has an imbalanced dataset to"
+                                       " show donation column(s). More than")
+        pdf.ln(0.25)
+        pdf.multi_cell(h=5.0, w=0, txt= "         98% of your sample belongs to one class (0 or 1 Target Value) that make up a "
+                                        "large proportion of the data.")
+        pdf.ln(0.5)
+    else:
         pdf.multi_cell(h=5.0, w=0, txt="     2. Donation Columns:")
         pdf.ln(0.5)
         for i in range(len(donation_columns)):
             pdf.multi_cell(h=5.0, w=0, txt="              {}. {}".format(test_list[i], donation_columns[i]))
             pdf.ln(0.3)
         pdf.ln(0.5)
-    else:
-        pdf.multi_cell(h=5.0, w=0, txt="     2. Donation Columns: No donation columns are not present in the uploaded "
-                                       "file.")
+
+    if len(cat_col) > len(test_list):
+        cat_col = random.sample(cat_col, len(test_list))
+    if len(cat_col) != 0:
+        pdf.multi_cell(h=5.0, w=0, txt="     3. Categorical Columns:")
         pdf.ln(0.5)
-    pdf.multi_cell(h=5.0, w=0, txt="     3. Categorical Columns:")
-    pdf.ln(0.5)
-    for i in range(len(cat_col)):
-        pdf.multi_cell(h=5.0, w=0, txt="              {}. {}".format(test_list[i], cat_col[i]))
-        pdf.ln(0.3)
+        for i in range(len(cat_col)):
+            pdf.multi_cell(h=5.0, w=0, txt="              {}. {}".format(test_list[i], cat_col[i]))
+            pdf.ln(0.3)
+    else:
+        pdf.multi_cell(h=5.0, w=0, txt="     3. Categorical Columns: No categorical columns identified on the uploaded "
+                                       "donor file.")
+        pdf.ln(0.5)
 
     print_steps_taken()
     pdf.set_font(font_style, 'BU', size=10)
@@ -450,15 +548,18 @@ def model_selection(X, y, X_pred, donation_columns, cat_col, no_donation_columns
     pdf.multi_cell(h=5.0, w=0, txt="     6. Feature Importance Plot: Y-axis: feature present in input file and "
                                    "X-axis: relative % of feature importance.")
     pdf.ln(0.5)
-    pdf.multi_cell(h=5.0, w=0, txt="     7. Probability Score: It is a probabilty (likelihood) of an individual to "
+    pdf.multi_cell(h=5.0, w=0, txt="     7. Correlation Plot: Correlation explains how one or more variables are "
+                                   "related to each other.")
+    pdf.ln(0.5)
+    pdf.multi_cell(h=5.0, w=0, txt="     8. Probability Score: It is a probabilty (likelihood) of an individual to "
                                    "donate.")
     pdf.ln(0.5)
-    pdf.multi_cell(h=5.0, w=0, txt="     8. Threshold Value: It is the threshold (cut-off) value used on a probability "
+    pdf.multi_cell(h=5.0, w=0, txt="     9. Threshold Value: It is the threshold (cut-off) value used on a probability "
                                    "score to seperate a donor from a")
     pdf.ln(0.25)
     pdf.multi_cell(h=5.0, w=0, txt="         non-donor.")
     pdf.ln(0.5)
-    pdf.multi_cell(h=5.0, w=0, txt="     9. Predicted Classification (0 and 1): Classification value 1 indicates an "
+    pdf.multi_cell(h=5.0, w=0, txt="     10. Predicted Classification (0 and 1): Classification value 1 indicates an "
                                    "individual likely to donate and classification")
     pdf.ln(0.25)
     pdf.multi_cell(h=5.0, w=0, txt="         value 0 indicates an individual less likely to donate. They follow the "
@@ -516,7 +617,7 @@ def model_selection(X, y, X_pred, donation_columns, cat_col, no_donation_columns
 # Generate Prediction File with best classifier
 def generate_prediction_file(df, model_f1_score, classification_full_pred, classification_full_pred_prob, y,
                              feature_importance_dict, roc_fpr, roc_tpr, roc_auc, y_test_dict, y_pred_dict,
-                             feature_names, df_info, donation_columns_df, no_donations_columns):
+                             feature_names, df_info, donation_columns_df, no_donations_columns, skewed_target_value):
     model_f1_score = {k: v for k, v in sorted(model_f1_score.items(), key=lambda item: item[1])}
     # Number of models we want in report, modify the count below
     top_5_model = sorted(model_f1_score, key=model_f1_score.get, reverse=True)[:1]
@@ -534,7 +635,7 @@ def generate_prediction_file(df, model_f1_score, classification_full_pred, class
         prediction_column_name = 'Model Name: {}: Donor Predicted Classification (>= Threshold Value)'.format(m)
         df[probability_column_name] = [round(prob[x][1], 2) for x in range(len(prob))]
         # df['non_donor_prob_{}'.format(m)] = [round(prob[x][0], 2) for x in range(len(prob))]
-        if no_donations_columns:
+        if no_donations_columns | skewed_target_value:
             max_acc_threshold = [0.5]
         else:
             t_={}
@@ -563,13 +664,15 @@ def generate_prediction_file(df, model_f1_score, classification_full_pred, class
         pdf.multi_cell(h=5.0, w=0, txt="        c. Donor predicted: {}% ({} out of {})".format(
             donor_per, convert_number_format(donor_count), convert_number_format(df.shape[0])))
         pdf.ln(3)
-        print_confusion_matrix_classification_report(y_test_dict.get(m), y_pred_dict.get(m))
-        if not no_donations_columns:
-            calculate_feature_importance(df_info, feature_names, feature_importance_dict.get(m))
+        print_confusion_matrix_classification_report(y_test_dict.get(m), y_pred_dict.get(m), no_donations_columns,
+                                                     skewed_target_value)
 
-    plot_roc_curve(roc_fpr, roc_tpr, roc_auc, top_5_model)
-    if (donation_columns_df.shape[1] != 0) and (not no_donations_columns):
-        generate_correlation(donation_columns_df)
+        calculate_feature_importance(df_info, feature_names, feature_importance_dict.get(m), no_donations_columns,
+                                     skewed_target_value)
+
+    plot_roc_curve(roc_fpr, roc_tpr, roc_auc, top_5_model, no_donations_columns, skewed_target_value)
+    if donation_columns_df.shape[1] != 0:
+        generate_correlation(donation_columns_df, no_donations_columns, skewed_target_value)
     return df, m
 
 
@@ -628,9 +731,18 @@ def print_steps_taken():
     pdf.multi_cell(h=5.0, w=0, txt="     2. Cleaning up of data: remove null rows and columns and impute missing values.")
     pdf.ln(0.5)
     pdf.multi_cell(h=5.0, w=0, txt="     3. Identifying columns containing categorical and textual data and converting "
-                                   "it to numerical values.")
+                                   "it to numerical values. If a column has")
+    pdf.ln(0.25)
+    pdf.multi_cell(h=5.0, w=0, txt="         less than or equal to five unique values, then it is identified as "
+                                   "categorical value.")
     pdf.ln(0.5)
-    pdf.multi_cell(h=5.0, w=0, txt="     4. Assigning Target Value: Target values are the dependent variable.")
+    pdf.multi_cell(h=5.0, w=0, txt="     4. Assigning Target Value: Target values are the dependent (predicted) "
+                                   "variable. Total donation columns are")
+    pdf.ln(0.25)
+    pdf.multi_cell(h=5.0, w=0, txt="         calculated to assign target value. For example, if 50% of the total "
+                                   "donation columns have a donation amount")
+    pdf.ln(0.25)
+    pdf.multi_cell(h=5.0, w=0, txt="         (> 0.00 value), the model assigns that row (record) as 1 otherwise 0.")
     pdf.ln(0.5)
     pdf.multi_cell(h=5.0, w=0, txt="     5. Splitting the dataset for training and testing to train a total of 10 "
                                    "different classifiers (for example Naive Bayes,")
@@ -690,7 +802,9 @@ if __name__ == "__main__":
     pdf.ln(1)
     donor_df = remove_rows_containg_all_null_values(donor_df)
     no_donations_columns = False
-    donation_columns_df = process_donation_columns(donor_df, donation_columns, no_donations_columns)
+    skewed_target_value = False
+    donation_columns_df = process_donation_columns(donor_df, donation_columns, no_donations_columns,
+                                                   skewed_target_value)
     postive_class = donation_columns_df[donation_columns_df['target'] == 1].shape[0]
     negative_class = donation_columns_df[donation_columns_df['target'] == 0].shape[0]
 
@@ -699,13 +813,19 @@ if __name__ == "__main__":
     if (len(donation_columns) == 0) | ((postive_class <= (donation_columns_df.shape[0])*0.02) |
                                        (negative_class <= (donation_columns_df.shape[0])*0.02)):
         print("No donation columns present or data is skewed")
+        print("donation columns {}".format(len(donation_columns)))
+        print("positive class {} and negative class {}".format(postive_class, negative_class))
+        if len(donation_columns) == 0:
+            no_donations_columns = True
+        elif ((postive_class <= (donation_columns_df.shape[0])*0.02) | (negative_class <=
+                                                                       (donation_columns_df.shape[0])*0.02)):
+            skewed_target_value = True
         new_file = find_similar_files(file_path)
         print(new_file)
         df = read_input_file(new_file)
         df = remove_rows_containg_all_null_values(df)
         donation_columns = identify_years_columns(new_file)
-        no_donations_columns = True
-        donation_columns_df = process_donation_columns(df, donation_columns, no_donations_columns)
+        donation_columns_df = process_donation_columns(df, donation_columns, no_donations_columns, skewed_target_value)
     else:
         df = donor_df
 
@@ -714,7 +834,7 @@ if __name__ == "__main__":
         raise ValueError("In order for the model to run, please supply a minimum of three text columns on your donor "
                          "file.")
     df_info = remove_columns_unique_values(df, info_columns)
-    if no_donations_columns:
+    if no_donations_columns | skewed_target_value:
         info_columns = identify_info_columns(donor_df, [], True)
         cat_col = identify_categorical_columns(donor_df, info_columns)
     else:
@@ -723,7 +843,7 @@ if __name__ == "__main__":
     processed_text, tfidf_matrix, feature_names, df_info, vectorizer = feature_extraction(df_info)
     y = list(donation_columns_df['target'])
 
-    if no_donations_columns:
+    if no_donations_columns | skewed_target_value:
         X_pred = transform_features(vectorizer, donor_df)
         X_train = tfidf_matrix
     else:
@@ -733,11 +853,11 @@ if __name__ == "__main__":
 
     model_f1_score, classification_full_pred, classification_full_pred_prob, feature_importance_dict, roc_fpr, \
     roc_tpr, roc_auc, y_test_dict, y_pred_dict = model_selection(X_train, y, X_pred, donation_columns, cat_col,
-                                                                 no_donations_columns)
+                                                                 no_donations_columns, skewed_target_value)
     df_final, best_model = generate_prediction_file(donor_df, model_f1_score, classification_full_pred,
                                         classification_full_pred_prob, y, feature_importance_dict, roc_fpr, roc_tpr,
                                         roc_auc, y_test_dict, y_pred_dict, feature_names, df_info, donation_columns_df,
-                                        no_donations_columns)
+                                        no_donations_columns, skewed_target_value)
 
     prediction_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "prediction"))
     pdf_report_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "PdfReport"))
