@@ -77,13 +77,13 @@ def read_input_file(file_path):
     extension = file_name.split(".")[-1]
     if extension == "csv":
         return pd.read_csv(file_path, encoding="ISO-8859-1")
-    elif extension == "xlsx":
+    elif (extension == "xlsx") | (extension == "xls"):
         return pd.read_excel(file_path, encoding="ISO-8859-1")
     else:
         print("{} file format is not supported".format(extension))
 
 
-# Mark columns as donation if it contains 20 (It should come from UI)
+# Identify columns for file stored in DataStore
 def identify_years_columns(file_name):
     mapping_file_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "column_name_mapping.json"))
     with open(mapping_file_path) as jsonfile:
@@ -95,12 +95,9 @@ def identify_years_columns(file_name):
 
 
 # Identify text columns
-def identify_info_columns(df, donation_columns, identify_automatically=False):
+def identify_info_columns(df, donation_columns):
     column_names = df.columns
-    if identify_automatically:
-        return [col for col in column_names if col not in donation_columns]
-    else:
-        return [col for col in column_names if "20" not in col]
+    return [col for col in column_names if col not in donation_columns]
 
 
 # Remove column contains 80% unique values and more than 50% null values
@@ -680,7 +677,7 @@ def generate_prediction_file(df, model_f1_score, classification_full_pred, class
 def get_tfidf_features(file_name):
     df = read_input_file(file_name)
     df = remove_rows_containg_all_null_values(df)
-    df_info = remove_columns_unique_values(df, identify_info_columns(df, [], False))
+    df_info = remove_columns_unique_values(df, identify_info_columns(df, []))
     df_info = df_info.astype(str)
     df_info['comb_text'] = df_info.apply(lambda x: ' '.join(x), axis=1)
     processed_text = text_processing(list(df_info['comb_text']))
@@ -829,13 +826,13 @@ if __name__ == "__main__":
     else:
         df = donor_df
 
-    info_columns = identify_info_columns(df, donation_columns, True)
+    info_columns = identify_info_columns(df, donation_columns)
     if len(info_columns) < 3:
         raise ValueError("In order for the model to run, please supply a minimum of three text columns on your donor "
                          "file.")
     df_info = remove_columns_unique_values(df, info_columns)
     if no_donations_columns | skewed_target_value:
-        info_columns = identify_info_columns(donor_df, [], True)
+        info_columns = identify_info_columns(donor_df, [])
         cat_col = identify_categorical_columns(donor_df, info_columns)
     else:
         cat_col = identify_categorical_columns(df, info_columns)

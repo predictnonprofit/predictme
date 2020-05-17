@@ -194,3 +194,26 @@ Name: 2020_LogisticRegression, dtype: int64
 0    17945
 1      882
 Name: 2020_DecisionTreeClassifier, dtype: int64
+Column: unique Code, Null count: 0
+Column: Donor Name, Null count: 6218
+Column: Donated Nonprofit Name, Null count: 0
+Column: STREET, Null count: 0
+Column: CITY, Null count: 0
+Column: STATE, Null count: 0
+Column: ZIP, Null count: 0
+Column: unique Code, Unique count: 18827
+Column: Donor Name, Unique count: 10645
+Column: Donated Nonprofit Name, Unique count: 5433
+Column: STREET, Unique count: 13373
+Column: CITY, Unique count: 1148
+Column: STATE, Unique count: 1
+Column: ZIP, Unique count: 13910
+PassiveAggressiveClassifier
+[(0.8, 0.905), (0.4, 0.925), (0.75, 0.926), (0.7, 0.933), (0.65, 0.945), (0.6, 0.955), (0.45, 0.956), (0.5, 0.956), (0.55, 0.956)]
+0.55 0.956
+0    17823
+1     1004
+Name: 2020_PassiveAggressiveClassifier, dtype: int64
+      0    1
+0  3576   15
+1    60  115
