@@ -134,6 +134,9 @@ def text_processing(text):
         x = re.sub('[^a-zA-Z.\d\s]', '', x)
         x = re.sub(' +', ' ', x)
         x = str(x.strip()).lower()
+        replace_strings = {"null": "", "nul": "", "nulls": ""}
+        for old_str, new_str in replace_strings.items():
+            x = x.replace(old_str, new_str)
         pre_text.append(x)
     return pre_text
 
@@ -189,7 +192,7 @@ def process_donation_columns(df, donation_columns, no_donation_columns, skewed_t
     def identify_target(x):
         non_zero_col = 0
         for col in donation_columns.columns:
-            if x[col] >= 1:
+            if x[col] > 0:
                 non_zero_col += 1
         return non_zero_col
 
@@ -654,7 +657,7 @@ def generate_prediction_file(df, model_f1_score, classification_full_pred, class
         pdf.multi_cell(h=5.0, w=0, txt="Best fit model name: {}".format(m))
         pdf.set_font(font_style, size=10)
         pdf.ln(1)
-        pdf.multi_cell(h=5.0, w=0, txt="        a. F1-score (accuracy score): {}".format(model_f1_score.get(m)))
+        pdf.multi_cell(h=5.0, w=0, txt="        a. F1-score: {}".format(model_f1_score.get(m)))
         pdf.ln(0.75)
         pdf.multi_cell(h=5.0, w=0, txt="        b. Threshold used: {}".format(max_acc_threshold[0]))
         pdf.ln(0.75)
