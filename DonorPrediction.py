@@ -664,6 +664,9 @@ def generate_prediction_file(df, model_f1_score, classification_full_pred, class
         pdf.multi_cell(h=5.0, w=0, txt="        c. Donor predicted: {}% ({} out of {})".format(
             donor_per, convert_number_format(donor_count), convert_number_format(df.shape[0])))
         pdf.ln(3)
+        print("F1-score: {}".format(model_f1_score.get(m)))
+        print("Donor predicted: {}% ({} out of {})".format(
+            donor_per, convert_number_format(donor_count), convert_number_format(df.shape[0])))
         print_confusion_matrix_classification_report(y_test_dict.get(m), y_pred_dict.get(m), no_donations_columns,
                                                      skewed_target_value)
 
