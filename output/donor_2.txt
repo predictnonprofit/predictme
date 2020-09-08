@@ -1,0 +1,219 @@
+all columns: Index(['unique Code', 'Donor Name', 'Donated Nonprofit Name', 'STREET', 'CITY',
+       'STATE', 'ZIP', ' 2019 Amount ', ' 2018 Amount ', ' 2017 Amount ',
+       ' 2016 Amount ', ' 2015 Amount '],
+      dtype='object')
+(87016, 12)
+donation columns: [' 2019 Amount ', ' 2018 Amount ', ' 2017 Amount ', ' 2016 Amount ', ' 2015 Amount ']
+0    17945
+1      882
+Name: target, dtype: int64
+7
+Total training samples: 18827
+Column: unique Code, Null count: 0
+Column: Donor Name, Null count: 6218
+Column: Donated Nonprofit Name, Null count: 0
+Column: STREET, Null count: 0
+Column: CITY, Null count: 0
+Column: STATE, Null count: 0
+Column: ZIP, Null count: 0
+_____________
+
+Column: unique Code, Unique count: 18827
+Column: Donor Name, Unique count: 10645
+Column: Donated Nonprofit Name, Unique count: 5433
+Column: STREET, Unique count: 13373
+Column: CITY, Unique count: 1148
+Column: STATE, Unique count: 1
+Column: ZIP, Unique count: 13910
+(18827, 5)
+Index(['Donor Name', 'Donated Nonprofit Name', 'STREET', 'CITY', 'ZIP'], dtype='object')
+Categorical columns: ['STATE']
+Number of features used: 10000
+Classifier: LogisticRegression and time(seconds): 4.018
+
+Classifier: LogisticRegression and f1-score 0.97
+classification report
+              precision    recall  f1-score   support
+
+           0       0.98      1.00      0.99      3591
+           1       0.89      0.57      0.70       175
+
+    accuracy                           0.98      3766
+   macro avg       0.94      0.78      0.84      3766
+weighted avg       0.98      0.98      0.97      3766
+
+___________________________
+
+Classifier: GaussianNB and time(seconds): 47.121
+
+Classifier: GaussianNB and f1-score 0.94
+classification report
+              precision    recall  f1-score   support
+
+           0       0.96      0.99      0.98      3591
+           1       0.52      0.21      0.30       175
+
+    accuracy                           0.95      3766
+   macro avg       0.74      0.60      0.64      3766
+weighted avg       0.94      0.95      0.94      3766
+
+___________________________
+
+Classifier: MultinomialNB and time(seconds): 3.112
+
+Classifier: MultinomialNB and f1-score 0.93
+classification report
+              precision    recall  f1-score   support
+
+           0       0.95      1.00      0.98      3591
+           1       1.00      0.02      0.03       175
+
+    accuracy                           0.95      3766
+   macro avg       0.98      0.51      0.51      3766
+weighted avg       0.96      0.95      0.93      3766
+
+___________________________
+
+Classifier: ComplementNB and time(seconds): 3.472
+
+Classifier: ComplementNB and f1-score 0.95
+classification report
+              precision    recall  f1-score   support
+
+           0       0.99      0.94      0.97      3591
+           1       0.42      0.81      0.55       175
+
+    accuracy                           0.94      3766
+   macro avg       0.70      0.88      0.76      3766
+weighted avg       0.96      0.94      0.95      3766
+
+___________________________
+
+Classifier: BernoulliNB and time(seconds): 12.522
+
+Classifier: BernoulliNB and f1-score 0.96
+classification report
+              precision    recall  f1-score   support
+
+           0       0.97      0.99      0.98      3591
+           1       0.74      0.47      0.57       175
+
+    accuracy                           0.97      3766
+   macro avg       0.86      0.73      0.78      3766
+weighted avg       0.96      0.97      0.96      3766
+
+___________________________
+
+Classifier: DecisionTreeClassifier and time(seconds): 438.538
+
+Classifier: DecisionTreeClassifier and f1-score 0.97
+classification report
+              precision    recall  f1-score   support
+
+           0       0.99      0.99      0.99      3591
+           1       0.70      0.70      0.70       175
+
+    accuracy                           0.97      3766
+   macro avg       0.84      0.84      0.84      3766
+weighted avg       0.97      0.97      0.97      3766
+
+___________________________
+
+Classifier: SGDClassifier and time(seconds): 5.41
+
+Classifier: SGDClassifier and f1-score 0.97
+classification report
+              precision    recall  f1-score   support
+
+           0       0.98      1.00      0.99      3591
+           1       0.91      0.53      0.67       175
+
+    accuracy                           0.98      3766
+   macro avg       0.94      0.76      0.83      3766
+weighted avg       0.97      0.98      0.97      3766
+
+___________________________
+
+Classifier: PassiveAggressiveClassifier and time(seconds): 16.263
+
+Classifier: PassiveAggressiveClassifier and f1-score 0.98
+classification report
+              precision    recall  f1-score   support
+
+           0       0.98      1.00      0.99      3591
+           1       0.89      0.65      0.75       175
+
+    accuracy                           0.98      3766
+   macro avg       0.94      0.82      0.87      3766
+weighted avg       0.98      0.98      0.98      3766
+
+___________________________
+
+Classifier: LinearSVC and time(seconds): 6.542
+
+Classifier: LinearSVC and f1-score 0.98
+classification report
+              precision    recall  f1-score   support
+
+           0       0.98      1.00      0.99      3591
+           1       0.89      0.66      0.76       175
+
+    accuracy                           0.98      3766
+   macro avg       0.93      0.83      0.87      3766
+weighted avg       0.98      0.98      0.98      3766
+
+___________________________
+
+Classifier: RandomForestClassifier and time(seconds): 20.162
+
+Classifier: RandomForestClassifier and f1-score 0.98
+classification report
+              precision    recall  f1-score   support
+
+           0       0.98      1.00      0.99      3591
+           1       0.86      0.61      0.72       175
+
+    accuracy                           0.98      3766
+   macro avg       0.92      0.80      0.85      3766
+weighted avg       0.98      0.98      0.98      3766
+
+___________________________
+
+0    17886
+1      941
+Name: 2020_PassiveAggressiveClassifier, dtype: int64
+0    17907
+1      920
+Name: 2020_LinearSVC, dtype: int64
+0    17894
+1      933
+Name: 2020_RandomForestClassifier, dtype: int64
+0    18072
+1      755
+Name: 2020_LogisticRegression, dtype: int64
+0    17945
+1      882
+Name: 2020_DecisionTreeClassifier, dtype: int64
+Column: unique Code, Null count: 0
+Column: Donor Name, Null count: 6218
+Column: Donated Nonprofit Name, Null count: 0
+Column: STREET, Null count: 0
+Column: CITY, Null count: 0
+Column: STATE, Null count: 0
+Column: ZIP, Null count: 0
+Column: unique Code, Unique count: 18827
+Column: Donor Name, Unique count: 10645
+Column: Donated Nonprofit Name, Unique count: 5433
+Column: STREET, Unique count: 13373
+Column: CITY, Unique count: 1148
+Column: STATE, Unique count: 1
+Column: ZIP, Unique count: 13910
+PassiveAggressiveClassifier
+[(0.8, 0.905), (0.4, 0.925), (0.75, 0.926), (0.7, 0.933), (0.65, 0.945), (0.6, 0.955), (0.45, 0.956), (0.5, 0.956), (0.55, 0.956)]
+0.55 0.956
+0    17823
+1     1004
+Name: 2020_PassiveAggressiveClassifier, dtype: int64
+      0    1
+0  3576   15
+1    60  115

@@ -1,0 +1,461 @@
+all columns: Index(['committee_id', 'committee_name', 'report_year', 'report_type',
+       'image_number', 'line_number', 'transaction_id', 'file_number',
+       'committee_name.1', 'entity_type', 'entity_type_desc',
+       'unused_contbr_id', 'contributor_prefix', ' 2019 Contribution Amount ',
+       ' 2018 Contribution Amount ', ' 2017 Contribution Amount ',
+       ' 2016 Contribution Amount ', ' 2015 Contribution Amount ',
+       'contributor_name', 'recipient_committee_type',
+       'contributor_first_name', 'contributor_middle_name',
+       'contributor_last_name', 'contributor_suffix', 'contributor_street_1',
+       'contributor_street_2', 'contributor_city', 'contributor_state',
+       'contributor_zip', 'contributor_employer', 'contributor_occupation',
+       'contributor_id', 'receipt_type', 'receipt_type_desc',
+       'receipt_type_full', 'memo_code', 'memo_code_full',
+       'contribution_receipt_date', 'candidate_id', 'candidate_name',
+       'candidate_first_name', 'candidate_last_name', 'candidate_middle_name',
+       'candidate_prefix', 'candidate_suffix', 'candidate_office',
+       'candidate_office_full', 'candidate_office_state',
+       'candidate_office_state_full', 'candidate_office_district',
+       'conduit_committee_id', 'conduit_committee_name',
+       'conduit_committee_street1', 'conduit_committee_street2',
+       'conduit_committee_city', 'conduit_committee_state',
+       'conduit_committee_zip', 'donor_committee_name',
+       'national_committee_nonfederal_account', 'election_type',
+       'election_type_full', 'fec_election_type_desc', 'fec_election_year',
+       'amendment_indicator', 'amendment_indicator_desc', 'schedule_type_full',
+       'load_date', 'original_sub_id', 'back_reference_transaction_id',
+       'back_reference_schedule_name', 'filing_form', 'link_id',
+       'is_individual', 'memo_text', 'two_year_transaction_period',
+       'schedule_type'],
+      dtype='object')
+(21414, 76)
+donation columns: [' 2019 Contribution Amount ', ' 2018 Contribution Amount ', ' 2017 Contribution Amount ', ' 2016 Contribution Amount ', ' 2015 Contribution Amount ']
+1    21414
+Name: target, dtype: int64
+Total training samples: 21414
+Column: committee_id, Null count: 0
+Column: committee_name, Null count: 0
+Column: report_year, Null count: 0
+Column: report_type, Null count: 0
+Column: image_number, Null count: 0
+Column: line_number, Null count: 0
+Column: transaction_id, Null count: 15
+Column: file_number, Null count: 0
+Column: committee_name.1, Null count: 21414
+Column: entity_type, Null count: 1
+Column: entity_type_desc, Null count: 1
+Column: unused_contbr_id, Null count: 15813
+Column: contributor_prefix, Null count: 18276
+Column: contributor_name, Null count: 0
+Column: recipient_committee_type, Null count: 0
+Column: contributor_first_name, Null count: 157
+Column: contributor_middle_name, Null count: 17594
+Column: contributor_last_name, Null count: 159
+Column: contributor_suffix, Null count: 20526
+Column: contributor_street_1, Null count: 2
+Column: contributor_street_2, Null count: 19390
+Column: contributor_city, Null count: 2
+Column: contributor_state, Null count: 10
+Column: contributor_zip, Null count: 9
+Column: contributor_employer, Null count: 2140
+Column: contributor_occupation, Null count: 402
+Column: contributor_id, Null count: 15815
+Column: receipt_type, Null count: 6220
+Column: receipt_type_desc, Null count: 6220
+Column: receipt_type_full, Null count: 13067
+Column: memo_code, Null count: 19702
+Column: memo_code_full, Null count: 21414
+Column: contribution_receipt_date, Null count: 0
+Column: candidate_id, Null count: 21411
+Column: candidate_name, Null count: 21411
+Column: candidate_first_name, Null count: 21411
+Column: candidate_last_name, Null count: 21411
+Column: candidate_middle_name, Null count: 21411
+Column: candidate_prefix, Null count: 21414
+Column: candidate_suffix, Null count: 21413
+Column: candidate_office, Null count: 21413
+Column: candidate_office_full, Null count: 21413
+Column: candidate_office_state, Null count: 21413
+Column: candidate_office_state_full, Null count: 21413
+Column: candidate_office_district, Null count: 21413
+Column: conduit_committee_id, Null count: 21414
+Column: conduit_committee_name, Null count: 21381
+Column: conduit_committee_street1, Null count: 21381
+Column: conduit_committee_street2, Null count: 21414
+Column: conduit_committee_city, Null count: 21381
+Column: conduit_committee_state, Null count: 21381
+Column: conduit_committee_zip, Null count: 21381
+Column: donor_committee_name, Null count: 21397
+Column: national_committee_nonfederal_account, Null count: 21414
+Column: election_type, Null count: 1065
+Column: election_type_full, Null count: 16766
+Column: fec_election_type_desc, Null count: 5501
+Column: fec_election_year, Null count: 9864
+Column: amendment_indicator, Null count: 0
+Column: amendment_indicator_desc, Null count: 0
+Column: schedule_type_full, Null count: 0
+Column: load_date, Null count: 0
+Column: original_sub_id, Null count: 21414
+Column: back_reference_transaction_id, Null count: 15363
+Column: back_reference_schedule_name, Null count: 15365
+Column: filing_form, Null count: 0
+Column: link_id, Null count: 0
+Column: is_individual, Null count: 0
+Column: memo_text, Null count: 14100
+Column: two_year_transaction_period, Null count: 0
+Column: schedule_type, Null count: 0
+_____________
+
+Column: committee_id, Unique count: 665
+Column: committee_name, Unique count: 665
+Column: report_year, Unique count: 1
+Column: report_type, Unique count: 9
+Column: image_number, Unique count: 5
+Column: line_number, Unique count: 6
+Column: transaction_id, Unique count: 21380
+Column: file_number, Unique count: 668
+Column: entity_type, Unique count: 7
+Column: entity_type_desc, Unique count: 7
+Column: contributor_name, Unique count: 13699
+Column: recipient_committee_type, Unique count: 11
+Column: contributor_first_name, Unique count: 2757
+Column: contributor_last_name, Unique count: 8377
+Column: contributor_street_1, Unique count: 13221
+Column: contributor_city, Unique count: 3626
+Column: contributor_state, Unique count: 55
+Column: contributor_zip, Unique count: 13679
+Column: contributor_employer, Unique count: 5292
+Column: contributor_occupation, Unique count: 2265
+Column: receipt_type, Unique count: 9
+Column: receipt_type_desc, Unique count: 9
+Column: contribution_receipt_date, Unique count: 2
+Column: election_type, Unique count: 20
+Column: fec_election_type_desc, Unique count: 5
+Column: fec_election_year, Unique count: 7
+Column: amendment_indicator, Unique count: 3
+Column: amendment_indicator_desc, Unique count: 3
+Column: schedule_type_full, Unique count: 1
+Column: load_date, Unique count: 2024
+Column: filing_form, Unique count: 3
+Column: link_id, Unique count: 69
+Column: is_individual, Unique count: 1
+Column: two_year_transaction_period, Unique count: 1
+Column: schedule_type, Unique count: 1
+/Users/chiragbhatia/Embibe/notebooks/chirag/DonorPrediction/predictme/donation_amount_files/Donor Data Sample2.csv /Users/chiragbhatia/Embibe/notebooks/chirag/DonorPrediction/predictme/data/Donor Data Sample5.csv
+Total training samples: 18827
+Column: unique Code, Null count: 0
+Column: Donor Name, Null count: 6218
+Column: Donated Nonprofit Name, Null count: 0
+Column: STREET, Null count: 0
+Column: CITY, Null count: 0
+Column: STATE, Null count: 0
+Column: ZIP, Null count: 0
+_____________
+
+Column: unique Code, Unique count: 18827
+Column: Donor Name, Unique count: 10645
+Column: Donated Nonprofit Name, Unique count: 5433
+Column: STREET, Unique count: 13373
+Column: CITY, Unique count: 1148
+Column: STATE, Unique count: 1
+Column: ZIP, Unique count: 13910
+Total features: 35253 for: Donor Data Sample2.csv
+% of common features: 26.2559214818597 for: /Users/chiragbhatia/Embibe/notebooks/chirag/DonorPrediction/predictme/donation_amount_files/Donor Data Sample2.csv
+/Users/chiragbhatia/Embibe/notebooks/chirag/DonorPrediction/predictme/donation_amount_files/Donor Data Sample3.csv /Users/chiragbhatia/Embibe/notebooks/chirag/DonorPrediction/predictme/data/Donor Data Sample5.csv
+Total training samples: 10000
+Column: Donor ID, Null count: 0
+Column: Donor First Name, Null count: 0
+Column: Donor Last Name, Null count: 0
+Column: Gender, Null count: 0
+Column: Phone, Null count: 0
+Column: Email, Null count: 0
+Column: State, Null count: 0
+Column: Has Children, Null count: 0
+Column: Married, Null count: 0
+Column: Volunteered before, Null count: 0
+Column: Engaged with Organization, Null count: 0
+Column: Own Property, Null count: 0
+Column: Past served on Board, Null count: 0
+Column: Employer, Null count: 0
+Column: Job Area, Null count: 0
+Column: Salary Estimation, Null count: 0
+Column: Retired?, Null count: 0
+Column: Education, Null count: 0
+Column: Education Area, Null count: 0
+Column: Active outside Organization, Null count: 0
+Column: Political Contribution, Null count: 0
+Column: Donor Age, Null count: 0
+Column: Joint Mailing Name, Null count: 0
+Column: Military Affiliate/Veteran, Null count: 0
+Column: Total Lifetime Donations, Null count: 0
+_____________
+
+Column: Donor ID, Unique count: 10000
+Column: Donor First Name, Unique count: 457
+Column: Donor Last Name, Unique count: 642
+Column: Gender, Unique count: 3
+Column: Phone, Unique count: 9501
+Column: Email, Unique count: 9801
+Column: State, Unique count: 50
+Column: Has Children, Unique count: 3
+Column: Married, Unique count: 3
+Column: Volunteered before, Unique count: 3
+Column: Engaged with Organization, Unique count: 3
+Column: Own Property, Unique count: 3
+Column: Past served on Board, Unique count: 3
+Column: Employer, Unique count: 31
+Column: Job Area, Unique count: 11
+Column: Salary Estimation, Unique count: 5264
+Column: Retired?, Unique count: 3
+Column: Education, Unique count: 11
+Column: Education Area, Unique count: 33
+Column: Active outside Organization, Unique count: 3
+Column: Political Contribution, Unique count: 3
+Column: Donor Age, Unique count: 67
+Column: Joint Mailing Name, Unique count: 3
+Column: Military Affiliate/Veteran, Unique count: 3
+Column: Total Lifetime Donations, Unique count: 8141
+Total features: 6553 for: Donor Data Sample3.csv
+% of common features: 15.580650083931024 for: /Users/chiragbhatia/Embibe/notebooks/chirag/DonorPrediction/predictme/donation_amount_files/Donor Data Sample3.csv
+/Users/chiragbhatia/Embibe/notebooks/chirag/DonorPrediction/predictme/donation_amount_files/Donor Data Sample4.csv /Users/chiragbhatia/Embibe/notebooks/chirag/DonorPrediction/predictme/data/Donor Data Sample5.csv
+Total training samples: 10000
+Column: Donor ID, Null count: 0
+Column: Donor First Name, Null count: 0
+Column: Donor Last Name, Null count: 0
+Column: Email, Null count: 0
+Column: Gender, Null count: 0
+Column: Phone, Null count: 0
+Column: Employer, Null count: 0
+Column: Job Title, Null count: 0
+Column: Age, Null count: 0
+Column: Home Address, Null count: 0
+Column: City, Null count: 0
+Column: State, Null count: 0
+Column: Zip, Null count: 0
+Column: Volunteered in the past, Null count: 0
+_____________
+
+Column: Donor ID, Unique count: 10000
+Column: Donor First Name, Unique count: 457
+Column: Donor Last Name, Unique count: 642
+Column: Email, Unique count: 10000
+Column: Gender, Unique count: 2
+Column: Phone, Unique count: 10000
+Column: Employer, Unique count: 30
+Column: Job Title, Unique count: 60
+Column: Age, Unique count: 56
+Column: Home Address, Unique count: 9999
+Column: City, Unique count: 107
+Column: State, Unique count: 50
+Column: Zip, Unique count: 9435
+Column: Volunteered in the past, Unique count: 2
+Total features: 1402 for: Donor Data Sample4.csv
+% of common features: 77.38944365192582 for: /Users/chiragbhatia/Embibe/notebooks/chirag/DonorPrediction/predictme/donation_amount_files/Donor Data Sample4.csv
+{'/Users/chiragbhatia/Embibe/notebooks/chirag/DonorPrediction/predictme/donation_amount_files/Donor Data Sample2.csv': 26.2559214818597, '/Users/chiragbhatia/Embibe/notebooks/chirag/DonorPrediction/predictme/donation_amount_files/Donor Data Sample3.csv': 15.580650083931024, '/Users/chiragbhatia/Embibe/notebooks/chirag/DonorPrediction/predictme/donation_amount_files/Donor Data Sample4.csv': 77.38944365192582}
+/Users/chiragbhatia/Embibe/notebooks/chirag/DonorPrediction/predictme/donation_amount_files/Donor Data Sample4.csv
+0    7473
+1    2527
+Name: target, dtype: int64
+14
+Total training samples: 10000
+Column: Donor ID, Null count: 0
+Column: Donor First Name, Null count: 0
+Column: Donor Last Name, Null count: 0
+Column: Email, Null count: 0
+Column: Gender, Null count: 0
+Column: Phone, Null count: 0
+Column: Employer, Null count: 0
+Column: Job Title, Null count: 0
+Column: Age, Null count: 0
+Column: Home Address, Null count: 0
+Column: City, Null count: 0
+Column: State, Null count: 0
+Column: Zip, Null count: 0
+Column: Volunteered in the past, Null count: 0
+_____________
+
+Column: Donor ID, Unique count: 10000
+Column: Donor First Name, Unique count: 457
+Column: Donor Last Name, Unique count: 642
+Column: Email, Unique count: 10000
+Column: Gender, Unique count: 2
+Column: Phone, Unique count: 10000
+Column: Employer, Unique count: 30
+Column: Job Title, Unique count: 60
+Column: Age, Unique count: 56
+Column: Home Address, Unique count: 9999
+Column: City, Unique count: 107
+Column: State, Unique count: 50
+Column: Zip, Unique count: 9435
+Column: Volunteered in the past, Unique count: 2
+(10000, 9)
+Index(['Donor First Name', 'Donor Last Name', 'Gender', 'Employer',
+       'Job Title', 'Age', 'City', 'State', 'Volunteered in the past'],
+      dtype='object')
+Categorical columns: ['Gender', 'Volunteered in the past']
+Number of features used: 1000
+Classifier: LogisticRegression and time(seconds): 0.361
+
+Classifier: LogisticRegression and f1-score 0.64
+classification report
+              precision    recall  f1-score   support
+
+           0       0.74      0.99      0.85      1487
+           1       0.33      0.01      0.02       513
+
+    accuracy                           0.74      2000
+   macro avg       0.54      0.50      0.43      2000
+weighted avg       0.64      0.74      0.64      2000
+
+___________________________
+
+Classifier: GaussianNB and time(seconds): 1.32
+
+Classifier: GaussianNB and f1-score 0.33
+classification report
+              precision    recall  f1-score   support
+
+           0       0.75      0.19      0.30      1487
+           1       0.26      0.82      0.39       513
+
+    accuracy                           0.35      2000
+   macro avg       0.51      0.50      0.35      2000
+weighted avg       0.63      0.35      0.33      2000
+
+___________________________
+
+Classifier: MultinomialNB and time(seconds): 0.082
+
+Classifier: MultinomialNB and f1-score 0.64
+classification report
+              precision    recall  f1-score   support
+
+           0       0.74      1.00      0.85      1487
+           1       1.00      0.00      0.01       513
+
+    accuracy                           0.74      2000
+   macro avg       0.87      0.50      0.43      2000
+weighted avg       0.81      0.74      0.64      2000
+
+___________________________
+
+Classifier: ComplementNB and time(seconds): 0.065
+
+Classifier: ComplementNB and f1-score 0.57
+classification report
+              precision    recall  f1-score   support
+
+           0       0.75      0.58      0.66      1487
+           1       0.26      0.43      0.33       513
+
+    accuracy                           0.55      2000
+   macro avg       0.51      0.51      0.49      2000
+weighted avg       0.62      0.55      0.57      2000
+
+___________________________
+
+Classifier: BernoulliNB and time(seconds): 0.51
+
+Classifier: BernoulliNB and f1-score 0.64
+classification report
+              precision    recall  f1-score   support
+
+           0       0.74      0.92      0.82      1487
+           1       0.23      0.07      0.11       513
+
+    accuracy                           0.70      2000
+   macro avg       0.49      0.50      0.46      2000
+weighted avg       0.61      0.70      0.64      2000
+
+___________________________
+
+Classifier: DecisionTreeClassifier and time(seconds): 6.88
+
+Classifier: DecisionTreeClassifier and f1-score 0.61
+classification report
+              precision    recall  f1-score   support
+
+           0       0.74      0.74      0.74      1487
+           1       0.25      0.25      0.25       513
+
+    accuracy                           0.61      2000
+   macro avg       0.50      0.50      0.50      2000
+weighted avg       0.62      0.61      0.61      2000
+
+___________________________
+
+Classifier: SGDClassifier and time(seconds): 0.49
+
+Classifier: SGDClassifier and f1-score 0.64
+classification report
+              precision    recall  f1-score   support
+
+           0       0.74      0.99      0.85      1487
+           1       0.22      0.01      0.02       513
+
+    accuracy                           0.74      2000
+   macro avg       0.48      0.50      0.43      2000
+weighted avg       0.61      0.74      0.64      2000
+
+___________________________
+
+Classifier: PassiveAggressiveClassifier and time(seconds): 1.111
+
+Classifier: PassiveAggressiveClassifier and f1-score 0.63
+classification report
+              precision    recall  f1-score   support
+
+           0       0.74      1.00      0.85      1487
+           1       0.00      0.00      0.00       513
+
+    accuracy                           0.74      2000
+   macro avg       0.37      0.50      0.43      2000
+weighted avg       0.55      0.74      0.63      2000
+
+___________________________
+
+Classifier: LinearSVC and time(seconds): 0.251
+
+Classifier: LinearSVC and f1-score 0.63
+classification report
+              precision    recall  f1-score   support
+
+           0       0.74      1.00      0.85      1487
+           1       0.00      0.00      0.00       513
+
+    accuracy                           0.74      2000
+   macro avg       0.37      0.50      0.43      2000
+weighted avg       0.55      0.74      0.63      2000
+
+___________________________
+
+Classifier: RandomForestClassifier and time(seconds): 2.228
+
+Classifier: RandomForestClassifier and f1-score 0.64
+classification report
+              precision    recall  f1-score   support
+
+           0       0.74      0.96      0.84      1487
+           1       0.27      0.04      0.07       513
+
+    accuracy                           0.72      2000
+   macro avg       0.51      0.50      0.46      2000
+weighted avg       0.62      0.72      0.64      2000
+
+___________________________
+
+0    12797
+1     8617
+Name: 2020_LogisticRegression, dtype: int64
+0    11688
+1     9726
+Name: 2020_MultinomialNB, dtype: int64
+0    16305
+1     5109
+Name: 2020_BernoulliNB, dtype: int64
+0    13023
+1     8391
+Name: 2020_SGDClassifier, dtype: int64
+0    10915
+1    10499
+Name: 2020_RandomForestClassifier, dtype: int64

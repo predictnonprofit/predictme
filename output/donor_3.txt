@@ -1,0 +1,252 @@
+all columns: Index(['Donor ID', 'Donor First Name', 'Donor Last Name', 'Gender', 'Phone',
+       'Email', 'State', 'Has Children', 'Married', 'Volunteered before',
+       'Engaged with Organization', 'Own Property', 'Past served on Board',
+       'Employer', 'Job Area', 'Salary Estimation', 'Retired?', 'Education',
+       'Education Area', 'Active outside Organization',
+       'Political Contribution', 'Donor Age', 'Joint Mailing Name',
+       'Military Affiliate/Veteran', 'Total Lifetime Donations',
+       '2019 Donations', '2019 Donations Gave in the Area', '2018 Donations',
+       '2018 Donations Gave in the Area', '2017 Donations', '2016 Donations',
+       '2015 Donations', '2014 Donations', '2013 Donations', '2012 Donations',
+       '2011 Donations', '2010 Donations'],
+      dtype='object')
+(10000, 37)
+donation columns: ['2019 Donations', '2018 Donations', '2017 Donations', '2016 Donations', '2015 Donations', '2014 Donations', '2013 Donations', '2012 Donations', '2011 Donations', '2010 Donations']
+0    6000
+1    4000
+Name: target, dtype: int64
+27
+Total training samples: 10000
+Column: Donor ID, Null count: 0
+Column: Donor First Name, Null count: 0
+Column: Donor Last Name, Null count: 0
+Column: Gender, Null count: 0
+Column: Phone, Null count: 0
+Column: Email, Null count: 0
+Column: State, Null count: 0
+Column: Has Children, Null count: 0
+Column: Married, Null count: 0
+Column: Volunteered before, Null count: 0
+Column: Engaged with Organization, Null count: 0
+Column: Own Property, Null count: 0
+Column: Past served on Board, Null count: 0
+Column: Employer, Null count: 0
+Column: Job Area, Null count: 0
+Column: Salary Estimation, Null count: 0
+Column: Retired?, Null count: 0
+Column: Education, Null count: 0
+Column: Education Area, Null count: 0
+Column: Active outside Organization, Null count: 0
+Column: Political Contribution, Null count: 0
+Column: Donor Age, Null count: 0
+Column: Joint Mailing Name, Null count: 0
+Column: Military Affiliate/Veteran, Null count: 0
+Column: Total Lifetime Donations, Null count: 0
+Column: 2019 Donations Gave in the Area, Null count: 0
+Column: 2018 Donations Gave in the Area, Null count: 0
+_____________
+
+Column: Donor ID, Unique count: 10000
+Column: Donor First Name, Unique count: 457
+Column: Donor Last Name, Unique count: 642
+Column: Gender, Unique count: 3
+Column: Phone, Unique count: 9501
+Column: Email, Unique count: 9801
+Column: State, Unique count: 50
+Column: Has Children, Unique count: 3
+Column: Married, Unique count: 3
+Column: Volunteered before, Unique count: 3
+Column: Engaged with Organization, Unique count: 3
+Column: Own Property, Unique count: 3
+Column: Past served on Board, Unique count: 3
+Column: Employer, Unique count: 31
+Column: Job Area, Unique count: 11
+Column: Salary Estimation, Unique count: 5264
+Column: Retired?, Unique count: 3
+Column: Education, Unique count: 11
+Column: Education Area, Unique count: 33
+Column: Active outside Organization, Unique count: 3
+Column: Political Contribution, Unique count: 3
+Column: Donor Age, Unique count: 67
+Column: Joint Mailing Name, Unique count: 3
+Column: Military Affiliate/Veteran, Unique count: 3
+Column: Total Lifetime Donations, Unique count: 8141
+Column: 2019 Donations Gave in the Area, Unique count: 511
+Column: 2018 Donations Gave in the Area, Unique count: 511
+(10000, 23)
+Index(['Donor First Name', 'Donor Last Name', 'Gender', 'State',
+       'Has Children', 'Married', 'Volunteered before',
+       'Engaged with Organization', 'Own Property', 'Past served on Board',
+       'Employer', 'Job Area', 'Salary Estimation', 'Retired?', 'Education',
+       'Education Area', 'Active outside Organization',
+       'Political Contribution', 'Donor Age', 'Joint Mailing Name',
+       'Military Affiliate/Veteran', '2019 Donations Gave in the Area',
+       '2018 Donations Gave in the Area'],
+      dtype='object')
+Categorical columns: ['Gender', 'Has Children', 'Married', 'Volunteered before', 'Engaged with Organization', 'Own Property', 'Past served on Board', 'Retired?', 'Active outside Organization', 'Political Contribution', 'Joint Mailing Name', 'Military Affiliate/Veteran']
+Number of features used: 3568
+Classifier: LogisticRegression and time(seconds): 0.732
+
+Classifier: LogisticRegression and f1-score 0.92
+classification report
+              precision    recall  f1-score   support
+
+           0       0.89      0.99      0.94      1203
+           1       0.99      0.81      0.89       797
+
+    accuracy                           0.92      2000
+   macro avg       0.94      0.90      0.92      2000
+weighted avg       0.93      0.92      0.92      2000
+
+___________________________
+
+Classifier: GaussianNB and time(seconds): 2.554
+
+Classifier: GaussianNB and f1-score 0.48
+classification report
+              precision    recall  f1-score   support
+
+           0       0.61      0.99      0.75      1203
+           1       0.71      0.04      0.08       797
+
+    accuracy                           0.61      2000
+   macro avg       0.66      0.51      0.41      2000
+weighted avg       0.65      0.61      0.48      2000
+
+___________________________
+
+Classifier: MultinomialNB and time(seconds): 0.174
+
+Classifier: MultinomialNB and f1-score 0.83
+classification report
+              precision    recall  f1-score   support
+
+           0       0.79      0.98      0.88      1203
+           1       0.96      0.62      0.75       797
+
+    accuracy                           0.84      2000
+   macro avg       0.88      0.80      0.81      2000
+weighted avg       0.86      0.84      0.83      2000
+
+___________________________
+
+Classifier: ComplementNB and time(seconds): 0.212
+
+Classifier: ComplementNB and f1-score 0.83
+classification report
+              precision    recall  f1-score   support
+
+           0       0.89      0.81      0.85      1203
+           1       0.75      0.85      0.80       797
+
+    accuracy                           0.83      2000
+   macro avg       0.82      0.83      0.82      2000
+weighted avg       0.83      0.83      0.83      2000
+
+___________________________
+
+Classifier: BernoulliNB and time(seconds): 1.055
+
+Classifier: BernoulliNB and f1-score 0.73
+classification report
+              precision    recall  f1-score   support
+
+           0       0.88      0.64      0.74      1203
+           1       0.61      0.86      0.72       797
+
+    accuracy                           0.73      2000
+   macro avg       0.74      0.75      0.73      2000
+weighted avg       0.77      0.73      0.73      2000
+
+___________________________
+
+Classifier: DecisionTreeClassifier and time(seconds): 2.787
+
+Classifier: DecisionTreeClassifier and f1-score 0.9
+classification report
+              precision    recall  f1-score   support
+
+           0       0.92      0.91      0.91      1203
+           1       0.86      0.87      0.87       797
+
+    accuracy                           0.90      2000
+   macro avg       0.89      0.89      0.89      2000
+weighted avg       0.90      0.90      0.90      2000
+
+___________________________
+
+Classifier: SGDClassifier and time(seconds): 0.836
+
+Classifier: SGDClassifier and f1-score 0.91
+classification report
+              precision    recall  f1-score   support
+
+           0       0.90      0.95      0.93      1203
+           1       0.92      0.84      0.88       797
+
+    accuracy                           0.91      2000
+   macro avg       0.91      0.90      0.90      2000
+weighted avg       0.91      0.91      0.91      2000
+
+___________________________
+
+Classifier: PassiveAggressiveClassifier and time(seconds): 4.859
+
+Classifier: PassiveAggressiveClassifier and f1-score 0.91
+classification report
+              precision    recall  f1-score   support
+
+           0       0.89      0.98      0.93      1203
+           1       0.96      0.82      0.88       797
+
+    accuracy                           0.91      2000
+   macro avg       0.92      0.90      0.91      2000
+weighted avg       0.92      0.91      0.91      2000
+
+___________________________
+
+Classifier: LinearSVC and time(seconds): 0.791
+
+Classifier: LinearSVC and f1-score 0.91
+classification report
+              precision    recall  f1-score   support
+
+           0       0.89      0.97      0.93      1203
+           1       0.94      0.82      0.88       797
+
+    accuracy                           0.91      2000
+   macro avg       0.92      0.89      0.90      2000
+weighted avg       0.91      0.91      0.91      2000
+
+___________________________
+
+Classifier: RandomForestClassifier and time(seconds): 1.774
+
+Classifier: RandomForestClassifier and f1-score 0.9
+classification report
+              precision    recall  f1-score   support
+
+           0       0.88      0.97      0.92      1203
+           1       0.94      0.81      0.87       797
+
+    accuracy                           0.90      2000
+   macro avg       0.91      0.89      0.90      2000
+weighted avg       0.91      0.90      0.90      2000
+
+___________________________
+
+0    6966
+1    3034
+Name: 2020_LogisticRegression, dtype: int64
+0    6831
+1    3169
+Name: 2020_SGDClassifier, dtype: int64
+0    6914
+1    3086
+Name: 2020_PassiveAggressiveClassifier, dtype: int64
+0    6882
+1    3118
+Name: 2020_LinearSVC, dtype: int64
+0    5991
+1    4009
+Name: 2020_DecisionTreeClassifier, dtype: int64
